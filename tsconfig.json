@@ -1,13 +1,7 @@
 {
   "files": [],
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@src/*": ["src/*"],
-      "@api/*": ["src/api/*"],
-      "@components/*": ["src/components/*"],
-      "@utilities/*": ["src/utilities/*"],
-    },
+    "baseUrl": "src",
   },
   "include": ["src"],
   "exclude": ["node_modules"],
