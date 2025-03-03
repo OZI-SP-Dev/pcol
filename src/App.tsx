@@ -8,6 +8,7 @@ import { Button } from "@fluentui/react-components";
 import { Suspense } from "react";
 import Landing from "src/components/Landing";
 import Help from "src/components/Help";
+import NewForm from "src/components/NewForm";
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Landing />} />
                   <Route path="/p/:program" element={<Home />} />
-                  {/* <Route path="/new" element={<New />} /> */}
+                  <Route path="/new" element={<NewForm />} />
                   <Route path="/help" element={<Help />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
