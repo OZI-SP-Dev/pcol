@@ -53,7 +53,7 @@ const Home = () => {
           </Body1>
         </section>
         <section className={styles.section}>
-          <Title3 align="center">RPA Tool Instructions</Title3>
+          <Title3 align="center">PCOL Tool Instructions</Title3>
           <Body1>
             <p>
               Select <Link to="/New">“New PCOL"</Link> at the top of this page
