@@ -9,6 +9,7 @@ import { Suspense } from "react";
 import Landing from "src/components/Landing";
 import Help from "src/components/Help";
 import NewForm from "src/components/NewForm";
+import Admin from "src/components/Admin";
 
 function App() {
   return (
@@ -32,7 +33,9 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Landing />} />
                   <Route path="/p/:program" element={<Home />} />
-                  <Route path="/new" element={<NewForm />} />
+                  <Route path="/p/:program/new" element={<NewForm />} />
+                  <Route path="/p/:program/admin" element={<Admin />} />
+                  <Route path="/admin" element={<Admin />} />
                   <Route path="/help" element={<Help />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>

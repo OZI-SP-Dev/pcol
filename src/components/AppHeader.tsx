@@ -1,6 +1,7 @@
 import { Text, makeStyles } from "@fluentui/react-components";
 import { NavLink, useMatch } from "react-router";
 import { tokens } from "@fluentui/react-theme";
+import { useCurrentUserHasEditPermissions } from "src/api/permissionsApi";
 
 /* FluentUI Styling */
 const useStyles = makeStyles({
@@ -50,6 +51,12 @@ const useStyles = makeStyles({
 export const AppHeader = () => {
   const classes = useStyles();
   const match = useMatch("/p/:program");
+  const program = match?.params?.program;
+
+  const mainPerms = useCurrentUserHasEditPermissions();
+  const programPerms = useCurrentUserHasEditPermissions(program);
+
+  const showAdmin = mainPerms.data || programPerms.data;
 
   return (
     <>
@@ -57,22 +64,24 @@ export const AppHeader = () => {
         <NavLink className={classes.navLink} to="/">
           <Text className={classes.navHeaderSiteName}>PCOL Home</Text>
         </NavLink>
-        {match?.params?.program && (
-          <NavLink
-            className={classes.navLink}
-            to={"/p/" + match?.params?.program}
-          >
-            <Text className={classes.navHeaderSiteName}>
-              {match?.params?.program} Home
-            </Text>
+        {program && (
+          <NavLink className={classes.navLink} to={"/p/" + program}>
+            <Text className={classes.navHeaderSiteName}>{program} Home</Text>
           </NavLink>
         )}
-        <NavLink to="/New" className={classes.navLink}>
-          New PCOL
-        </NavLink>
-        <NavLink to="/Admin" className={classes.navLink}>
-          Admin Pages
-        </NavLink>
+        {program && (
+          <NavLink to={"/p/" + program + "/New"} className={classes.navLink}>
+            New PCOL
+          </NavLink>
+        )}
+        {showAdmin && (
+          <NavLink
+            to={(program ? "/p/" + program : "") + "/Admin"}
+            className={classes.navLink}
+          >
+            Admin Pages
+          </NavLink>
+        )}
         <NavLink to="/Help" className={classes.navHelp}>
           Help
         </NavLink>

@@ -6,3 +6,8 @@ export const webUrl = import.meta.env.DEV
   : _spPageContextInfo.webAbsoluteUrl;
 
 export const spWebContext = spfi().using(SPBrowser({ baseUrl: webUrl }));
+
+export const subWebContext = (subWeb: string) =>
+  subWeb // if empty string return context for app web instead of subweb
+    ? spfi().using(SPBrowser({ baseUrl: webUrl + "/" + subWeb }))
+    : spWebContext;
