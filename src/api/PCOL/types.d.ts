@@ -8,4 +8,7 @@ export type PCOL = {
     RFP: string;
     ECP: string;
     CCP: string;
+    AssociatedContractorLetterNumbers: string;
+    Disclaimer: string;
+    CarbonCopy: string;
 };

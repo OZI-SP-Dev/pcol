@@ -10,8 +10,8 @@ export const defaultPCOL: PCOL = {
   RFP: "",
   ECP: "",
   CCP: "",
-  // AssociatedContractorLetterNumbers: "",
-  // DisclaimerStatement: "",
-  // CarbonCopy: "",
+  AssociatedContractorLetterNumbers: "",
+  Disclaimer: "",
+  CarbonCopy: "",
   // AdditionalDistributionInfo: "",
 };

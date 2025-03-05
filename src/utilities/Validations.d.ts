@@ -1,4 +1,4 @@
-export declare const useNewPageValidation: () => import("zod").ZodObject<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<{
+export declare const useNewPageValidation: () => import("zod").ZodObject<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<{
     Subject: import("zod").ZodString;
 }, {
     References: import("zod").ZodString;
@@ -16,24 +16,36 @@ export declare const useNewPageValidation: () => import("zod").ZodObject<import(
     ECP: import("zod").ZodString;
 }>, {
     CCP: import("zod").ZodString;
+}>, {
+    AssociatedContractorLetterNumbers: import("zod").ZodString;
+}>, {
+    Disclaimer: import("zod").ZodString;
+}>, {
+    CarbonCopy: import("zod").ZodString;
 }>, "strip", import("zod").ZodTypeAny, {
-    RFI: string;
-    RFP: string;
-    ECP: string;
-    CCP: string;
+    Disclaimer: string;
+    CarbonCopy: string;
     Subject: string;
     References: string;
     DODAAC: string;
     Contract: string;
     DeliveryOrderMod: string;
+    RFI: string;
+    RFP: string;
+    ECP: string;
+    CCP: string;
+    AssociatedContractorLetterNumbers: string;
 }, {
-    RFI: string;
-    RFP: string;
-    ECP: string;
-    CCP: string;
+    Disclaimer: string;
+    CarbonCopy: string;
     Subject: string;
     References: string;
     DODAAC: string;
     Contract: string;
     DeliveryOrderMod: string;
+    RFI: string;
+    RFP: string;
+    ECP: string;
+    CCP: string;
+    AssociatedContractorLetterNumbers: string;
 }>;

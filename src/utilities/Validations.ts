@@ -7,6 +7,9 @@ import { RFIRuleFinal } from "src/components/Fields/RFI/RFI.Validation";
 import { RFPRuleFinal } from "src/components/Fields/RFP/RFP.Validation";
 import { ECPRuleFinal } from "src/components/Fields/ECP/ECP.Validation";
 import { CCPRuleFinal } from "src/components/Fields/CCP/CCP.Validation";
+import { AssociatedContractorLetterNumbersRuleFinal } from "src/components/Fields/AssociatedContractorLetterNumbers/AssociatedContractorLetterNumbers.Validation";
+import { DisclaimerRuleFinal } from "src/components/Fields/Disclaimer/Disclaimer.Validation";
+import { CarbonCopyRuleFinal } from "src/components/Fields/CarbonCopy/CarbonCopy.Validate";
 
 export const useNewPageValidation = () => {
   return SubjectRuleFinal.merge(ReferencesRuleFinal)
@@ -16,5 +19,8 @@ export const useNewPageValidation = () => {
     .merge(RFIRuleFinal)
     .merge(RFPRuleFinal)
     .merge(ECPRuleFinal)
-    .merge(CCPRuleFinal);
+    .merge(CCPRuleFinal)
+    .merge(AssociatedContractorLetterNumbersRuleFinal)
+    .merge(DisclaimerRuleFinal)
+    .merge(CarbonCopyRuleFinal);
 };

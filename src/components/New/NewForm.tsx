@@ -14,6 +14,9 @@ import { RFI } from "src/components/Fields/RFI/RFI";
 import { RFP } from "src/components/Fields/RFP/RFP";
 import { ECP } from "src/components/Fields/ECP/ECP";
 import { CCP } from "src/components/Fields/CCP/CCP";
+import { AssociatedContractorLetterNumbers } from "src/components/Fields/AssociatedContractorLetterNumbers/AssociatedContractorLetterNumbers";
+import { Disclaimer } from "src/components/Fields/Disclaimer/Disclaimer";
+import { CarbonCopy } from "src/components/Fields/CarbonCopy/CarbonCopy";
 
 const NewForm = () => {
   const schema = useNewPageValidation();
@@ -64,6 +67,15 @@ const NewForm = () => {
           </div>
           <div className="newFormFieldContainer">
             <CCP />
+          </div>
+          <div className="newFormFieldContainer">
+            <AssociatedContractorLetterNumbers />
+          </div>
+          <div className="newFormFieldContainer">
+            <Disclaimer />
+          </div>
+          <div className="newFormFieldContainer">
+            <CarbonCopy />
           </div>
         </form>
       </FormProvider>
