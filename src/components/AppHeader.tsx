@@ -50,7 +50,7 @@ const useStyles = makeStyles({
 
 export const AppHeader = () => {
   const classes = useStyles();
-  const match = useMatch("/p/:program");
+  const match = useMatch({ path: "/p/:program", end: false });
   const program = match?.params?.program;
 
   const mainPerms = useCurrentUserHasEditPermissions();
