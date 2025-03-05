@@ -22,7 +22,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
-# generated files
-*.d.ts
-tsconfig.tsbuildinfo

@@ -1,7 +1,7 @@
 import { PCOL } from "./types";
 
 export const defaultPCOL: PCOL = {
-  Title: "",
+  Subject: "",
   References: "",
   DODAAC: "",
   Contract: "",
@@ -10,8 +10,8 @@ export const defaultPCOL: PCOL = {
   RFP: "",
   ECP: "",
   CCP: "",
-  AssociatedContractorLetterNumbers: "",
-  DisclaimerStatement: "",
-  CarbonCopy: "",
-  AdditionalDistributionInfo: "",
+  // AssociatedContractorLetterNumbers: "",
+  // DisclaimerStatement: "",
+  // CarbonCopy: "",
+  // AdditionalDistributionInfo: "",
 };

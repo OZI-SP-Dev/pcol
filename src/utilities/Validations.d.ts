@@ -1,0 +1,39 @@
+export declare const useNewPageValidation: () => import("zod").ZodObject<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<import("zod").objectUtil.extendShape<{
+    Subject: import("zod").ZodString;
+}, {
+    References: import("zod").ZodString;
+}>, {
+    DODAAC: import("zod").ZodString;
+}>, {
+    Contract: import("zod").ZodString;
+}>, {
+    DeliveryOrderMod: import("zod").ZodString;
+}>, {
+    RFI: import("zod").ZodString;
+}>, {
+    RFP: import("zod").ZodString;
+}>, {
+    ECP: import("zod").ZodString;
+}>, {
+    CCP: import("zod").ZodString;
+}>, "strip", import("zod").ZodTypeAny, {
+    RFI: string;
+    RFP: string;
+    ECP: string;
+    CCP: string;
+    Subject: string;
+    References: string;
+    DODAAC: string;
+    Contract: string;
+    DeliveryOrderMod: string;
+}, {
+    RFI: string;
+    RFP: string;
+    ECP: string;
+    CCP: string;
+    Subject: string;
+    References: string;
+    DODAAC: string;
+    Contract: string;
+    DeliveryOrderMod: string;
+}>;
