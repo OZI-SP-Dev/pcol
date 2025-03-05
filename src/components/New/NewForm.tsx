@@ -3,7 +3,7 @@ import { Title1 } from "@fluentui/react-components";
 import { FormProvider, useForm } from "react-hook-form";
 import { defaultPCOL } from "src/api/PCOL/defaults";
 import { PCOL } from "src/api/PCOL/types";
-import { Subject } from "src/components/Fields/Subject";
+import { Subject } from "src/components/Fields/Subject/Subject";
 
 const NewForm = () => {
   const newForm = useForm<PCOL>({
