@@ -1,0 +1,21 @@
+@import "../BaseFormFields/BaseFormFields.css";
+
+.newFormContainer {
+  display: grid;
+  max-width: 800px;
+  width: 100%;
+}
+
+.newFormFieldContainer {
+  margin: 1em;
+  display: grid;
+  position: relative;
+}
+
+.fui-Title1 {
+  white-space: nowrap;
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}

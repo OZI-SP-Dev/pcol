@@ -8,7 +8,7 @@ import { Button } from "@fluentui/react-components";
 import { Suspense } from "react";
 import Landing from "src/components/Landing";
 import Help from "src/components/Help";
-import NewForm from "src/components/NewForm";
+import NewForm from "src/components/New/NewForm";
 import Admin from "src/components/Admin";
 
 function App() {
