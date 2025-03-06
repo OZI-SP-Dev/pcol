@@ -56,12 +56,13 @@ const Home = () => {
           <Title3 align="center">PCOL Tool Instructions</Title3>
           <Body1>
             <p>
-              Select <Link to="/New">“New PCOL"</Link> at the top of this page
-              to initiate a PCOL. Complete the following pages and click "Save
-              and Continue" to continue through the process. All fields with an
-              asterisk must be completed before continuing to the next page.
-              After saving, you can return to your request later by clicking its
-              Position Title on the home page / in the table below.
+              Select <Link to={"/p/" + program + "/New"}>“New PCOL"</Link> at
+              the top of this page to initiate a PCOL. Complete the following
+              pages and click "Save and Continue" to continue through the
+              process. All fields with an asterisk must be completed before
+              continuing to the next page. After saving, you can return to your
+              request later by clicking its Position Title on the home page / in
+              the table below.
             </p>
             <p>
               Once complete, select the{" "}
