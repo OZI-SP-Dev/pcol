@@ -9,6 +9,7 @@ import { Subject } from "src/components/Fields/Subject/Subject";
 import { References } from "src/components/Fields/References/References";
 import { DODAAC } from "src/components/Fields/DODAAC/DODAAC";
 import { Contract } from "src/components/Fields/Contract/Contract";
+import { Contractor } from "src/components/Fields/Contractor/Contractor";
 import { DeliveryOrderMod } from "src/components/Fields/DeliveryOrderMod/DeliveryOrderMod";
 import { RFI } from "src/components/Fields/RFI/RFI";
 import { RFP } from "src/components/Fields/RFP/RFP";
@@ -52,6 +53,9 @@ const NewForm = () => {
           </div>
           <div className="newFormFieldContainer">
             <Contract />
+          </div>
+          <div className="newFormFieldContainer">
+            <Contractor />
           </div>
           <div className="newFormFieldContainer">
             <DeliveryOrderMod />
