@@ -29,7 +29,7 @@ const Admin = () => {
       )}
       {program && programPerms.data && (
         <>
-          <Title3>PK Office Items</Title3>
+          <Title3>{program} Program Office Items</Title3>
           <ul>
             <li>Contractors</li>
             <li>Contracts</li>
