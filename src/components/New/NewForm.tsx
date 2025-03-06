@@ -18,6 +18,7 @@ import { CCP } from "src/components/Fields/CCP/CCP";
 import { AssociatedContractorLetterNumbers } from "src/components/Fields/AssociatedContractorLetterNumbers/AssociatedContractorLetterNumbers";
 import { Disclaimer } from "src/components/Fields/Disclaimer/Disclaimer";
 import { CarbonCopy } from "src/components/Fields/CarbonCopy/CarbonCopy";
+import { AdditionalDistributionInfo } from "src/components/Fields/AdditionalDistributionInfo/AdditionalDistributionInfo";
 
 const NewForm = () => {
   const schema = useNewPageValidation();
@@ -80,6 +81,9 @@ const NewForm = () => {
           </div>
           <div className="newFormFieldContainer">
             <CarbonCopy />
+          </div>
+          <div className="newFormFieldContainer">
+            <AdditionalDistributionInfo />
           </div>
         </form>
       </FormProvider>

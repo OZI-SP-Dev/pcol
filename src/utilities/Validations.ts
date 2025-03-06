@@ -9,18 +9,20 @@ import { ECPRuleFinal } from "src/components/Fields/ECP/ECP.Validation";
 import { CCPRuleFinal } from "src/components/Fields/CCP/CCP.Validation";
 import { AssociatedContractorLetterNumbersRuleFinal } from "src/components/Fields/AssociatedContractorLetterNumbers/AssociatedContractorLetterNumbers.Validation";
 import { DisclaimerRuleFinal } from "src/components/Fields/Disclaimer/Disclaimer.Validation";
-import { CarbonCopyRuleFinal } from "src/components/Fields/CarbonCopy/CarbonCopy.Validate";
+import { CarbonCopyRuleFinal } from "src/components/Fields/CarbonCopy/CarbonCopy.Validation";
+import { AdditionalDistributionInfoRuleFinal } from "src/components/Fields/AdditionalDistributionInfo/AdditionalDistributionInfo.Validation";
 
 export const useNewPageValidation = () => {
-  return SubjectRuleFinal.merge(ReferencesRuleFinal)
-    .merge(DODAACRuleFinal)
-    .merge(ContractRuleFinal)
-    .merge(DeliveryOrderModRuleFinal)
-    .merge(RFIRuleFinal)
-    .merge(RFPRuleFinal)
-    .merge(ECPRuleFinal)
-    .merge(CCPRuleFinal)
-    .merge(AssociatedContractorLetterNumbersRuleFinal)
-    .merge(DisclaimerRuleFinal)
-    .merge(CarbonCopyRuleFinal);
+  return SubjectRuleFinal.and(ReferencesRuleFinal)
+    .and(DODAACRuleFinal)
+    .and(ContractRuleFinal)
+    .and(DeliveryOrderModRuleFinal)
+    .and(RFIRuleFinal)
+    .and(RFPRuleFinal)
+    .and(ECPRuleFinal)
+    .and(CCPRuleFinal)
+    .and(AssociatedContractorLetterNumbersRuleFinal)
+    .and(DisclaimerRuleFinal)
+    .and(CarbonCopyRuleFinal)
+    .and(AdditionalDistributionInfoRuleFinal);
 };

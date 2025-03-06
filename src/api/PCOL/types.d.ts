@@ -11,4 +11,5 @@ export type PCOL = {
     AssociatedContractorLetterNumbers: string;
     Disclaimer: string;
     CarbonCopy: string;
+    AdditionalDistributionInfo: string;
 };
