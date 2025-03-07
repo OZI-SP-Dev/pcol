@@ -1,6 +1,6 @@
 import { PCOL } from "src/api/PCOL/types";
 import { useController, useFormContext } from "react-hook-form";
-import { InfoLabel, Input } from "@fluentui/react-components";
+import { InfoLabel, Text } from "@fluentui/react-components";
 import { TextFieldIcon } from "@fluentui/react-icons-mdl2";
 
 /* This component to be rewritten to utilize Contractor/Contract lookup once lists are established */
@@ -21,11 +21,11 @@ export const Contractor = () => {
         Contractor
       </InfoLabel>
 
-      <Input
-        readOnly
-        id="ContractorId"
-        value={field.value ? field.value + " Contractor" : ""}
-      />
+      <Text id="ContractorId">
+        {field.value
+          ? field.value + " Contractor"
+          : "Select a Contract to see the associated Contractor"}
+      </Text>
     </>
   );
 };
