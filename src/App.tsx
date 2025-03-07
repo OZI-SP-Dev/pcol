@@ -35,6 +35,7 @@ function App() {
                   <Route path="/p/:program" element={<Home />} />
                   <Route path="/p/:program/new" element={<NewForm />} />
                   <Route path="/p/:program/admin" element={<Admin />} />
+                  <Route path="/p/:program/help" element={<Help />} />
                   <Route path="/admin" element={<Admin />} />
                   <Route path="/help" element={<Help />} />
                   <Route path="*" element={<NotFound />} />

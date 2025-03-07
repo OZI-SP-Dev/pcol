@@ -82,7 +82,10 @@ export const AppHeader = () => {
             Admin Pages
           </NavLink>
         )}
-        <NavLink to="/Help" className={classes.navHelp}>
+        <NavLink
+          to={(program ? "/p/" + program : "") + "/Help"}
+          className={classes.navHelp}
+        >
           Help
         </NavLink>
       </div>
