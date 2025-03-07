@@ -1,24 +1,30 @@
 import { PCOL } from "src/api/PCOL/types";
-import BACCombobox from "src/components/BaseFormFields/BACCombobox";
+import BACCheckbox from "src/components/BaseFormFields/BACCheckbox";
 
 export const Disclaimer = () => {
   // const Disclaimers = useDisclaimers();
   const Disclaimers = [
-    { children: "RFP Disclaimer", value: "RFP Disclaimer" },
     {
-      children: "Contract Price Disclaimer",
-      value: "Contract Price Disclaimer",
+      id: "RFP Disclaimer",
+      text: "RFP Disclaimer",
+      info: "Something about RFP Disclaimers",
     },
     {
-      children: "Contract Price FAR 32.2 Disclaimer",
-      value: "Contract Price FAR 32.2 Disclaimer",
+      id: "Contract Price Disclaimer",
+      text: "Contract Price Disclaimer",
+      info: "Long text describing this Disclaimer",
+    },
+    {
+      id: "Contract Price FAR 32.2 Disclaimer",
+      text: "Contract Price FAR 32.2 Disclaimer",
+      info: "A description about this FAR 32.2 Disclaimer",
     },
   ];
 
   return (
-    <BACCombobox<PCOL>
+    <BACCheckbox<PCOL>
       name="Disclaimer"
-      labelText="Disclaimer"
+      labelText="Disclaimer(s)"
       options={Disclaimers}
     />
   );

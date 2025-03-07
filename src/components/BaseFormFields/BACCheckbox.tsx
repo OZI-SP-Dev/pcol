@@ -1,7 +1,10 @@
-import { Checkbox, InfoLabel, Text } from "@fluentui/react-components";
+import { Checkbox, InfoLabel, Text, Tooltip } from "@fluentui/react-components";
 import { FieldValues, useController, useFormContext } from "react-hook-form";
 import { BaseFormField } from "./BaseTypeDef";
-import { ClipboardCheckmarkRegular } from "@fluentui/react-icons";
+import {
+  ClipboardCheckmarkRegular,
+  Info16Regular,
+} from "@fluentui/react-icons";
 
 const BACCheckbox = <T extends FieldValues>({
   name,
@@ -14,6 +17,7 @@ const BACCheckbox = <T extends FieldValues>({
   options: {
     id: string;
     text: string;
+    info?: string;
   }[];
 }) => {
   const form = useFormContext<T>();
@@ -40,27 +44,37 @@ const BACCheckbox = <T extends FieldValues>({
       </InfoLabel>
       {options.map((option) => {
         return (
-          <Checkbox
-            {...field}
-            id={option.id + "Id"}
-            key={option.id}
-            label={option.text}
-            checked={
-              Array.isArray(field.value) &&
-              (field.value as []).some((item) => item === option.id)
-            }
-            aria-describedby={name + "Err"}
-            aria-invalid={fieldState.error ? "true" : "false"}
-            onChange={(e) => {
-              let values = [...field.value];
-              if (e.target.checked) {
-                values.push(option.id);
-              } else {
-                values = values.filter((v) => v !== option.id);
+          <div>
+            <Checkbox
+              {...field}
+              id={option.id + "Id"}
+              key={option.id}
+              label={option.text}
+              checked={
+                Array.isArray(field.value) &&
+                (field.value as []).some((item) => item === option.id)
               }
-              field.onChange(values);
-            }}
-          />
+              aria-describedby={name + "Err"}
+              aria-invalid={fieldState.error ? "true" : "false"}
+              onChange={(e) => {
+                let values = [...field.value];
+                if (e.target.checked) {
+                  values.push(option.id);
+                } else {
+                  values = values.filter((v) => v !== option.id);
+                }
+                field.onChange(values);
+              }}
+            />
+            {option.info && (
+              <Tooltip
+                content={{ children: option.info }}
+                relationship="description"
+              >
+                <Info16Regular />
+              </Tooltip>
+            )}
+          </div>
         );
       })}
       {fieldState.error && (

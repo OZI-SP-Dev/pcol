@@ -59,11 +59,11 @@ export declare const useNewPageValidation: () => import("zod").ZodIntersection<i
 }, {
     AssociatedContractorLetterNumbers: string;
 }>>, import("zod").ZodObject<{
-    Disclaimer: import("zod").ZodString;
+    Disclaimer: import("zod").ZodArray<import("zod").ZodString, "many">;
 }, "strip", import("zod").ZodTypeAny, {
-    Disclaimer: string;
+    Disclaimer: string[];
 }, {
-    Disclaimer: string;
+    Disclaimer: string[];
 }>>, import("zod").ZodObject<{
     CarbonCopy: import("zod").ZodString;
 }, "strip", import("zod").ZodTypeAny, {

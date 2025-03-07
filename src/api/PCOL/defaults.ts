@@ -11,7 +11,7 @@ export const defaultPCOL: PCOL = {
   ECP: "",
   CCP: "",
   AssociatedContractorLetterNumbers: "",
-  Disclaimer: "",
+  Disclaimer: [],
   CarbonCopy: "",
   AdditionalDistributionInfo: "",
 };

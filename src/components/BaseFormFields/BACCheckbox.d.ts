@@ -4,6 +4,7 @@ declare const BACCheckbox: <T extends FieldValues>({ name, labelText, labelInfo,
     options: {
         id: string;
         text: string;
+        info?: string;
     }[];
 }) => import("react/jsx-runtime").JSX.Element;
 export default BACCheckbox;

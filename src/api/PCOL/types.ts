@@ -9,7 +9,7 @@ export type PCOL = {
   ECP: string;
   CCP: string;
   AssociatedContractorLetterNumbers: string;
-  Disclaimer: string; //lookup
+  Disclaimer: string[]; //lookup
   CarbonCopy: string;
   AdditionalDistributionInfo: string;
 };
