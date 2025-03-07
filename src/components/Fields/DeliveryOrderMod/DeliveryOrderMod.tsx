@@ -5,7 +5,7 @@ export const DeliveryOrderMod = () => {
   return (
     <BACInput<PCOL>
       name="DeliveryOrderMod"
-      labelText="Modification / Delivery Order"
+      labelText="Delivery Order / Modification"
     />
   );
 };
