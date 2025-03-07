@@ -44,10 +44,10 @@ const Landing = () => {
         </>
       )}
       {webs.data && webs.data.length === 0 && (
-        <>
+        <section>
           You do not have access to any PCOL Orgs. See the{" "}
           <Link to="/help">Help</Link> page.
-        </>
+        </section>
       )}
     </div>
   );
