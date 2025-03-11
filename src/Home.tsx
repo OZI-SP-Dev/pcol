@@ -19,8 +19,8 @@ const Home = () => {
     <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
       <Title1 align="center" style={{ textWrap: "balance" }}>
         <b>
-          Welcome to the AFLCMC, USAF, tbd Procuring Contracting Officer Letter
-          (PCOL) Writing Tool
+          Welcome to the AFLCMC Procuring Contracting Officer Letter (PCOL)
+          Writing Tool
         </b>
       </Title1>
       <div
