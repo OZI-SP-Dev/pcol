@@ -36,7 +36,19 @@ const Admin = () => {
                 Disclaimer Statements (Global)
               </Button>
             </li>
-            <li>Department of Defense Activity Address Directory (DoDAAD)</li>
+            <li>
+              <Button
+                appearance="transparent"
+                onClick={() =>
+                  seturl(
+                    _spPageContextInfo.webAbsoluteUrl +
+                      "/Lists/DODAAC/AllItems.aspx"
+                  )
+                }
+              >
+                DODAACs
+              </Button>
+            </li>
           </ul>
         </>
       )}
@@ -59,6 +71,21 @@ const Admin = () => {
                 }
               >
                 Disclaimer Statements (Program Unique)
+              </Button>
+            </li>
+            <li>
+              <Button
+                appearance="transparent"
+                onClick={() =>
+                  seturl(
+                    _spPageContextInfo.webAbsoluteUrl +
+                      "/" +
+                      program +
+                      "/Lists/DODAAC/AllItems.aspx"
+                  )
+                }
+              >
+                Program's DODAACs
               </Button>
             </li>
           </ul>
