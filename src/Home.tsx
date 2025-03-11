@@ -1,5 +1,4 @@
 import { Body1, Title1, Title3, makeStyles } from "@fluentui/react-components";
-import { Link, useParams } from "react-router";
 
 const useStyles = makeStyles({
   section: {
@@ -7,7 +6,7 @@ const useStyles = makeStyles({
     marginBottom: "12px",
     marginLeft: "12px",
     marginRight: "12px",
-    maxWidth: "50em",
+    maxWidth: "80%",
     minWidth: "600px",
     width: "100%",
   },
@@ -15,12 +14,14 @@ const useStyles = makeStyles({
 
 const Home = () => {
   const styles = useStyles();
-  const { program } = useParams();
 
   return (
     <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-      <Title1 align="center" style={{ whiteSpace: "nowrap" }}>
-        <b>Welcome to the AFLCMC PCOL Tool</b>
+      <Title1 align="center" style={{ textWrap: "balance" }}>
+        <b>
+          Welcome to the AFLCMC, USAF, tbd Procuring Contracting Officer Letter
+          (PCOL) Writing Tool
+        </b>
       </Title1>
       <div
         style={{
@@ -28,49 +29,55 @@ const Home = () => {
           flexDirection: "row",
           justifyContent: "space-evenly",
           alignItems: "stretch",
-          flexWrap: "wrap",
           flexGrow: 1,
           flexBasis: "auto",
         }}
       >
         <section className={styles.section}>
-          <Title3 align="center">PCO Authority</Title3>
           <Body1>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-              porta est in ligula accumsan mollis in scelerisque nisl. Nunc
-              lacinia elit quis ligula fringilla pellentesque. Proin vitae sem
-              egestas, maximus orci id, congue felis. Fusce sem justo, tempor a
-              porttitor aliquam, egestas sed enim. Aliquam egestas mauris vitae
-              odio hendrerit, nec finibus felis tristique. Aenean ac mauris
-              euismod, suscipit sapien non, tempus metus. Aliquam maximus
-              commodo est, aliquam bibendum enim finibus eget. Cras lobortis
-              urna quis ante luctus vulputate. Pellentesque laoreet ligula
-              tellus, vulputate dignissim magna vehicula id. Proin laoreet orci
-              in justo aliquam laoreet at pellentesque nulla. Proin egestas
-              euismod pharetra.
+              The purpose of this tool is to streamline and standardize the
+              creation of PCOLs in accordance with the Federal Acquisition
+              Regulation (FAR), Defense Federal Acquisition Regulation
+              Supplement (DFARS), and Air Force Federal Acquisition Regulation
+              Supplement (DAFFARS). By providing an intuitive interface, this
+              tool ensures that PCOLs are generated efficiently, accurately, and
+              in full compliance with applicable procurement laws and
+              regulations. Its purpose is to enhance the effectiveness of Air
+              Force contracting officers in managing procurement processes,
+              ensuring clarity, consistency, and accountability in all official
+              communications.
             </p>
           </Body1>
-        </section>
-        <section className={styles.section}>
-          <Title3 align="center">PCOL Tool Instructions</Title3>
+          <Title3
+            align="center"
+            style={{ display: "inline-block", textWrap: "balance" }}
+          >
+            United States Air Force Procuring Contracting Officer Letter
+            Authority Statement
+          </Title3>
           <Body1>
-            <p>
-              Select <Link to={"/p/" + program + "/New"}>“New PCOL"</Link> at
-              the top of this page to initiate a PCOL. Complete the following
-              pages and click "Save and Continue" to continue through the
-              process. All fields with an asterisk must be completed before
-              continuing to the next page. After saving, you can return to your
-              request later by clicking its Position Title on the home page / in
-              the table below.
-            </p>
-            <p>
-              Once complete, select the{" "}
-              <Link to={"/p/" + program}>{program} Home</Link> link at the top
-              left of the page to return to the Dashboard. Here, you can view
-              all PCOLs you've entered and the current stage of the process each
-              one is in.
-            </p>
+            <ol>
+              <li style={{ fontWeight: "bold" }}>
+                Authority and Delegation of Procurement Authority
+                <p style={{ fontWeight: "normal" }}>
+                  The authority to issue Procuring Contracting Officer Letters
+                  (PCOLs), which includes the authorization to make binding
+                  procurement decisions, is granted under the provisions of the
+                  Federal Acquisition Regulation (FAR), the Defense Federal
+                  Acquisition Regulation Supplement (DFARS), and the Air Force
+                  Federal Acquisition Regulation Supplement (DAFFARS). In
+                  accordance with these regulations, the Procuring Contracting
+                  Officer holds the necessary legal and operational authority to
+                  issue PCOLs within the scope of their delegated
+                  responsibilities. In the case of any specific procurement
+                  action, a PCOL may be issued to confirm the contracting
+                  officer’s intent, establish contract terms, provide guidance
+                  for contract execution, or otherwise address matters relating
+                  to the procurement process.
+                </p>
+              </li>
+            </ol>
           </Body1>
         </section>
       </div>
