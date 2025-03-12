@@ -12,7 +12,7 @@ export const Contract = () => {
   contracts.data?.forEach((item) => {
     options.push({
       children: item.Title,
-      value: item.Id.toString(),
+      value: item.Title,
     });
   });
 
@@ -22,11 +22,6 @@ export const Contract = () => {
       labelText="Contract"
       rules={{ required: true }}
       options={options}
-      customValue={(value) => {
-        return (
-          contracts.data?.find(({ Id }) => Id.toString() === value)?.Title ?? ""
-        );
-      }}
     />
   );
 };
