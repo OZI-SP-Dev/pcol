@@ -12,6 +12,10 @@ const Admin = () => {
   const isAdmin = mainPerms.data || programPerms.data;
   const [url, seturl] = useState("");
 
+  const globalList = _spPageContextInfo.webAbsoluteUrl + "/Lists/";
+  const programList =
+    _spPageContextInfo.webAbsoluteUrl + "/" + program + "/Lists/";
+
   return (
     <>
       <Title2>PCOL Admin Page</Title2>
@@ -26,12 +30,7 @@ const Admin = () => {
             <li>
               <Button
                 appearance="transparent"
-                onClick={() =>
-                  seturl(
-                    _spPageContextInfo.webAbsoluteUrl +
-                      "/Lists/Disclaimers/AllItems.aspx"
-                  )
-                }
+                onClick={() => seturl(globalList + "Disclaimers/AllItems.aspx")}
               >
                 Disclaimer Statements (Global)
               </Button>
@@ -39,12 +38,7 @@ const Admin = () => {
             <li>
               <Button
                 appearance="transparent"
-                onClick={() =>
-                  seturl(
-                    _spPageContextInfo.webAbsoluteUrl +
-                      "/Lists/DODAAC/AllItems.aspx"
-                  )
-                }
+                onClick={() => seturl(globalList + "DODAAC/AllItems.aspx")}
               >
                 DODAACs
               </Button>
@@ -60,12 +54,7 @@ const Admin = () => {
               <Button
                 appearance="transparent"
                 onClick={() =>
-                  seturl(
-                    _spPageContextInfo.webAbsoluteUrl +
-                      "/" +
-                      program +
-                      "/Lists/Contractors/AllItems.aspx"
-                  )
+                  seturl(programList + "Contractors/AllItems.aspx")
                 }
               >
                 Contractors
@@ -74,14 +63,7 @@ const Admin = () => {
             <li>
               <Button
                 appearance="transparent"
-                onClick={() =>
-                  seturl(
-                    _spPageContextInfo.webAbsoluteUrl +
-                      "/" +
-                      program +
-                      "/Lists/Contracts/AllItems.aspx"
-                  )
-                }
+                onClick={() => seturl(programList + "Contracts/AllItems.aspx")}
               >
                 Contracts
               </Button>
@@ -90,12 +72,7 @@ const Admin = () => {
               <Button
                 appearance="transparent"
                 onClick={() =>
-                  seturl(
-                    _spPageContextInfo.webAbsoluteUrl +
-                      "/" +
-                      program +
-                      "/Lists/ContractorPOCs/AllItems.aspx"
-                  )
+                  seturl(programList + "ContractorPOCs/AllItems.aspx")
                 }
               >
                 Contractor POCs
@@ -105,12 +82,7 @@ const Admin = () => {
               <Button
                 appearance="transparent"
                 onClick={() =>
-                  seturl(
-                    _spPageContextInfo.webAbsoluteUrl +
-                      "/" +
-                      program +
-                      "/Lists/Disclaimers/AllItems.aspx"
-                  )
+                  seturl(programList + "Disclaimers/AllItems.aspx")
                 }
               >
                 Disclaimer Statements (Program Unique)
@@ -119,14 +91,7 @@ const Admin = () => {
             <li>
               <Button
                 appearance="transparent"
-                onClick={() =>
-                  seturl(
-                    _spPageContextInfo.webAbsoluteUrl +
-                      "/" +
-                      program +
-                      "/Lists/DODAAC/AllItems.aspx"
-                  )
-                }
+                onClick={() => seturl(programList + "DODAAC/AllItems.aspx")}
               >
                 Program's DODAACs
               </Button>
