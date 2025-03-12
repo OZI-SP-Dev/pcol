@@ -56,8 +56,51 @@ const Admin = () => {
         <>
           <Title3>{program} Program Office Items</Title3>
           <ul>
-            <li>Contractors</li>
-            <li>Contracts</li>
+            <li>
+              <Button
+                appearance="transparent"
+                onClick={() =>
+                  seturl(
+                    _spPageContextInfo.webAbsoluteUrl +
+                      "/" +
+                      program +
+                      "/Lists/Contractors/AllItems.aspx"
+                  )
+                }
+              >
+                Contractors
+              </Button>
+            </li>
+            <li>
+              <Button
+                appearance="transparent"
+                onClick={() =>
+                  seturl(
+                    _spPageContextInfo.webAbsoluteUrl +
+                      "/" +
+                      program +
+                      "/Lists/Contracts/AllItems.aspx"
+                  )
+                }
+              >
+                Contracts
+              </Button>
+            </li>
+            <li>
+              <Button
+                appearance="transparent"
+                onClick={() =>
+                  seturl(
+                    _spPageContextInfo.webAbsoluteUrl +
+                      "/" +
+                      program +
+                      "/Lists/ContractorPOCs/AllItems.aspx"
+                  )
+                }
+              >
+                Contractor POCs
+              </Button>
+            </li>
             <li>
               <Button
                 appearance="transparent"

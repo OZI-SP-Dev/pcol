@@ -1,20 +1,32 @@
+import { useParams } from "react-router";
+import { useContracts } from "src/api/Contracts/Contracts";
 import { PCOL } from "src/api/PCOL/types";
 import BACCombobox from "src/components/BaseFormFields/BACCombobox";
 
+type ContractOptions = { children: string; value: string }[];
+
 export const Contract = () => {
-  // const Contracts = useContracts();
-  const Contracts = [
-    { children: "FA1234", value: "FA1234-0001" },
-    { children: "FA9876", value: "FA9876-0001" },
-    { children: "FA5555", value: "FA5555-0001" },
-  ];
+  const { program } = useParams();
+  const contracts = useContracts(program ?? "");
+  const options: ContractOptions = [];
+  contracts.data?.forEach((item) => {
+    options.push({
+      children: item.Title,
+      value: item.Id.toString(),
+    });
+  });
 
   return (
     <BACCombobox<PCOL>
       name="Contract"
       labelText="Contract"
       rules={{ required: true }}
-      options={Contracts}
+      options={options}
+      customValue={(value) => {
+        return (
+          contracts.data?.find(({ Id }) => Id.toString() === value)?.Title ?? ""
+        );
+      }}
     />
   );
 };
