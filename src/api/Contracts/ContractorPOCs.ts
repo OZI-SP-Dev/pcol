@@ -33,7 +33,7 @@ const getContractorPOCs = async (program: string) =>
 
 const transformData = (data: spContractorPOCs) => spContractorPOCs.parse(data);
 
-export const useContractors = (program: string) => {
+export const useContractorPOCs = (program: string) => {
   return useQuery({
     queryKey: ["ContractorPOCs", program],
     queryFn: () => getContractorPOCs(program),
