@@ -18,6 +18,7 @@ const spContracts = z.array(
         Title: z.string(),
       })
       .optional(),
+    DODAAC: z.string().length(6, "DODAAC must be 6 characters long"),
   })
 );
 
@@ -33,7 +34,8 @@ const getContracts = async (program: string) =>
       "Contractor/Id",
       "Contractor/Title",
       "ContractorPOC/Id",
-      "ContractorPOC/Title"
+      "ContractorPOC/Title",
+      "DODAAC"
     )
     .expand("Contractor", "ContractorPOC")<spContracts>();
 

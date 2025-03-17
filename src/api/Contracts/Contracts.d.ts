@@ -3,6 +3,7 @@ export declare const useContracts: (program: string) => import("@tanstack/react-
     Id: number;
     Title: string;
     ContractNumber: string;
+    DODAAC: string;
     Contractor: {
         Id: number;
         Title: string;
