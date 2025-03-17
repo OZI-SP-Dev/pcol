@@ -33,9 +33,9 @@ export const Disclaimer = () => {
       {(GlobalDisclaimers.isError || ProgramDisclaimers.isError) && (
         <Text style={{ color: "#bc2f32" }}>
           There was an error fetching
-          {GlobalDisclaimers.isError && "Global"}
-          {GlobalDisclaimers.isError && ProgramDisclaimers.isError && " and "}
-          {ProgramDisclaimers.isError && "Program"}
+          {GlobalDisclaimers.isError && "Global "}
+          {GlobalDisclaimers.isError && ProgramDisclaimers.isError && "and "}
+          {ProgramDisclaimers.isError && "Program "}
           Disclaimer statements. Refresh the page to try again, or contact
           support.
         </Text>
