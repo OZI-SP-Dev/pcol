@@ -43,38 +43,42 @@ const BACCheckbox = <T extends FieldValues>({
         {labelText}
       </InfoLabel>
       {options.map((option) => {
+        const label = option.info ? (
+          <>
+            {option.text + " "}
+            <Tooltip
+              content={{ children: option.info }}
+              relationship="description"
+            >
+              <Info16Regular />
+            </Tooltip>
+          </>
+        ) : (
+          option.text
+        );
+
         return (
-          <div>
-            <Checkbox
-              {...field}
-              id={option.id + "Id"}
-              key={option.id}
-              label={option.text}
-              checked={
-                Array.isArray(field.value) &&
-                (field.value as []).some((item) => item === option.id)
+          <Checkbox
+            {...field}
+            id={option.id + "Id"}
+            key={option.id}
+            label={label}
+            checked={
+              Array.isArray(field.value) &&
+              (field.value as []).some((item) => item === option.id)
+            }
+            aria-describedby={name + "Err"}
+            aria-invalid={fieldState.error ? "true" : "false"}
+            onChange={(e) => {
+              let values = [...field.value];
+              if (e.target.checked) {
+                values.push(option.id);
+              } else {
+                values = values.filter((v) => v !== option.id);
               }
-              aria-describedby={name + "Err"}
-              aria-invalid={fieldState.error ? "true" : "false"}
-              onChange={(e) => {
-                let values = [...field.value];
-                if (e.target.checked) {
-                  values.push(option.id);
-                } else {
-                  values = values.filter((v) => v !== option.id);
-                }
-                field.onChange(values);
-              }}
-            />
-            {option.info && (
-              <Tooltip
-                content={{ children: option.info }}
-                relationship="description"
-              >
-                <Info16Regular />
-              </Tooltip>
-            )}
-          </div>
+              field.onChange(values);
+            }}
+          />
         );
       })}
       {fieldState.error && (

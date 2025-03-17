@@ -1,11 +1,11 @@
 import "@pnp/sp/items";
-export declare const useContractors: (program: string) => import("@tanstack/react-query").UseQueryResult<{
+export declare const useContractorPOCs: (program: string) => import("@tanstack/react-query").UseQueryResult<{
     Id: number;
     Title: string;
+    Phone: string;
+    Email: string;
     Contractor: {
         Id: number;
         Title: string;
     };
-    Phone: string;
-    Email: string;
 }[], Error>;
