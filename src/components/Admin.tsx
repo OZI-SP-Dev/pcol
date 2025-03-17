@@ -93,7 +93,7 @@ const Admin = () => {
                 appearance="transparent"
                 onClick={() => seturl(programList + "DODAAC/AllItems.aspx")}
               >
-                Program's DODAACs
+                Default DODAAC
               </Button>
             </li>
           </ul>
@@ -104,8 +104,7 @@ const Admin = () => {
       {url && (
         <iframe
           title="Edit Items iFrame"
-          width="100%"
-          height="500"
+          style={{ height: "100vh", width: "100vw" }}
           src={url}
         ></iframe>
       )}
