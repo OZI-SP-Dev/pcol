@@ -1,3 +1,4 @@
+import "./Admin.css";
 import { Button, Title2, Title3 } from "@fluentui/react-components";
 import { useState } from "react";
 import { useParams } from "react-router";
@@ -104,7 +105,7 @@ const Admin = () => {
       {url && (
         <iframe
           title="Edit Items iFrame"
-          style={{ height: "100vh", width: "100vw" }}
+          className="editIFrame"
           src={url}
         ></iframe>
       )}
