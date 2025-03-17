@@ -1,3 +1,4 @@
+import { Text } from "@fluentui/react-components";
 import { useParams } from "react-router";
 import { useDisclaimers } from "src/api/Disclaimer/useDisclaimers";
 import { PCOL } from "src/api/PCOL/types";
@@ -30,10 +31,14 @@ export const Disclaimer = () => {
         options={Disclaimers}
       />
       {(GlobalDisclaimers.isError || ProgramDisclaimers.isError) && (
-        <>
-          There was an error fetching Disclaimer statements. Refresh the page to
-          try again, or contact support.
-        </>
+        <Text style={{ color: "#bc2f32" }}>
+          There was an error fetching
+          {GlobalDisclaimers.isError && "Global"}
+          {GlobalDisclaimers.isError && ProgramDisclaimers.isError && " and "}
+          {ProgramDisclaimers.isError && "Program"}
+          Disclaimer statements. Refresh the page to try again, or contact
+          support.
+        </Text>
       )}
     </>
   );
