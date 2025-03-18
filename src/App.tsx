@@ -2,14 +2,20 @@ import { HashRouter, Routes, Route } from "react-router";
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
 import { Button } from "@fluentui/react-components";
-import { Suspense } from "react";
-import Home from "src/Home";
+import { lazy, Suspense } from "react";
 import { AppHeader } from "src/components/AppHeader";
 import NotFound from "./NotFound";
 import Landing from "src/components/Landing";
-import Help from "src/components/Help";
-import NewForm from "src/components/New/NewForm";
-import Admin from "src/components/Admin";
+
+// Begin module downloads immediately, but still utilize lazy() for code splitting
+const HomePromise = import("src/Home");
+const Home = lazy(() => HomePromise);
+const NewFormPromise = import("src/components/New/NewForm");
+const NewForm = lazy(() => NewFormPromise);
+const AdminPromise = import("src/components/Admin");
+const Admin = lazy(() => AdminPromise);
+const HelpPromise = import("src/components/Help");
+const Help = lazy(() => HelpPromise);
 
 function App() {
   return (
