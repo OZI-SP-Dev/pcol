@@ -99,14 +99,15 @@ const BACCombobox = <T extends FieldValues>({
           customValue
             ? customValue(field.value)
             : field.value !== ""
-            ? field.value
-            : query
+              ? field.value
+              : query
         }
         onChange={onChangeHandler}
         freeform={false}
         clearable={true}
         listbox={{ style: { maxHeight: "50vh" } }}
         {...fieldProps}
+        onBlur={() => setQuery("")}
       >
         {children ?? <></>}
       </Combobox>
