@@ -1,3 +1,4 @@
+import "./Admin.css";
 import { Button, Title2, Title3 } from "@fluentui/react-components";
 import { useState } from "react";
 import { useParams } from "react-router";
@@ -11,6 +12,10 @@ const Admin = () => {
   const programPerms = useCurrentUserHasEditPermissions(program);
   const isAdmin = mainPerms.data || programPerms.data;
   const [url, seturl] = useState("");
+
+  const globalList = _spPageContextInfo.webAbsoluteUrl + "/Lists/";
+  const programList =
+    _spPageContextInfo.webAbsoluteUrl + "/" + program + "/Lists/";
 
   return (
     <>
@@ -26,17 +31,19 @@ const Admin = () => {
             <li>
               <Button
                 appearance="transparent"
-                onClick={() =>
-                  seturl(
-                    _spPageContextInfo.webAbsoluteUrl +
-                      "/Lists/Disclaimers/AllItems.aspx"
-                  )
-                }
+                onClick={() => seturl(globalList + "Disclaimers/AllItems.aspx")}
               >
                 Disclaimer Statements (Global)
               </Button>
             </li>
-            <li>Department of Defense Activity Address Directory (DoDAAD)</li>
+            <li>
+              <Button
+                appearance="transparent"
+                onClick={() => seturl(globalList + "DODAAC/AllItems.aspx")}
+              >
+                DODAACs
+              </Button>
+            </li>
           </ul>
         </>
       )}
@@ -44,21 +51,50 @@ const Admin = () => {
         <>
           <Title3>{program} Program Office Items</Title3>
           <ul>
-            <li>Contractors</li>
-            <li>Contracts</li>
             <li>
               <Button
                 appearance="transparent"
                 onClick={() =>
-                  seturl(
-                    _spPageContextInfo.webAbsoluteUrl +
-                      "/" +
-                      program +
-                      "/Lists/Disclaimers/AllItems.aspx"
-                  )
+                  seturl(programList + "Contractors/AllItems.aspx")
+                }
+              >
+                Contractors
+              </Button>
+            </li>
+            <li>
+              <Button
+                appearance="transparent"
+                onClick={() => seturl(programList + "Contracts/AllItems.aspx")}
+              >
+                Contracts
+              </Button>
+            </li>
+            <li>
+              <Button
+                appearance="transparent"
+                onClick={() =>
+                  seturl(programList + "ContractorPOCs/AllItems.aspx")
+                }
+              >
+                Contractor POCs
+              </Button>
+            </li>
+            <li>
+              <Button
+                appearance="transparent"
+                onClick={() =>
+                  seturl(programList + "Disclaimers/AllItems.aspx")
                 }
               >
                 Disclaimer Statements (Program Unique)
+              </Button>
+            </li>
+            <li>
+              <Button
+                appearance="transparent"
+                onClick={() => seturl(programList + "DODAAC/AllItems.aspx")}
+              >
+                Default DODAAC
               </Button>
             </li>
           </ul>
@@ -69,8 +105,7 @@ const Admin = () => {
       {url && (
         <iframe
           title="Edit Items iFrame"
-          width="100%"
-          height="500"
+          className="editIFrame"
           src={url}
         ></iframe>
       )}

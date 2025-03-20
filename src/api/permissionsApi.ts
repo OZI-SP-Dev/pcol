@@ -12,10 +12,10 @@ export const useCurrentUserHasEditPermissions = (subSite?: string) => {
   const context = subSite ? subWebContext(subSite) : spWebContext;
 
   return useQuery({
-    queryKey: ["EditPermissions", subSite ?? "Root"],
+    queryKey: ["EditPermissions", subSite ?? "root"],
     queryFn: () =>
-      context.web
-        .lists.getByTitle("Disclaimers")
+      context.web.lists
+        .getByTitle("Disclaimers")
         .currentUserHasPermissions(PermissionKind.EditListItems),
     staleTime: Infinity, // Prevent refetch
     gcTime: Infinity, // Prevent garbage collection
