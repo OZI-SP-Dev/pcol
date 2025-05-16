@@ -1,4 +1,4 @@
-import { PCOL } from "src/api/PCOL/types";
+import { NewPCOL } from "src/api/PCOL/types";
 import { useController, useFormContext } from "react-hook-form";
 import { InfoLabel, Text } from "@fluentui/react-components";
 import { TextFieldIcon } from "@fluentui/react-icons-mdl2";
@@ -8,8 +8,8 @@ import { useContracts } from "src/api/Contracts/Contracts";
 export const Contractor = () => {
   const { program } = useParams();
   const contracts = useContracts(program ?? "");
-  const form = useFormContext<PCOL>();
-  const { field } = useController<PCOL>({
+  const form = useFormContext<NewPCOL>();
+  const { field } = useController<NewPCOL>({
     name: "Contract",
     control: form.control,
   });

@@ -1,10 +1,10 @@
 import "./NewForm.css";
-import { Title1 } from "@fluentui/react-components";
+import { Button, Title1 } from "@fluentui/react-components";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNewPageValidation } from "src/utilities/Validations";
 import { defaultPCOL } from "src/api/PCOL/defaults";
-import { PCOL } from "src/api/PCOL/types";
+import { NewPCOL } from "src/api/PCOL/types";
 import { Subject } from "src/components/Fields/Subject/Subject";
 import { References } from "src/components/Fields/References/References";
 import { DODAAC } from "src/components/Fields/DODAAC/DODAAC";
@@ -19,15 +19,22 @@ import { AssociatedContractorLetterNumbers } from "src/components/Fields/Associa
 import { Disclaimer } from "src/components/Fields/Disclaimer/Disclaimer";
 import { CarbonCopy } from "src/components/Fields/CarbonCopy/CarbonCopy";
 import { AdditionalDistributionInfo } from "src/components/Fields/AdditionalDistributionInfo/AdditionalDistributionInfo";
+import { useAddPCOL } from "src/api/PCOL/useAddPCOL";
+import { useNavigate, useParams } from "react-router-dom";
 
 const NewForm = () => {
   const schema = useNewPageValidation();
+  const { program } = useParams();
+  const addPCOL = useAddPCOL(String(program));
+  const navigate = useNavigate();
 
-  const newForm = useForm<PCOL>({
+  const newForm = useForm<NewPCOL>({
     defaultValues: defaultPCOL,
     resolver: zodResolver(schema),
     mode: "onChange",
   });
+
+  const isValid = newForm.formState.isValid;
 
   return (
     <div
@@ -85,6 +92,22 @@ const NewForm = () => {
           <div className="newFormFieldContainer">
             <AdditionalDistributionInfo />
           </div>
+
+          <Button
+            appearance="primary"
+            style={{ marginLeft: "auto" }}
+            disabled={addPCOL.isPending}
+            onClick={async () => {
+              if (isValid) {
+                const newID = await addPCOL.mutateAsync(newForm.getValues());
+                navigate("/p/" + program + "/i/" + newID);
+              } else {
+                newForm.trigger(undefined, { shouldFocus: true });
+              }
+            }}
+          >
+            Submit for Processing
+          </Button>
         </form>
       </FormProvider>
     </div>

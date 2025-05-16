@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { useParams } from "react-router";
 import { useProgramDODAACs } from "src/api/DODAAC/useProgramDODAACs";
-import { PCOL } from "src/api/PCOL/types";
+import { NewPCOL } from "src/api/PCOL/types";
 import BACCombobox from "src/components/BaseFormFields/BACCombobox";
 
 export const DODAAC = () => {
@@ -22,7 +22,7 @@ export const DODAAC = () => {
   });
 
   return (
-    <BACCombobox<PCOL>
+    <BACCombobox<NewPCOL>
       name="DODAAC"
       labelText="DODAAC"
       rules={{ required: true }}

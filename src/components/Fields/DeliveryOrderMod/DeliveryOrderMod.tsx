@@ -1,9 +1,9 @@
 import BACInput from "src/components/BaseFormFields/BACInput";
-import { PCOL } from "src/api/PCOL/types";
+import { NewPCOL } from "src/api/PCOL/types";
 
 export const DeliveryOrderMod = () => {
   return (
-    <BACInput<PCOL>
+    <BACInput<NewPCOL>
       name="DeliveryOrderMod"
       labelText="Delivery Order / Modification"
     />

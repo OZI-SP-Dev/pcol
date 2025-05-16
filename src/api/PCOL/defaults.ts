@@ -1,6 +1,6 @@
-import { PCOL } from "./types";
+import { NewPCOL } from "./types";
 
-export const defaultPCOL: PCOL = {
+export const defaultPCOL: NewPCOL = {
   Subject: "",
   References: "",
   DODAAC: "",
@@ -11,7 +11,7 @@ export const defaultPCOL: PCOL = {
   ECP: "",
   CCP: "",
   AssociatedContractorLetterNumbers: "",
-  Disclaimer: [],
+  Disclaimers: [],
   CarbonCopy: "",
   AdditionalDistributionInfo: "",
 };

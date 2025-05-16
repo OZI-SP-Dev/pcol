@@ -6,6 +6,7 @@ import { lazy, Suspense } from "react";
 import { AppHeader } from "src/components/AppHeader";
 import NotFound from "./NotFound";
 import Landing from "src/components/Landing";
+import ViewPCOL from "src/components/ViewPCOL/ViewPCOL";
 
 // Begin module downloads immediately, but still utilize lazy() for code splitting
 const HomePromise = import("src/Home");
@@ -42,6 +43,7 @@ function App() {
                   <Route path="/p/:program/new" element={<NewForm />} />
                   <Route path="/p/:program/admin" element={<Admin />} />
                   <Route path="/p/:program/help" element={<Help />} />
+                  <Route path="/p/:program/i/:pcolId" element={<ViewPCOL />} />
                   <Route path="/admin" element={<Admin />} />
                   <Route path="/help" element={<Help />} />
                   <Route path="*" element={<NotFound />} />

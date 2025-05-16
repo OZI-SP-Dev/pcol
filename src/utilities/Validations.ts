@@ -8,7 +8,7 @@ import { RFPRuleFinal } from "src/components/Fields/RFP/RFP.Validation";
 import { ECPRuleFinal } from "src/components/Fields/ECP/ECP.Validation";
 import { CCPRuleFinal } from "src/components/Fields/CCP/CCP.Validation";
 import { AssociatedContractorLetterNumbersRuleFinal } from "src/components/Fields/AssociatedContractorLetterNumbers/AssociatedContractorLetterNumbers.Validation";
-import { DisclaimerRuleFinal } from "src/components/Fields/Disclaimer/Disclaimer.Validation";
+import { DisclaimersRuleFinal } from "src/components/Fields/Disclaimer/Disclaimer.Validation";
 import { CarbonCopyRuleFinal } from "src/components/Fields/CarbonCopy/CarbonCopy.Validation";
 import { AdditionalDistributionInfoRuleFinal } from "src/components/Fields/AdditionalDistributionInfo/AdditionalDistributionInfo.Validation";
 
@@ -22,7 +22,7 @@ export const useNewPageValidation = () => {
     .and(ECPRuleFinal)
     .and(CCPRuleFinal)
     .and(AssociatedContractorLetterNumbersRuleFinal)
-    .and(DisclaimerRuleFinal)
+    .and(DisclaimersRuleFinal)
     .and(CarbonCopyRuleFinal)
     .and(AdditionalDistributionInfoRuleFinal);
 };

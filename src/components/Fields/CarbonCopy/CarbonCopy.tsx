@@ -1,9 +1,9 @@
 import BACTextarea from "src/components/BaseFormFields/BACTextarea";
-import { PCOL } from "src/api/PCOL/types";
+import { NewPCOL } from "src/api/PCOL/types";
 
 export const CarbonCopy = () => {
   return (
-    <BACTextarea<PCOL>
+    <BACTextarea<NewPCOL>
       name="CarbonCopy"
       labelText="Carbon Copy"
       fieldProps={{ resize: "vertical", rows: 5 }}

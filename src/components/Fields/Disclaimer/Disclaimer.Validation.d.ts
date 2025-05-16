@@ -1,8 +1,8 @@
 import { z } from "zod";
-export declare const DisclaimerRuleFinal: z.ZodObject<{
-    Disclaimer: z.ZodArray<z.ZodString, "many">;
+export declare const DisclaimersRuleFinal: z.ZodObject<{
+    Disclaimers: z.ZodArray<z.ZodString, "many">;
 }, "strip", z.ZodTypeAny, {
-    Disclaimer: string[];
+    Disclaimers: string[];
 }, {
-    Disclaimer: string[];
+    Disclaimers: string[];
 }>;

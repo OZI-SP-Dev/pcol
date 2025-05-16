@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { useParams } from "react-router";
 import { useContracts } from "src/api/Contracts/Contracts";
-import { PCOL } from "src/api/PCOL/types";
+import { NewPCOL } from "src/api/PCOL/types";
 import BACCombobox from "src/components/BaseFormFields/BACCombobox";
 
 type ContractOptions = { children: string; value: string }[];
@@ -10,7 +10,7 @@ type ContractOptions = { children: string; value: string }[];
 export const Contract = () => {
   const { program } = useParams();
   const contracts = useContracts(program ?? "");
-  const { resetField, watch } = useFormContext<PCOL>();
+  const { resetField, watch } = useFormContext<NewPCOL>();
   const DODAAC = watch("DODAAC");
 
   // Anytime DODAAC changes, reset Contract
@@ -29,7 +29,7 @@ export const Contract = () => {
   });
 
   return (
-    <BACCombobox<PCOL>
+    <BACCombobox<NewPCOL>
       name="Contract"
       labelText="Contract"
       rules={{ required: true }}

@@ -1,4 +1,19 @@
-export type PCOL = {
+import { z } from "zod";
+declare const NewPCOL: z.ZodObject<{
+    Subject: z.ZodString;
+    References: z.ZodString;
+    DODAAC: z.ZodString;
+    Contract: z.ZodString;
+    DeliveryOrderMod: z.ZodString;
+    RFI: z.ZodString;
+    RFP: z.ZodString;
+    ECP: z.ZodString;
+    CCP: z.ZodString;
+    AssociatedContractorLetterNumbers: z.ZodString;
+    Disclaimers: z.ZodArray<z.ZodString, "many">;
+    CarbonCopy: z.ZodString;
+    AdditionalDistributionInfo: z.ZodString;
+}, "strip", z.ZodTypeAny, {
     Subject: string;
     References: string;
     DODAAC: string;
@@ -9,7 +24,23 @@ export type PCOL = {
     ECP: string;
     CCP: string;
     AssociatedContractorLetterNumbers: string;
-    Disclaimer: string[];
+    Disclaimers: string[];
     CarbonCopy: string;
     AdditionalDistributionInfo: string;
-};
+}, {
+    Subject: string;
+    References: string;
+    DODAAC: string;
+    Contract: string;
+    DeliveryOrderMod: string;
+    RFI: string;
+    RFP: string;
+    ECP: string;
+    CCP: string;
+    AssociatedContractorLetterNumbers: string;
+    Disclaimers: string[];
+    CarbonCopy: string;
+    AdditionalDistributionInfo: string;
+}>;
+export type NewPCOL = z.infer<typeof NewPCOL>;
+export {};
