@@ -21,7 +21,7 @@ const StatusBar = () => {
     <>
       {pcol.data && <Title2>{pcol.data.Title}</Title2>}
       <br />
-      <Title3>Current Stage: TBD</Title3>
+      <Title3>Current Stage: {pcol.data?.Stage || "Unknown"}</Title3>
       <ul className="request-status">
         {STAGES.map((stage, index) => (
           <>

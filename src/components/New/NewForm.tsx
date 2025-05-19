@@ -1,5 +1,5 @@
 import "./NewForm.css";
-import { Button, Title1 } from "@fluentui/react-components";
+import { Badge, Button, Title1, Tooltip } from "@fluentui/react-components";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNewPageValidation } from "src/utilities/Validations";
@@ -21,6 +21,7 @@ import { CarbonCopy } from "src/components/Fields/CarbonCopy/CarbonCopy";
 import { AdditionalDistributionInfo } from "src/components/Fields/AdditionalDistributionInfo/AdditionalDistributionInfo";
 import { useAddPCOL } from "src/api/PCOL/useAddPCOL";
 import { useNavigate, useParams } from "react-router-dom";
+import { AlertSolidIcon } from "@fluentui/react-icons-mdl2";
 
 const NewForm = () => {
   const schema = useNewPageValidation();
@@ -97,10 +98,11 @@ const NewForm = () => {
             appearance="primary"
             style={{ marginLeft: "auto" }}
             disabled={addPCOL.isPending}
-            onClick={async () => {
+            onClick={() => {
               if (isValid) {
-                const newID = await addPCOL.mutateAsync(newForm.getValues());
-                navigate("/p/" + program + "/i/" + newID);
+                addPCOL
+                  .mutateAsync(newForm.getValues())
+                  .then((ID) => navigate("/p/" + program + "/i/" + ID));
               } else {
                 newForm.trigger(undefined, { shouldFocus: true });
               }
@@ -108,6 +110,16 @@ const NewForm = () => {
           >
             Submit for Processing
           </Button>
+          {addPCOL.isError && (
+            <Tooltip content={addPCOL.error.message} relationship="label">
+              <Badge
+                size="extra-large"
+                appearance="ghost"
+                color="danger"
+                icon={<AlertSolidIcon />}
+              />
+            </Tooltip>
+          )}
         </form>
       </FormProvider>
     </div>

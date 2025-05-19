@@ -1,11 +1,12 @@
 import { Label, Text, Title2 } from "@fluentui/react-components";
 import { usePCOL } from "src/api/PCOL/usePCOL";
 import { useParams } from "react-router-dom";
+import { useContracts } from "src/api/Contracts/Contracts";
 
 const ViewPCOLDetails = () => {
   const { program, pcolId } = useParams();
   const pcol = usePCOL(String(program), Number(pcolId));
-  console.log(pcol.data?.Disclaimers);
+  const contracts = useContracts(String(program));
 
   return (
     <>
@@ -34,7 +35,9 @@ const ViewPCOLDetails = () => {
             <Label weight="semibold" htmlFor="references">
               References
             </Label>
-            <Text id="references">{pcol.data.References}</Text>
+            <Text id="references" style={{ whiteSpace: "pre-line" }}>
+              {pcol.data.References}
+            </Text>
 
             <Label weight="semibold" htmlFor="DODAAC">
               DODAAC
@@ -49,7 +52,13 @@ const ViewPCOLDetails = () => {
             <Label weight="semibold" htmlFor="Contractor">
               Contractor
             </Label>
-            <Text id="Contractor">Lookup value</Text>
+            <Text id="Contractor">
+              {
+                contracts.data?.find(
+                  (contract) => contract.Title === pcol.data.Contract
+                )?.Contractor.Title
+              }
+            </Text>
 
             <Label weight="semibold" htmlFor="DeliveryOrderMod">
               DeliveryOrderMod
@@ -82,7 +91,10 @@ const ViewPCOLDetails = () => {
             >
               AssociatedContractorLetterNumbers
             </Label>
-            <Text id="AssociatedContractorLetterNumbers">
+            <Text
+              id="AssociatedContractorLetterNumbers"
+              style={{ whiteSpace: "pre-line" }}
+            >
               {pcol.data.AssociatedContractorLetterNumbers}
             </Text>
 
@@ -101,7 +113,9 @@ const ViewPCOLDetails = () => {
             <Label weight="semibold" htmlFor="CarbonCopy">
               CarbonCopy
             </Label>
-            <Text id="CarbonCopy">{pcol.data.CarbonCopy}</Text>
+            <Text id="CarbonCopy" style={{ whiteSpace: "pre-line" }}>
+              {pcol.data.CarbonCopy}
+            </Text>
 
             <Label weight="semibold" htmlFor="AdditionalDistributionInfo">
               AdditionalDistributionInfo

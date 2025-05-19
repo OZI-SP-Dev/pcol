@@ -20,7 +20,7 @@ const useContentTypes = (subSite: string) => {
   return useQuery({
     queryKey: ["contentTypes", "requests"],
     queryFn: () =>
-      subWebContext(subSite).web.lists.getByTitle("pcols").contentTypes(),
+      subWebContext(subSite).web.lists.getByTitle("PCOLs").contentTypes(),
     staleTime: Infinity, // Prevent refetch
     gcTime: Infinity, // Prevent garbage collection
   });
@@ -60,7 +60,7 @@ export const useAddPCOL = (subSite: string) => {
       // After folder is successfully created grab the next SEQ
       // Then convert to PCOLDocSet and rename it using SEQ
       const newFolder = await subWebContext(subSite)
-        .web.lists.getByTitle("pcols")
+        .web.lists.getByTitle("PCOLs")
         .rootFolder.folders.addUsingPath(now.toISOString().replace(/:/g, "-"));
 
       const newFolderFields = await subWebContext(subSite)
@@ -76,12 +76,12 @@ export const useAddPCOL = (subSite: string) => {
         newPCOL.DODAAC +
         "-" +
         now.getFullYear() +
-        daysIntoYear(now) +
+        daysIntoYear(now).toString().padStart(3, "0") +
         "-" +
         seq;
 
       await subWebContext(subSite)
-        .web.lists.getByTitle("pcols")
+        .web.lists.getByTitle("PCOLs")
         .items.getById(id)
         .update({
           FileLeafRef: folderName, // rename folder
@@ -96,7 +96,7 @@ export const useAddPCOL = (subSite: string) => {
     },
     onSuccess: () => {
       // Mark requests as needing refreshed
-      queryClient.invalidateQueries({ queryKey: ["pcols"] });
+      queryClient.invalidateQueries({ queryKey: ["paged-PCOLs"] });
       dispatchToast(
         <Toast>
           <ToastTitle>PCOL saved!</ToastTitle>
