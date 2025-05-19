@@ -1,12 +1,11 @@
 import "@pnp/sp/content-types";
-// import {
-//   Link,
-//   Toast,
-//   ToastBody,
-//   ToastTitle,
-//   ToastTrigger,
-//   useToastController,
-// } from "@fluentui/react-components";
+import {
+  Link,
+  Toast,
+  ToastTitle,
+  ToastTrigger,
+  useToastController,
+} from "@fluentui/react-components";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { subWebContext } from "src/api/SPWebContext";
 import { NewPCOL } from "./types";
@@ -42,7 +41,7 @@ export const useAddPCOL = (subSite: string) => {
   const queryClient = useQueryClient();
   const contentTypes = useContentTypes(subSite);
   const getSequenceNumber = useGetSequenceNumber(subSite);
-  // const { dispatchToast } = useToastController("toaster");
+  const { dispatchToast } = useToastController("toaster");
 
   return useMutation({
     mutationFn: async (newPCOL: NewPCOL) => {
@@ -89,6 +88,7 @@ export const useAddPCOL = (subSite: string) => {
           Title: folderName,
           ContentTypeId: contentTypeId, // update to PCOLDocSet content type
           Disclaimers: JSON.stringify(Disclaimers),
+          Stage: "New",
           ...rest,
         });
 
@@ -97,31 +97,29 @@ export const useAddPCOL = (subSite: string) => {
     onSuccess: () => {
       // Mark requests as needing refreshed
       queryClient.invalidateQueries({ queryKey: ["pcols"] });
-      // dispatchToast(
-      //   <Toast>
-      //     <ToastTitle>
-      //       PCOL saved!
-      //     </ToastTitle>
-      //   </Toast>,
-      //   { intent: "success" }
-      // );
+      dispatchToast(
+        <Toast>
+          <ToastTitle>PCOL saved!</ToastTitle>
+        </Toast>,
+        { intent: "success" }
+      );
     },
     onError: (error) => {
       console.log(error);
-      // dispatchToast(
-      //   <Toast>
-      //     <ToastTitle
-      //       action={
-      //         <ToastTrigger>
-      //           <Link>Dismiss</Link>
-      //         </ToastTrigger>
-      //       }
-      //     >
-      //       Error saving request
-      //     </ToastTitle>
-      //   </Toast>,
-      //   { intent: "error", timeout: -1 }
-      // );
+      dispatchToast(
+        <Toast>
+          <ToastTitle
+            action={
+              <ToastTrigger>
+                <Link>Dismiss</Link>
+              </ToastTrigger>
+            }
+          >
+            Error saving request
+          </ToastTitle>
+        </Toast>,
+        { intent: "error", timeout: -1 }
+      );
     },
   });
 };

@@ -16,10 +16,10 @@ const ViewPCOLDetails = () => {
       {pcol.data && (
         <>
           <article className="viewPCOLDetails">
-            <Label weight="semibold" htmlFor="controlNumber">
+            <Label weight="semibold" htmlFor="Title">
               Control Number
             </Label>
-            <Text id="controlNumber">{pcol.data.Title}</Text>
+            <Text id="Title">{pcol.data.Title}</Text>
 
             <Label weight="semibold" htmlFor="initiator">
               Initiator

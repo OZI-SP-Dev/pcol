@@ -1,4 +1,5 @@
 import { Body1, Title1, Title3, makeStyles } from "@fluentui/react-components";
+import PCOLsTable from "src/components/PCOLsTable/PCOLsTable";
 
 const useStyles = makeStyles({
   section: {
@@ -81,7 +82,7 @@ const Home = () => {
           </Body1>
         </section>
       </div>
-      <div>DASHBOARD PLACEHOLDER</div>
+      <PCOLsTable />
     </div>
   );
 };

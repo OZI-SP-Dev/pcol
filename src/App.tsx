@@ -6,7 +6,6 @@ import { lazy, Suspense } from "react";
 import { AppHeader } from "src/components/AppHeader";
 import NotFound from "./NotFound";
 import Landing from "src/components/Landing";
-import ViewPCOL from "src/components/ViewPCOL/ViewPCOL";
 
 // Begin module downloads immediately, but still utilize lazy() for code splitting
 const HomePromise = import("src/Home");
@@ -17,6 +16,8 @@ const AdminPromise = import("src/components/Admin");
 const Admin = lazy(() => AdminPromise);
 const HelpPromise = import("src/components/Help");
 const Help = lazy(() => HelpPromise);
+const ViewPCOLPromise = import("src/components/ViewPCOL/ViewPCOL");
+const ViewPCOL = lazy(() => ViewPCOLPromise);
 
 function App() {
   return (

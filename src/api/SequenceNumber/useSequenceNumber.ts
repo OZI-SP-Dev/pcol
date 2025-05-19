@@ -6,7 +6,7 @@ import "@pnp/sp/items";
 const SequenceOffset = z.array(
   z.object({
     Id: z.number().int().positive(),
-    Title: z.number().int().positive(),
+    Title: z.coerce.number().int(),
   })
 );
 

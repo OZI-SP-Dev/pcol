@@ -3,13 +3,14 @@ import { useQuery } from "@tanstack/react-query";
 import { subWebContext } from "src/api/SPWebContext";
 import "@pnp/sp/items";
 
-const spPCOL = z.object({
+export const spPCOL = z.object({
   Id: z.number().int().positive(),
   Title: z.string(),
   Author: z.object({
     Id: z.number().int().positive(),
     Title: z.string(),
   }),
+  Modified: z.coerce.date(),
   Created: z.coerce.date(),
   Subject: z.string().nullable(),
   References: z.string().nullable(),
@@ -48,9 +49,10 @@ const spPCOL = z.object({
     .pipe(z.array(z.string().optional())),
   CarbonCopy: z.string().nullable(),
   AdditionalDistributionInfo: z.string().nullable(),
+  Stage: z.string(),
 });
 
-type spPCOL = z.infer<typeof spPCOL>;
+export type spPCOL = z.infer<typeof spPCOL>;
 
 const getPCOL = async (subSite: string, pcolId: number) => {
   if (!pcolId) {
