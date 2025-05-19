@@ -85,7 +85,7 @@ const FilterPCOLsDrawer = ({
       newFilter.push({
         column: "Subject",
         filter: data.Subject,
-        queryString: `(Subject eq '${data.Subject}')`,
+        queryString: `substringof('${data.Subject}',Subject)`,
       });
     }
 
@@ -93,7 +93,7 @@ const FilterPCOLsDrawer = ({
       newFilter.push({
         column: "Stage",
         filter: data.Stage,
-        queryString: `(Stage eq '${data.Stage}')`,
+        queryString: `substringof('${data.Stage}',Stage)`,
       });
     }
 
@@ -101,7 +101,7 @@ const FilterPCOLsDrawer = ({
       newFilter.push({
         column: "Contract",
         filter: data.Contract,
-        queryString: `(Contract eq '${data.Contract}')`,
+        queryString: `substringof('${data.Contract}',Contract)`,
       });
     }
 
