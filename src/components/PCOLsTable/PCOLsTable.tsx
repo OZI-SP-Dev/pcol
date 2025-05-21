@@ -215,7 +215,7 @@ const PCOLsTable = () => {
         </ToolbarButton>
       </Toolbar>
       <DataGrid
-        items={pagedItems.data || []}
+        items={pagedItems.data?.items || []}
         columns={columns}
         getRowId={(item) => item.Id}
         resizableColumns
@@ -278,11 +278,7 @@ const PCOLsTable = () => {
         </Button>
         <Button
           appearance="primary"
-          disabled={
-            !pagedItems.data ||
-            pagedItems.isFetching ||
-            pagedItems.data.length < 10
-          }
+          disabled={pagedItems.isFetching || !pagedItems.data?.hasNextPage}
           icon={pagedItems.isFetching ? <Spinner /> : <ArrowNextRegular />}
           iconPosition="after"
           onClick={() => setPage(page + 1)}

@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-query";
 import { z } from "zod";
 import { subWebContext } from "src/api/SPWebContext";
+import { useState } from "react";
 
 interface SortParams {
   sortColumn: string | number | undefined;
@@ -36,6 +37,12 @@ const PagedPCOLs = z.array(
 );
 
 type PagedPCOLs = z.infer<typeof PagedPCOLs>;
+const PAGESIZE = 10;
+
+export interface PagedResult {
+  items: PagedPCOLs;
+  hasNextPage: boolean;
+}
 
 export const usePagedPCOLs = (
   subSite: string,
@@ -46,6 +53,9 @@ export const usePagedPCOLs = (
 ) => {
   const queryClient = useQueryClient();
 
+  // This holds the iterator object, so we can iterate as we reach a new page
+  const [iterator, setIterator] = useState<AsyncIterator<spPCOL[], void>>();
+
   return useQuery({
     queryKey: [
       "paged-PCOLs",
@@ -55,45 +65,83 @@ export const usePagedPCOLs = (
       page,
       allItems,
     ],
-    queryFn: () => {
-      let skiptoken = 0;
+    queryFn: async () => {
+      // If we're at page 0 then query SharePoint
+      if (page === 0) {
+        // Create the query
+        const query = firstPageQuery(
+          subSite,
+          sortParams,
+          filterParams,
+          allItems
+        );
 
-      if (page > 0) {
-        const data: PagedPCOLs =
-          queryClient.getQueryData([
-            "paged-PCOLs",
-            subSite,
-            sortParams,
-            filterParams,
-            page - 1,
-            allItems,
-          ]) || [];
+        // Create a new iterator
+        const firstPageIterator = query[Symbol.asyncIterator]();
 
-        skiptoken = Number(data[data.length - 1].Id);
+        // Get the first page
+        const result = await firstPageIterator.next();
+
+        // Save the iterator so we can use it for next page
+        setIterator(firstPageIterator);
+
+        return {
+          items: result.value,
+          hasNextPage: !result.done && result.value.length === PAGESIZE,
+        };
+      } else {
+        // Try to get data for current page from cache
+        const cachedData = queryClient.getQueryData<PagedResult>([
+          "paged-PCOLs",
+          subSite,
+          sortParams,
+          filterParams,
+          page,
+          allItems,
+        ]);
+
+        // Return the cached data if we already got this page
+        if (cachedData) {
+          return cachedData;
+        }
+
+        // We haven't gotten this page yet
+        if (iterator) {
+          // Get the current page
+          const result = await iterator.next();
+
+          if (result?.value?.length && result.value.length > 0)
+            // We know there isn't a new page if it returns done, or if it returns less than the page size
+            return {
+              items: result.value,
+              hasNextPage: !result.done && result.value.length === PAGESIZE,
+            };
+        }
+        // Something is wrong, so just return empty
+        return {
+          items: [],
+          hasNextPage: false,
+        };
       }
-
-      return getPagedPCOLs(
-        subSite,
-        skiptoken,
-        sortParams,
-        filterParams,
-        allItems
-      );
     },
     // results must remain cached
     // if results are not kept in cache a scenario may arise where you are on
-    //  a page > 1, but the previous page has been removed from cache. The
-    //  query function depends on the previous page's results. Going "back"
-    //  would result in page-1 actually holding the results for page 0.
+    //  a page > 1, but we no logner have the data, and the iterator only progresses forward
     gcTime: Infinity,
-    select: (data: PagedPCOLs) => PagedPCOLs.parse(data),
+    select: (data: PagedResult) => {
+      return {
+        ...data,
+        items: PagedPCOLs.parse(data.items),
+      };
+    },
     placeholderData: keepPreviousData,
   });
 };
 
-const getPagedPCOLs = async (
+// Create the base query for items which will be used to get first page
+// and the iterator to iterate the future pages
+const firstPageQuery = (
   subSite: string,
-  skiptoken: number,
   sortParams: SortParams,
   filterParams: PCOLFilter[],
   allItems: boolean
@@ -118,6 +166,5 @@ const getPagedPCOLs = async (
       sortParams.sortDirection !== "descending"
     )
     .orderBy("Id", true) // Include this or non-unique sort values can cause issues
-    .skip(skiptoken)
-    .top(10)<spPCOL[]>(); // Page Size
+    .top(PAGESIZE);
 };
