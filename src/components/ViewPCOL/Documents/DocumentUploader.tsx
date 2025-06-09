@@ -2,9 +2,12 @@ import { Icon } from "@fluentui/react";
 import { Card, Label, Spinner } from "@fluentui/react-components";
 import { useAddDocument } from "src/api/documentsApi";
 import { ChangeEvent, DragEventHandler, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 
-export const DocumentUploader = (props: { pcolId: number }) => {
-  const addDocument = useAddDocument(props.pcolId);
+export const DocumentUploader = (props: { pcolName: string }) => {
+  const params = useParams();
+  const program = String(params.program);
+  const addDocument = useAddDocument(program, props.pcolName);
   const [inDropZone, setInDropZone] = useState(false);
   const dropDepth = useRef(0);
 

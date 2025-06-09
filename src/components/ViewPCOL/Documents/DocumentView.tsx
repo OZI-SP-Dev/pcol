@@ -18,6 +18,7 @@ import {
 } from "@fluentui/react-components";
 import { getFileTypeIconProps } from "@fluentui/react-file-type-icons";
 import { DeleteIcon } from "@fluentui/react-icons-mdl2";
+import { useParams } from "react-router-dom";
 import { SPDocument, useDeleteDocument } from "src/api/documentsApi";
 
 declare const _spPageContextInfo: {
@@ -31,7 +32,9 @@ export const DocumentView = (props: {
   document: SPDocument;
   readonly?: boolean;
 }) => {
-  const deleteDocument = useDeleteDocument();
+  const params = useParams();
+  const program = String(params.program);
+  const deleteDocument = useDeleteDocument(program);
 
   const extension = props.document.ServerRelativeUrl.substring(
     props.document.ServerRelativeUrl.lastIndexOf(".") + 1

@@ -3,20 +3,18 @@ import { useDocuments } from "src/api/documentsApi";
 import { useParams } from "react-router-dom";
 import { DocumentView } from "src/components/ViewPCOL/Documents/DocumentView";
 import { DocumentUploader } from "src/components/ViewPCOL/Documents/DocumentUploader";
+import { usePCOL } from "src/api/PCOL/usePCOL";
 
 const ViewRequestDocuments = () => {
-  const params = useParams();
-  const pcolId = Number(params.pcolId);
-  // const program = String(params.program);
-  // const pcol = usePCOL(program, pcolId);
-
-  const documents = useDocuments(pcolId);
+  const { program, pcolId } = useParams();
+  const pcol = usePCOL(String(program), Number(pcolId));
+  const documents = useDocuments(String(program), String(pcol.data?.Title));
 
   return (
     <>
       <Title2>Documents</Title2>
-      <DocumentUploader pcolId={pcolId} />
-      {documents.isLoading && <div>Fetching data...</div>}
+      {pcol.data && <DocumentUploader pcolName={pcol.data.Title} />}
+      {(documents.isLoading || pcol.isLoading) && <div>Fetching data...</div>}
       <br />
       {documents.data && (
         <section>
@@ -24,7 +22,7 @@ const ViewRequestDocuments = () => {
             return (
               <DocumentView
                 key={document.UniqueId}
-                readonly={false}
+                readonly={true}
                 document={document}
               />
             );

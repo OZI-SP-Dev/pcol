@@ -1,6 +1,6 @@
 import "@pnp/sp/files";
 import "@pnp/sp/folders";
-import { spWebContext } from "src/api/SPWebContext";
+import { subWebContext } from "src/api/SPWebContext";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Link,
@@ -11,21 +11,18 @@ import {
   useToastController,
 } from "@fluentui/react-components";
 
-/**
- * Gets all requests
- */
-export const useDocuments = (pcolId: number) => {
+export const useDocuments = (subSite: string, pcolName: string) => {
   return useQuery({
-    queryKey: ["documents", pcolId],
-    queryFn: () => getDocuments(pcolId),
+    queryKey: ["documents", pcolName],
+    queryFn: () => getDocuments(subSite, pcolName),
   });
 };
 
 // TODO: Update everything here to handle subwebs
-const getDocuments = async (pcolId: number) => {
-  const path = "requests/" + pcolId;
-  return spWebContext.web
-    .getFolderByServerRelativePath(path)
+const getDocuments = async (subSite: string, pcolName: string) => {
+  const path = "PCOLs/" + pcolName;
+  return subWebContext(subSite)
+    .web.getFolderByServerRelativePath(path)
     .files.select(
       "Name",
       "TimeLastModified",
@@ -35,18 +32,21 @@ const getDocuments = async (pcolId: number) => {
       "ModifiedBy/EMail",
       "ModifiedBy/Title",
       "UniqueId",
-      "ListId"
+      "ListId",
+      "DocGroup"
     )
     .expand("ModifiedBy")
     .orderBy("Name")<SPDocument[]>();
 };
 
-export const useDeleteDocument = () => {
+export const useDeleteDocument = (subSite: string) => {
   const queryClient = useQueryClient();
   const { dispatchToast } = useToastController("toaster");
   return useMutation({
     mutationFn: async (document: SPDocument) => {
-      return spWebContext.web.getFileById(document.UniqueId).recycle();
+      return subWebContext(subSite)
+        .web.getFileById(document.UniqueId)
+        .recycle();
     },
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ["documents"] });
@@ -80,15 +80,26 @@ export const useDeleteDocument = () => {
   });
 };
 
-export const useAddDocument = (pcolId: number) => {
+export const useAddDocument = (
+  subSite: string,
+  pcolName: string,
+  docGroup?: string
+) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (file: File) => {
-      return spWebContext.web
-        .getFolderByServerRelativePath(`requests/${pcolId}`)
+      return subWebContext(subSite)
+        .web.getFolderByServerRelativePath(`PCOLs/${pcolName}`)
         .files.addUsingPath(file.name, file, { Overwrite: true });
     },
-    onSuccess: async () => {
+    onSuccess: async (filedata) => {
+      if (docGroup) {
+        await (
+          await subWebContext(subSite)
+            .web.getFileById(filedata.UniqueId)
+            .getItem()
+        ).update({ DocGroup: docGroup });
+      }
       queryClient.invalidateQueries({ queryKey: ["documents"] });
     },
   });
@@ -101,4 +112,5 @@ export interface SPDocument {
   ServerRelativeUrl: string;
   UniqueId: string;
   ListId: string;
+  DocGroup: string;
 }
