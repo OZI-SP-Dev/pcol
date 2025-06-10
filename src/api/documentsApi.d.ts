@@ -14,5 +14,7 @@ export interface SPDocument {
     ServerRelativeUrl: string;
     UniqueId: string;
     ListId: string;
-    DocGroup: string;
+    ListItemAllFields: {
+        DocGroup: string;
+    };
 }

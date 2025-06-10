@@ -33,9 +33,10 @@ const getDocuments = async (subSite: string, pcolName: string) => {
       "ModifiedBy/Title",
       "UniqueId",
       "ListId",
-      "DocGroup"
+      "DocGroup",
+      "ListItemAllFields"
     )
-    .expand("ModifiedBy")
+    .expand("ListItemAllFields", "ModifiedBy")
     .orderBy("Name")<SPDocument[]>();
 };
 
@@ -112,5 +113,7 @@ export interface SPDocument {
   ServerRelativeUrl: string;
   UniqueId: string;
   ListId: string;
-  DocGroup: string;
+  ListItemAllFields: {
+    DocGroup: string;
+  };
 }

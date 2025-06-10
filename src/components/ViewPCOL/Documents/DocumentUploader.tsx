@@ -4,10 +4,13 @@ import { useAddDocument } from "src/api/documentsApi";
 import { ChangeEvent, DragEventHandler, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 
-export const DocumentUploader = (props: { pcolName: string }) => {
+export const DocumentUploader = (props: {
+  pcolName: string;
+  docGroup?: string;
+}) => {
   const params = useParams();
   const program = String(params.program);
-  const addDocument = useAddDocument(program, props.pcolName);
+  const addDocument = useAddDocument(program, props.pcolName, props.docGroup);
   const [inDropZone, setInDropZone] = useState(false);
   const dropDepth = useRef(0);
 
@@ -93,7 +96,9 @@ export const DocumentUploader = (props: { pcolName: string }) => {
       {!addDocument.isPending && (
         <Label size="large" htmlFor="fileUploader" weight="semibold">
           <Icon iconName="Upload" />
-          <strong>Choose one or more files, or drag them here.</strong>
+          <strong>
+            Upload one or more {props.docGroup || ""} files, or drag them here.
+          </strong>
         </Label>
       )}
     </Card>

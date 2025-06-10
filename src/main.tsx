@@ -5,6 +5,11 @@ import App from "./App.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { FluentProvider, webLightTheme } from "@fluentui/react-components";
 import { ThemeProvider } from "@fluentui/react";
+import { initializeIcons } from "@fluentui/font-icons-mdl2";
+import { initializeFileTypeIcons } from "@fluentui/react-file-type-icons";
+
+initializeIcons();
+initializeFileTypeIcons();
 
 const queryClient = new QueryClient();
 
