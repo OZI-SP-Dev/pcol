@@ -1,4 +1,4 @@
-import { Title2, Title3 } from "@fluentui/react-components";
+import { InfoLabel, Title2, Title3 } from "@fluentui/react-components";
 import { SPDocument, useDocuments } from "src/api/documentsApi";
 import { useParams } from "react-router-dom";
 import { DocumentView } from "src/components/ViewPCOL/Documents/DocumentView";
@@ -23,6 +23,7 @@ const DispDocuments = (props: {
   docGroup: string;
   documents?: (false | JSX.Element)[];
   pcolTitle?: string;
+  labelInfo: string;
 }) => {
   return (
     <section
@@ -33,7 +34,10 @@ const DispDocuments = (props: {
         margin: "0.25em",
       }}
     >
-      <Title3>{props.docGroup}</Title3>
+      <InfoLabel weight="semibold" info={props.labelInfo} size="large">
+        <Title3>{props.docGroup}</Title3>
+      </InfoLabel>
+
       {props.documents}
 
       {props.pcolTitle && (
@@ -64,16 +68,22 @@ const ViewRequestDocuments = () => {
       <br />
       {documents.data && pcol.data && (
         <>
-          <DispDocuments docGroup="PCOL" documents={pcols} />
+          <DispDocuments
+            docGroup="PCOL"
+            documents={pcols}
+            labelInfo="PCO Letter"
+          />
           <DispDocuments
             docGroup="Attachment"
             documents={attachments}
             pcolTitle={pcol.data.Title}
+            labelInfo="Attachments are intended for distribution with the PCO Letter."
           />
           <DispDocuments
             docGroup="Support"
             documents={supportdocs}
             pcolTitle={pcol.data.Title}
+            labelInfo="Supporting documents are not intended for distribution and are for internal use only."
           />
         </>
       )}

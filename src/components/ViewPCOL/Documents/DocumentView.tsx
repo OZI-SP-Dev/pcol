@@ -4,6 +4,7 @@ import {
   Caption1,
   Card,
   CardHeader,
+  Combobox,
   Dialog,
   DialogActions,
   DialogBody,
@@ -11,15 +12,23 @@ import {
   DialogSurface,
   DialogTitle,
   DialogTrigger,
+  Input,
+  Label,
   Link,
+  Option,
   Spinner,
   Title3,
   Tooltip,
 } from "@fluentui/react-components";
 import { getFileTypeIconProps } from "@fluentui/react-file-type-icons";
-import { DeleteIcon } from "@fluentui/react-icons-mdl2";
+import { DeleteIcon, EditIcon } from "@fluentui/react-icons-mdl2";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { SPDocument, useDeleteDocument } from "src/api/documentsApi";
+import {
+  SPDocument,
+  useDeleteDocument,
+  useEditDocument,
+} from "src/api/documentsApi";
 
 declare const _spPageContextInfo: {
   webAbsoluteUrl: string;
@@ -28,6 +37,19 @@ declare const _spPageContextInfo: {
   siteId: string;
 };
 
+function getFileNameNoExt(str: string) {
+  const lastPeriodIndex = str.lastIndexOf(".");
+  if (lastPeriodIndex === -1) {
+    return str; // Return the original string if no period is found
+  }
+  return str.substring(0, lastPeriodIndex);
+}
+
+function getFileNameExt(str: string) {
+  const lastPeriodIndex = str.lastIndexOf(".");
+  return str.substring(lastPeriodIndex + 1);
+}
+
 export const DocumentView = (props: {
   document: SPDocument;
   readonly?: boolean;
@@ -35,6 +57,14 @@ export const DocumentView = (props: {
   const params = useParams();
   const program = String(params.program);
   const deleteDocument = useDeleteDocument(program);
+  const editDocument = useEditDocument(program);
+  const fileExt = getFileNameExt(props.document.Name);
+  const [filename, setFilename] = useState<string>(
+    getFileNameNoExt(props.document.Name)
+  );
+  const [docGroup, setDocGroup] = useState<string[]>([
+    props.document.ListItemAllFields.DocGroup,
+  ]);
 
   const extension = props.document.ServerRelativeUrl.substring(
     props.document.ServerRelativeUrl.lastIndexOf(".") + 1
@@ -96,41 +126,129 @@ export const DocumentView = (props: {
           </Caption1>
         }
         action={
-          <Dialog modalType="alert">
-            <DialogTrigger disableButtonEnhancement>
-              <Tooltip withArrow content="Delete" relationship="label">
-                <Button
-                  appearance="transparent"
-                  icon={deleteDocument.isPending ? <Spinner /> : <DeleteIcon />}
-                  aria-label="Delete"
-                  disabled={deleteDocument.isPending}
-                />
-              </Tooltip>
-            </DialogTrigger>
-            <DialogSurface>
-              <DialogBody>
-                <DialogTitle>Delete document</DialogTitle>
-                <DialogContent>
-                  Are you sure you wish to delete this document?
-                  <br />
-                  {props.document.Name}
-                </DialogContent>
-                <DialogActions>
+          <>
+            {props.document.ListItemAllFields.DocGroup !== "PCOL" && (
+              <>
+                <Dialog modalType="alert">
                   <DialogTrigger disableButtonEnhancement>
-                    <Button appearance="secondary">Cancel</Button>
-                  </DialogTrigger>
-                  <DialogTrigger disableButtonEnhancement>
-                    <Button
-                      appearance="primary"
-                      onClick={() => deleteDocument.mutate(props.document)}
+                    <Tooltip
+                      withArrow
+                      content="Edit metadata"
+                      relationship="label"
                     >
-                      Delete
-                    </Button>
+                      <Button
+                        appearance="transparent"
+                        icon={
+                          editDocument.isPending ? <Spinner /> : <EditIcon />
+                        }
+                        aria-label="Delete"
+                        disabled={editDocument.isPending}
+                      />
+                    </Tooltip>
                   </DialogTrigger>
-                </DialogActions>
-              </DialogBody>
-            </DialogSurface>
-          </Dialog>
+                  <DialogSurface>
+                    <DialogBody>
+                      <DialogTitle>Edit document metadata</DialogTitle>
+                      <DialogContent>
+                        <form
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            width: "100%",
+                          }}
+                        >
+                          <Label htmlFor="FileName">File Name</Label>
+                          <Input
+                            id="FileName"
+                            contentAfter={"." + fileExt}
+                            value={filename}
+                            onChange={(_ev, data) => setFilename(data.value)}
+                          />
+                          <Label htmlFor="DocGroup">Document Group</Label>
+                          <Combobox
+                            value={docGroup[0]}
+                            selectedOptions={docGroup}
+                            onOptionSelect={(_ev, data) => {
+                              setDocGroup(data.selectedOptions);
+                            }}
+                          >
+                            <Option>Attachment</Option>
+                            <Option>Support</Option>
+                          </Combobox>
+                        </form>
+                      </DialogContent>
+                      <DialogActions>
+                        <DialogTrigger disableButtonEnhancement>
+                          <Button appearance="secondary">Cancel</Button>
+                        </DialogTrigger>
+                        <DialogTrigger disableButtonEnhancement>
+                          <Button
+                            appearance="primary"
+                            disabled={filename.length === 0}
+                            onClick={() =>
+                              editDocument.mutate({
+                                document: props.document,
+                                metadata: {
+                                  Name: filename + "." + fileExt,
+                                  DocGroup: docGroup[0],
+                                },
+                              })
+                            }
+                          >
+                            Update
+                          </Button>
+                        </DialogTrigger>
+                      </DialogActions>
+                    </DialogBody>
+                  </DialogSurface>
+                </Dialog>
+
+                <Dialog modalType="alert">
+                  <DialogTrigger disableButtonEnhancement>
+                    <Tooltip withArrow content="Delete" relationship="label">
+                      <Button
+                        appearance="transparent"
+                        icon={
+                          deleteDocument.isPending ? (
+                            <Spinner />
+                          ) : (
+                            <DeleteIcon />
+                          )
+                        }
+                        aria-label="Delete"
+                        disabled={deleteDocument.isPending}
+                      />
+                    </Tooltip>
+                  </DialogTrigger>
+                  <DialogSurface>
+                    <DialogBody>
+                      <DialogTitle>Delete document</DialogTitle>
+                      <DialogContent>
+                        Are you sure you wish to delete this document?
+                        <br />
+                        {props.document.Name}
+                      </DialogContent>
+                      <DialogActions>
+                        <DialogTrigger disableButtonEnhancement>
+                          <Button appearance="secondary">Cancel</Button>
+                        </DialogTrigger>
+                        <DialogTrigger disableButtonEnhancement>
+                          <Button
+                            appearance="primary"
+                            onClick={() =>
+                              deleteDocument.mutate(props.document)
+                            }
+                          >
+                            Delete
+                          </Button>
+                        </DialogTrigger>
+                      </DialogActions>
+                    </DialogBody>
+                  </DialogSurface>
+                </Dialog>
+              </>
+            )}
+          </>
         }
       />
     </Card>

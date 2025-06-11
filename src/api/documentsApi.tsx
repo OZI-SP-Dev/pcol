@@ -106,6 +106,46 @@ export const useAddDocument = (
   });
 };
 
+export const useEditDocument = (subSite: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (item: {
+      document: SPDocument;
+      metadata: { Name: string; DocGroup: string };
+    }) => {
+      const promises = [];
+      if (
+        item.metadata.DocGroup &&
+        item.metadata.DocGroup !== item.document.ListItemAllFields.DocGroup
+      ) {
+        promises.push(
+          await subWebContext(subSite)
+            .web.lists.getByTitle("PCOLs")
+            .items.getById(item.document.ListItemAllFields.Id)
+            .update({ DocGroup: item.metadata.DocGroup })
+        );
+      }
+
+      if (item.metadata.Name && item.metadata.Name !== item.document.Name) {
+        const newPath = item.document.ServerRelativeUrl.replace(
+          item.document.Name,
+          item.metadata.Name
+        );
+        promises.push(
+          subWebContext(subSite)
+            .web.getFileByServerRelativePath(item.document.ServerRelativeUrl)
+            .moveByPath(newPath, false, false)
+        );
+      }
+
+      return Promise.all(promises);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["documents"] });
+    },
+  });
+};
+
 export interface SPDocument {
   Name: string;
   ModifiedBy: { Id: string; EMail: string; Title: string };
@@ -115,5 +155,6 @@ export interface SPDocument {
   ListId: string;
   ListItemAllFields: {
     DocGroup: string;
+    Id: number;
   };
 }
