@@ -1,6 +1,8 @@
 import BACInput from "src/components/BaseFormFields/BACInput";
-import { PCOL } from "src/api/PCOL/types";
+import { NewPCOL } from "src/api/PCOL/types";
 
 export const RFP = () => {
-  return <BACInput<PCOL> name="RFP" labelText="Request for Proposal (RFP)" />;
+  return (
+    <BACInput<NewPCOL> name="RFP" labelText="Request for Proposal (RFP)" />
+  );
 };

@@ -1,7 +1,7 @@
 import { Text } from "@fluentui/react-components";
 import { useParams } from "react-router";
 import { useDisclaimers } from "src/api/Disclaimer/useDisclaimers";
-import { PCOL } from "src/api/PCOL/types";
+import { NewPCOL } from "src/api/PCOL/types";
 import BACCheckbox from "src/components/BaseFormFields/BACCheckbox";
 
 type DisclaimerOptions = {
@@ -25,8 +25,8 @@ export const Disclaimer = () => {
 
   return (
     <>
-      <BACCheckbox<PCOL>
-        name="Disclaimer"
+      <BACCheckbox<NewPCOL>
+        name="Disclaimers"
         labelText="Disclaimer(s)"
         options={Disclaimers}
       />

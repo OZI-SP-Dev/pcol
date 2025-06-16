@@ -16,6 +16,8 @@ const AdminPromise = import("src/components/Admin");
 const Admin = lazy(() => AdminPromise);
 const HelpPromise = import("src/components/Help");
 const Help = lazy(() => HelpPromise);
+const ViewPCOLPromise = import("src/components/ViewPCOL/ViewPCOL");
+const ViewPCOL = lazy(() => ViewPCOLPromise);
 
 function App() {
   return (
@@ -42,6 +44,7 @@ function App() {
                   <Route path="/p/:program/new" element={<NewForm />} />
                   <Route path="/p/:program/admin" element={<Admin />} />
                   <Route path="/p/:program/help" element={<Help />} />
+                  <Route path="/p/:program/i/:pcolId" element={<ViewPCOL />} />
                   <Route path="/admin" element={<Admin />} />
                   <Route path="/help" element={<Help />} />
                   <Route path="*" element={<NotFound />} />
