@@ -59,8 +59,6 @@ const ViewRequestDocuments = () => {
   const attachments = getDocuments("Attachment", documents.data);
   const supportdocs = getDocuments("Support", documents.data);
 
-  console.log(documents.data);
-
   return (
     <>
       <Title2>Documents</Title2>
