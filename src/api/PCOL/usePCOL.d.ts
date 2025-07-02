@@ -33,13 +33,13 @@ export declare const spPCOL: z.ZodObject<{
     Id: number;
     Title: string;
     Disclaimers: (string | undefined)[];
+    Subject: string | null;
     Author: {
         Id: number;
         Title: string;
     };
     Modified: Date;
     Created: Date;
-    Subject: string | null;
     References: string | null;
     DODAAC: string;
     Contract: string;
@@ -56,13 +56,13 @@ export declare const spPCOL: z.ZodObject<{
     Id: number;
     Title: string;
     Disclaimers: string | null;
+    Subject: string | null;
     Author: {
         Id: number;
         Title: string;
     };
     Modified: Date;
     Created: Date;
-    Subject: string | null;
     References: string | null;
     DODAAC: string;
     Contract: string;
@@ -81,13 +81,13 @@ export declare const usePCOL: (subSite: string, pcolId: number) => import("@tans
     Id: number;
     Title: string;
     Disclaimers: (string | undefined)[];
+    Subject: string | null;
     Author: {
         Id: number;
         Title: string;
     };
     Modified: Date;
     Created: Date;
-    Subject: string | null;
     References: string | null;
     DODAAC: string;
     Contract: string;
