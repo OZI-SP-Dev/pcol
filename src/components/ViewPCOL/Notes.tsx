@@ -14,6 +14,8 @@ import { CommentAddIcon } from "@fluentui/react-icons-mdl2";
 import { DismissRegular } from "@fluentui/react-icons";
 import { useState } from "react";
 import NotesForm from "./NotesForm";
+import { useParams } from "react-router-dom";
+import { useNotes } from "src/api/Notes/notesApi";
 
 const parseUTF16 = (text: string) => {
   return text.replaceAll(/&#(\d{6});/g, (_a, b) => {
@@ -21,18 +23,9 @@ const parseUTF16 = (text: string) => {
   });
 };
 
-const ViewRequestNotes = () => {
-  const notes: {
-    data?: Array<{
-      id: string;
-      text: string;
-      author: { name: string; email: string };
-      createdDate: Date;
-    }>;
-    isLoading: boolean;
-    isError: boolean;
-    error?: Error;
-  } = { data: [], isLoading: false, isError: false, error: undefined };
+const ViewPCOLNotes = () => {
+  const { program, pcolId } = useParams();
+  const notes = useNotes(String(program), Number(pcolId));
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -65,10 +58,7 @@ const ViewRequestNotes = () => {
         <Title2>Notes</Title2>
         <Button
           appearance="primary"
-          disabled={
-            true
-            // notes.isLoading || notes.isError
-          }
+          disabled={notes.isLoading || notes.isError}
           style={{ marginLeft: "auto" }}
           icon={<CommentAddIcon />}
           onClick={() => setIsOpen(true)}
@@ -125,4 +115,4 @@ const ViewRequestNotes = () => {
   );
 };
 
-export default ViewRequestNotes;
+export default ViewPCOLNotes;

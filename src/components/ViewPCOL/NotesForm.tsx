@@ -1,25 +1,23 @@
-// import { useParams } from "react-router-dom";
 import {
   Button,
   DrawerBody,
   Label,
   Textarea,
 } from "@fluentui/react-components";
-// import { useAddNote } from "api/notesApi";
-// import { PeoplePicker } from "components/PeoplePicker/PeoplePicker";
+import { useAddNote } from "src/api/Notes/notesApi";
+import { Person, PeoplePicker } from "src/components/PeoplePicker/PeoplePicker";
 import { ContactIcon, TextFieldIcon } from "@fluentui/react-icons-mdl2";
 import { useState } from "react";
-// import { usePCOL } from "src/api/PCOL/usePCOL";
-// import { Person, useRequest } from "api/requestsApi";
-// import { useSendEmail } from "api/emailApi";
+import { useParams } from "react-router-dom";
+import { useSendEmail } from "src/api/Email/emailApi";
 
-// declare const _spPageContextInfo: {
-//   userId: number;
-//   userDisplayName: string;
-//   userEmail: string;
-//   userLoginName: string;
-//   webAbsoluteUrl: string;
-// };
+declare const _spPageContextInfo: {
+  userId: number;
+  userDisplayName: string;
+  userEmail: string;
+  userLoginName: string;
+  webAbsoluteUrl: string;
+};
 
 const NotesForm = ({
   isOpen,
@@ -28,30 +26,28 @@ const NotesForm = ({
   isOpen: boolean;
   closeDrawer: () => void;
 }) => {
-  // const { program, pcolId } = useParams();
-  // const pcol = usePCOL(String(program), Number(pcolId));
-  // const addNote = useAddNote(pcolId);
-  // const sendMail = useSendEmail();
+  const { program, pcolId } = useParams();
+  const addNote = useAddNote(String(program), Number(pcolId));
+  const sendMail = useSendEmail();
 
-  // const [toSelections, setToSelections] = useState<Person[]>([]);
-  // const [ccSelections, setCcSelections] = useState<Person[]>([]);
+  const [toSelections, setToSelections] = useState<Person[]>([]);
+  const [ccSelections, setCcSelections] = useState<Person[]>([]);
   const [newNoteText, setNewNoteText] = useState("");
 
-  // const subject =
-  //   "Action Required for PCOL " + pcolId;
+  const subject = "PCOL note added: " + pcolId;
 
-  // const body =
-  //   `A new note has been added by ${_spPageContextInfo.userDisplayName}<br><br>` +
-  //   `Link to pcol: <a href="${_spPageContextInfo.webAbsoluteUrl}/app/index.aspx#/Request/${pcolId}">${_spPageContextInfo.webAbsoluteUrl}/app/index.aspx#/Request/${pcolId}</a><br><br>` +
-  //   `Note contents:<br>${newNoteText}`;
+  const body =
+    `A new note has been added by ${_spPageContextInfo.userDisplayName}<br><br>` +
+    `Link to pcol: <a href="${_spPageContextInfo.webAbsoluteUrl}/app/index.aspx#/p/${program}/i/${pcolId}">` +
+    `${_spPageContextInfo.webAbsoluteUrl}/app/index.aspx#/p/${program}/i/${pcolId}</a><br><br>` +
+    `Note contents:<br>${newNoteText}`;
 
   if (
     !isOpen &&
-    newNoteText
-    // (toSelections.length > 0 || ccSelections.length > 0 || newNoteText)
+    (toSelections.length > 0 || ccSelections.length > 0 || newNoteText)
   ) {
-    // setToSelections([]);
-    // setCcSelections([]);
+    setToSelections([]);
+    setCcSelections([]);
     setNewNoteText("");
   }
 
@@ -61,7 +57,7 @@ const NotesForm = ({
         <ContactIcon className="fieldIcon" />
         To
       </Label>
-      {/* <PeoplePicker
+      <PeoplePicker
         ariaLabel="To"
         aria-labelledby="To"
         selectedItems={toSelections}
@@ -73,14 +69,14 @@ const NotesForm = ({
             setToSelections([]);
           }
         }}
-      /> */}
+      />
       <br />
 
       <Label id="Cc" weight="semibold" className="fieldLabel">
         <ContactIcon className="fieldIcon" />
         Cc
       </Label>
-      {/* <PeoplePicker
+      <PeoplePicker
         ariaLabel="Cc"
         aria-labelledby="Cc"
         selectedItems={ccSelections}
@@ -92,7 +88,7 @@ const NotesForm = ({
             setCcSelections([]);
           }
         }}
-      /> */}
+      />
       <br />
 
       <Label id="Body" weight="semibold" className="fieldLabel">
@@ -112,32 +108,30 @@ const NotesForm = ({
       <br />
 
       <div style={{ width: "100%", display: "flex" }}>
-        <Button
-          disabled={false /*addNote.isLoading*/}
-          onClick={() => closeDrawer()}
-        >
+        <Button disabled={addNote.isPending} onClick={() => closeDrawer()}>
           Cancel
         </Button>
         <Button
           appearance="primary"
           style={{ marginLeft: "auto" }}
-          // disabled={addNote.isLoading}
+          disabled={addNote.isPending}
           onClick={() => {
-            // addNote.mutateAsync(newNoteText).then(() => {
-            //   closeDrawer();
-            //   if (toSelections.length > 0) {
-            //     const email = {
-            //       To: [] as string[],
-            //       CC: [] as string[],
-            //       Subject: subject,
-            //       Body: body,
-            //     };
-            //     toSelections.forEach((person) => email.To.push(person.EMail));
-            //     ccSelections.forEach((person) => email.CC.push(person.EMail));
-            //     sendMail.mutate({ email, pcolId });
-            //   }
-            //   addNote.reset();
-            // });
+            addNote.mutateAsync(newNoteText).then(() => {
+              closeDrawer();
+              if (toSelections.length > 0) {
+                const email = {
+                  To: [] as string[],
+                  CC: [] as string[],
+                  Subject: subject,
+                  Body: body,
+                  pcolId: String(pcolId),
+                };
+                toSelections.forEach((person) => email.To.push(person.EMail));
+                ccSelections.forEach((person) => email.CC.push(person.EMail));
+                sendMail.mutate(email);
+              }
+              addNote.reset();
+            });
           }}
         >
           Save

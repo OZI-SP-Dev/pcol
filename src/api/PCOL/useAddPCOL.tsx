@@ -68,6 +68,10 @@ export const useAddPCOL = (subSite: string) => {
         .listItemAllFields();
       const id = newFolderFields.Id;
 
+      await subWebContext(subSite)
+        .web.lists.getByTitle("notes")
+        .items.add({ Title: id.toString() });
+
       const { Disclaimers, ...rest } = newPCOL;
 
       // Folder name format: [DODAAC-YYYYDDD-SEQ]

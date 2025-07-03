@@ -38,18 +38,18 @@ declare const PagedPCOLs: z.ZodArray<z.ZodObject<Pick<{
     CarbonCopy: z.ZodNullable<z.ZodString>;
     AdditionalDistributionInfo: z.ZodNullable<z.ZodString>;
     Stage: z.ZodString;
-}, "Id" | "Title" | "Modified" | "Subject" | "Contract" | "Stage">, "strip", z.ZodTypeAny, {
+}, "Id" | "Title" | "Subject" | "Modified" | "Contract" | "Stage">, "strip", z.ZodTypeAny, {
     Id: number;
     Title: string;
-    Modified: Date;
     Subject: string | null;
+    Modified: Date;
     Contract: string;
     Stage: string;
 }, {
     Id: number;
     Title: string;
-    Modified: Date;
     Subject: string | null;
+    Modified: Date;
     Contract: string;
     Stage: string;
 }>, "many">;
@@ -62,8 +62,8 @@ export declare const usePagedPCOLs: (subSite: string, page: number | undefined, 
     items: {
         Id: number;
         Title: string;
-        Modified: Date;
         Subject: string | null;
+        Modified: Date;
         Contract: string;
         Stage: string;
     }[];
