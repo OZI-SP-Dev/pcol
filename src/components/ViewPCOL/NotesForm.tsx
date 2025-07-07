@@ -10,6 +10,7 @@ import { ContactIcon, TextFieldIcon } from "@fluentui/react-icons-mdl2";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSendEmail } from "src/api/Email/emailApi";
+import { usePCOL } from "src/api/PCOL/usePCOL";
 
 declare const _spPageContextInfo: {
   userId: number;
@@ -27,6 +28,7 @@ const NotesForm = ({
   closeDrawer: () => void;
 }) => {
   const { program, pcolId } = useParams();
+  const pcol = usePCOL(String(program), Number(pcolId));
   const addNote = useAddNote(String(program), Number(pcolId));
   const sendMail = useSendEmail();
 
@@ -34,7 +36,8 @@ const NotesForm = ({
   const [ccSelections, setCcSelections] = useState<Person[]>([]);
   const [newNoteText, setNewNoteText] = useState("");
 
-  const subject = "PCOL note added: " + pcolId;
+  const subject = "PCOL note added to: " + pcol.data?.Title;
+  console.log(subject);
 
   const body =
     `A new note has been added by ${_spPageContextInfo.userDisplayName}<br><br>` +
