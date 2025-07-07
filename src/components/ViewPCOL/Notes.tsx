@@ -7,6 +7,7 @@ import {
   DrawerHeaderTitle,
   OverlayDrawer,
   Persona,
+  Spinner,
   Text,
   Title2,
 } from "@fluentui/react-components";
@@ -109,8 +110,11 @@ const ViewPCOLNotes = () => {
         <div>There's nothing here...</div>
       )}
       {notes.isError && (
-        <div>An error has occured: {(notes.error as Error).message}</div>
+        <div style={{ color: "#FF0000" }}>
+          An error has occured: {(notes.error as Error).message}
+        </div>
       )}
+      {notes.isLoading && <Spinner />}
     </>
   );
 };

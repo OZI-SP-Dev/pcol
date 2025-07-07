@@ -39,13 +39,12 @@ export const useNotes = (program: string, pcolId: number) => {
   const hasNoteError = noteItem.error instanceof Error;
   const returnFunction =
     hasNoteError || !noteId
-      ? () => Promise.reject(noteItem.error) // If we erred trying to get noteItem, then return that error
+      ? () => Promise.reject(noteItem.error || new Error("Note item not found")) // If we erred trying to get noteItem, then return that error
       : () => getNotes(program, noteId); // If we successfuly got the noteItem, then return the Notes
 
   return useQuery({
     queryKey: ["notes", pcolId],
     queryFn: returnFunction,
-    enabled: !!noteId || hasNoteError,
   });
 };
 
