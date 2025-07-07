@@ -37,7 +37,6 @@ const NotesForm = ({
   const [newNoteText, setNewNoteText] = useState("");
 
   const subject = "PCOL note added to: " + pcol.data?.Title;
-  console.log(subject);
 
   const body =
     `A new note has been added by ${_spPageContextInfo.userDisplayName}<br><br>` +
