@@ -120,7 +120,7 @@ const NotesForm = ({
           onClick={() => {
             addNote.mutateAsync(newNoteText).then(() => {
               closeDrawer();
-              if (toSelections.length > 0) {
+              if (toSelections.length > 0 || ccSelections.length > 0) {
                 const email = {
                   To: [] as string[],
                   CC: [] as string[],
