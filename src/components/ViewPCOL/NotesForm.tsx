@@ -98,7 +98,7 @@ const NotesForm = ({
       <Textarea
         id="Body"
         style={{ width: "100%" }}
-        placeholder="new note text..."
+        placeholder="New note text. Up to 2000 characters."
         resize="vertical"
         rows={10}
         value={newNoteText}
