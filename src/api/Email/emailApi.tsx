@@ -9,6 +9,7 @@ const spEmail = z.object({
   BCC: z.array(z.string()).optional(),
   Subject: z.string(),
   Body: z.string(),
+  Program: z.string(),
 });
 
 type spEmail = z.infer<typeof spEmail>;
@@ -23,6 +24,7 @@ export const useSendEmail = () => {
         BCC: pcolEmail.BCC?.join(";"),
         Subject: pcolEmail.Subject,
         Body: pcolEmail.Body.replace(/\n/g, "\r\n<BR />"),
+        Program: pcolEmail.Program,
       };
 
       return spWebContext.web.lists.getByTitle("emails").items.add(logEmail);

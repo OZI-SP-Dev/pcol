@@ -125,6 +125,7 @@ const NotesForm = ({
                   Subject: subject,
                   Body: body,
                   pcolId: String(pcolId),
+                  Program: String(program),
                 };
                 toSelections.forEach((person) => email.To.push(person.EMail));
                 ccSelections.forEach((person) => email.CC.push(person.EMail));
