@@ -4,11 +4,11 @@ export declare const usePKMemberGroup: () => import("@tanstack/react-query").Use
     Id: number;
     Title: string;
 }, Error>;
-export declare const useProgramMemberGroup: (subSite: string) => import("@tanstack/react-query").UseQueryResult<{
+export declare const useProgramMemberGroup: (subSite?: string) => import("@tanstack/react-query").UseQueryResult<{
     Id: number;
     Title: string;
-}, Error>;
-export declare const useProgramOwnerGroup: (subSite: string) => import("@tanstack/react-query").UseQueryResult<{
+} | null, Error>;
+export declare const useProgramOwnerGroup: (subSite?: string) => import("@tanstack/react-query").UseQueryResult<{
     Id: number;
     Title: string;
-}, Error>;
+} | null, Error>;

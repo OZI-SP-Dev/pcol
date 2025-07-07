@@ -71,7 +71,7 @@ export const AppHeader = () => {
   const mainPerms = useCurrentUserHasEditPermissions();
   const programPerms = useCurrentUserHasEditPermissions(program);
 
-  const roles = useMyRoles(String(program));
+  const roles = useMyRoles(program);
 
   const showAdmin = mainPerms.data || programPerms.data;
 

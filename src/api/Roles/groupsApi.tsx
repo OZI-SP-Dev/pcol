@@ -19,19 +19,25 @@ export const usePKMemberGroup = () => {
   });
 };
 
-export const useProgramMemberGroup = (subSite: string) => {
+export const useProgramMemberGroup = (subSite?: string) => {
   return useQuery({
     queryKey: ["ProgramMemberGroup", subSite],
-    queryFn: () => subWebContext(subSite).web.associatedMemberGroup<Group>(),
+    queryFn: () =>
+      subSite
+        ? subWebContext(subSite).web.associatedMemberGroup<Group>()
+        : Promise.resolve(null),
     staleTime: Infinity,
     gcTime: Infinity,
   });
 };
 
-export const useProgramOwnerGroup = (subSite: string) => {
+export const useProgramOwnerGroup = (subSite?: string) => {
   return useQuery({
     queryKey: ["ProgramOwnerGroup", subSite],
-    queryFn: () => subWebContext(subSite).web.associatedOwnerGroup<Group>(),
+    queryFn: () =>
+      subSite
+        ? subWebContext(subSite).web.associatedOwnerGroup<Group>()
+        : Promise.resolve(null),
     staleTime: Infinity,
     gcTime: Infinity,
   });

@@ -20,14 +20,16 @@ const Role = z.object({
 });
 type Role = z.infer<typeof Role>;
 
-export const useProgramRoles = (subSite: string) => {
+export const useProgramRoles = (subSite?: string) => {
   return useQuery({
     queryKey: ["roles", subSite],
     queryFn: () =>
-      subWebContext(subSite)
-        .web.lists.getByTitle("roles")
-        .items.select("Id", "Title", "user/Id", "user/Title", "user/EMail")
-        .expand("user")<Role[]>(),
+      subSite
+        ? subWebContext(subSite)
+            .web.lists.getByTitle("roles")
+            .items.select("Id", "Title", "user/Id", "user/Title", "user/EMail")
+            .expand("user")<Role[]>()
+        : Promise.resolve(null),
     staleTime: Infinity,
     gcTime: Infinity,
   });
@@ -36,7 +38,7 @@ export const useProgramRoles = (subSite: string) => {
 export const useMyRoles = (subSite?: string) => {
   const PKAdmin = useCurrentUserHasEditPermissions();
   const programAdmin = useCurrentUserHasEditPermissions(subSite);
-  const programRoles = useProgramRoles(subSite || "");
+  const programRoles = useProgramRoles(subSite);
 
   const myData = useMemo(
     () =>

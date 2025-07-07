@@ -1,7 +1,7 @@
 import "@pnp/sp/webs";
 import "@pnp/sp/site-users/web";
 import "@pnp/sp/site-groups/web";
-export declare const useProgramRoles: (subSite: string) => import("@tanstack/react-query").UseQueryResult<{
+export declare const useProgramRoles: (subSite?: string) => import("@tanstack/react-query").UseQueryResult<{
     Id: number;
     Title: string;
     user: {
@@ -9,7 +9,7 @@ export declare const useProgramRoles: (subSite: string) => import("@tanstack/rea
         Title: string;
         EMail: string;
     };
-}[], Error>;
+}[] | null, Error>;
 export declare const useMyRoles: (subSite?: string) => {
     isPKAdmin: boolean;
     isAdmin: boolean;

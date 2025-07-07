@@ -18,8 +18,8 @@ const Admin = () => {
   const isAdmin = mainPerms.data || programPerms.data;
   const [url, seturl] = useState("");
   const pkMemberGroup = usePKMemberGroup();
-  const programMemberGroup = useProgramMemberGroup(String(program));
-  const programOwnerGroup = useProgramOwnerGroup(String(program));
+  const programMemberGroup = useProgramMemberGroup(program);
+  const programOwnerGroup = useProgramOwnerGroup(program);
 
   const globalList = _spPageContextInfo.webAbsoluteUrl + "/Lists/";
   const programList =
