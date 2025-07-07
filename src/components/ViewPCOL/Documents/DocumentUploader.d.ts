@@ -1,3 +1,4 @@
 export declare const DocumentUploader: (props: {
-    pcolId: number;
+    pcolName: string;
+    docGroup?: string;
 }) => import("react/jsx-runtime").JSX.Element;

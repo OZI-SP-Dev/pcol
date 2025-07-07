@@ -1,7 +1,7 @@
 import { HashRouter, Routes, Route } from "react-router";
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
-import { Button } from "@fluentui/react-components";
+import { Button, Toaster } from "@fluentui/react-components";
 import { lazy, Suspense } from "react";
 import { AppHeader } from "src/components/AppHeader";
 import NotFound from "./NotFound";
@@ -54,6 +54,12 @@ function App() {
           )}
         </QueryErrorResetBoundary>
       </HashRouter>
+      <Toaster
+        toasterId={"toaster"}
+        position="top-end"
+        pauseOnHover
+        pauseOnWindowBlur
+      />
     </>
   );
 }
