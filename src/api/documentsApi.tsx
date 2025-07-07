@@ -108,6 +108,8 @@ export const useAddDocument = (
 
 export const useEditDocument = (subSite: string) => {
   const queryClient = useQueryClient();
+  const { dispatchToast } = useToastController("toaster");
+
   return useMutation({
     mutationFn: async (item: {
       document: SPDocument;
@@ -139,6 +141,26 @@ export const useEditDocument = (subSite: string) => {
       }
 
       return Promise.all(promises);
+    },
+    onError: (error: unknown, variables) => {
+      console.log(error);
+      if (error instanceof Error) {
+        dispatchToast(
+          <Toast>
+            <ToastTitle
+              action={
+                <ToastTrigger>
+                  <Link>Dismiss</Link>
+                </ToastTrigger>
+              }
+            >
+              Error updating {variables.document.Name}
+            </ToastTitle>
+            <ToastBody>{error.message}</ToastBody>
+          </Toast>,
+          { intent: "error", timeout: -1 }
+        );
+      }
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["documents"] });
