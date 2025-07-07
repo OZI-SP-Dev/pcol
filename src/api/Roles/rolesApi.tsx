@@ -41,7 +41,7 @@ export const useMyRoles = (subSite?: string) => {
   const myData = useMemo(
     () =>
       programRoles.data
-        ?.filter((item) => Number(item.user.Id) === _spPageContextInfo.userId)
+        ?.filter((item) => item.user.Id === _spPageContextInfo.userId)
         ?.map((item) => item.Title) as string[],
     [programRoles]
   );
