@@ -3,6 +3,7 @@ export declare const useSendEmail: () => import("@tanstack/react-query").UseMuta
     To: string[];
     Subject: string;
     Body: string;
+    Program: string;
     CC?: string[] | undefined;
     BCC?: string[] | undefined;
 }, unknown>;
