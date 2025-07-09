@@ -127,10 +127,10 @@ export const AppHeader = () => {
           <PopoverSurface aria-label="Your roles">
             <ul>
               {roles.isPKAdmin && <li>PK Admin</li>}
-              {roles.isAdmin && <li>Program Admin</li>}
-              {roles.isCO && <li>CO</li>}
-              {roles.isDistributor && <li>Distributor</li>}
-              {roles.isReviewer && <li>Reviewer</li>}
+              {program && roles.isAdmin && <li>Program Admin</li>}
+              {program && roles.isCO && <li>CO</li>}
+              {program && roles.isDistributor && <li>Distributor</li>}
+              {program && roles.isReviewer && <li>Reviewer</li>}
             </ul>
           </PopoverSurface>
         </Popover>
