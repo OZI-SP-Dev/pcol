@@ -57,10 +57,11 @@ const Admin = () => {
                 appearance="transparent"
                 disabled={!pkMemberGroup.data?.Id}
                 onClick={() =>
-                  seturl(
+                  window.open(
                     _spPageContextInfo.webAbsoluteUrl +
                       "/_layouts/15/people.aspx?MembershipGroupId=" +
-                      pkMemberGroup.data?.Id
+                      pkMemberGroup.data?.Id,
+                    "_blank"
                   )
                 }
               >
@@ -125,12 +126,13 @@ const Admin = () => {
                 appearance="transparent"
                 disabled={!programMemberGroup.data?.Id}
                 onClick={() =>
-                  seturl(
+                  window.open(
                     _spPageContextInfo.webAbsoluteUrl +
                       "/" +
                       program +
                       "/_layouts/15/people.aspx?MembershipGroupId=" +
-                      programMemberGroup.data?.Id
+                      programMemberGroup.data?.Id,
+                    "_blank"
                   )
                 }
               >
@@ -142,12 +144,13 @@ const Admin = () => {
                 appearance="transparent"
                 disabled={!programOwnerGroup.data?.Id}
                 onClick={() =>
-                  seturl(
+                  window.open(
                     _spPageContextInfo.webAbsoluteUrl +
                       "/" +
                       program +
                       "/_layouts/15/people.aspx?MembershipGroupId=" +
-                      programOwnerGroup.data?.Id
+                      programOwnerGroup.data?.Id,
+                    "_blank"
                   )
                 }
               >
