@@ -1,6 +1,5 @@
 import "@pnp/sp/content-types";
 export declare const useAddPCOL: (subSite: string) => import("@tanstack/react-query").UseMutationResult<any, Error, {
-    Disclaimers: string[];
     Subject: string;
     References: string;
     DODAAC: string;
@@ -11,6 +10,7 @@ export declare const useAddPCOL: (subSite: string) => import("@tanstack/react-qu
     ECP: string;
     CCP: string;
     AssociatedContractorLetterNumbers: string;
+    Disclaimers: string[];
     CarbonCopy: string;
     AdditionalDistributionInfo: string;
 }, unknown>;

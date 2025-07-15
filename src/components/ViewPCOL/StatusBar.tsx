@@ -1,21 +1,22 @@
 import { usePCOL } from "src/api/PCOL/usePCOL";
 import { useParams } from "react-router-dom";
-// import { STAGES } from "src/consts/Stages";
 import { Title2, Title3 } from "@fluentui/react-components";
 
-// TODO: REPLACE WITH PROPER STAGES FILE
-const STAGES = ["READY", "SET", "GO"];
+const STAGES = [
+  "Draft",
+  "Peer Review",
+  "Final Review",
+  "Organizational Review",
+  "Approval",
+  "Distribution",
+  "Distributed",
+];
 
 const StatusBar = () => {
   const { program, pcolId } = useParams();
   const pcol = usePCOL(String(program), Number(pcolId));
 
-  const stageIndex = 0; //STAGES.findIndex(({ key }) => key === pcol.data?.stage);
-  // const currentStage =
-  //   STAGES[stageIndex]?.text || pcol.data?.stage || "Loading...";
-  // const subStageIndex = STAGES[stageIndex]?.subStages?.findIndex(
-  //   ({ key }) => key === pcol.data?.subStage
-  // );
+  const stageIndex = STAGES.indexOf(pcol.data?.Stage || "");
 
   return (
     <>
@@ -26,14 +27,14 @@ const StatusBar = () => {
         {STAGES.map((stage, index) => (
           <>
             <li
-              key={stage /*.key*/}
+              key={stage}
               className={
                 (index < stageIndex ? "completed-stage" : "") ||
                 (index === stageIndex ? "active-stage" : "") ||
                 (index > stageIndex ? "inactive-stage" : "")
               }
             >
-              <div>{stage /*.text*/}</div>
+              <div>{stage}</div>
             </li>
           </>
         ))}

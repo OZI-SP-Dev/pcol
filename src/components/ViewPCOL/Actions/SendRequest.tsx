@@ -1,23 +1,29 @@
 import {
   Button,
   Dialog,
-  DialogActions,
-  DialogBody,
-  DialogContent,
   DialogSurface,
-  DialogTitle,
   DialogTrigger,
   Tooltip,
 } from "@fluentui/react-components";
+import { usePCOL } from "src/api/PCOL/usePCOL";
+import { useParams } from "react-router-dom";
 import { NavigateForwardIcon } from "@fluentui/react-icons-mdl2";
-// import { useNavigate, useParams } from "react-router-dom";
+import { useMyRoles } from "src/api/Roles/rolesApi";
+import StartWorkflow from "./StartForm/StartWorkflow";
+
+declare const _spPageContextInfo: { userId: number };
 
 const SendRequest = () => {
-  // const params = useParams();
-  // const pcolId = Number(params.pcolId);
-  // const navigate = useNavigate();
+  const { program, pcolId } = useParams();
+  const pcol = usePCOL(String(program), Number(pcolId));
+  const roles = useMyRoles(program);
+  const isAuthor = pcol.data?.Author.Id === _spPageContextInfo.userId;
 
-  const disableSend = true;
+  let disableSend = true;
+
+  if (pcol.data?.Stage === "Draft" && (isAuthor || roles.isAdmin)) {
+    disableSend = false;
+  }
 
   return (
     <Dialog modalType="alert">
@@ -36,24 +42,9 @@ const SendRequest = () => {
         </Tooltip>
       </DialogTrigger>
       <DialogSurface>
-        <DialogBody>
-          <DialogTitle>Send request</DialogTitle>
-          <DialogContent>CONTENT</DialogContent>
-          <DialogActions>
-            <DialogTrigger disableButtonEnhancement>
-              <Button appearance="secondary">Cancel</Button>
-            </DialogTrigger>
-            <DialogTrigger disableButtonEnhancement>
-              <Button
-                appearance="primary"
-                // onClick={() => updateHandler()}
-                // disabled={!readyForNextStage}
-              >
-                Send
-              </Button>
-            </DialogTrigger>
-          </DialogActions>
-        </DialogBody>
+        {pcol.data?.Stage === "Draft" && (isAuthor || roles.isAdmin) && (
+          <StartWorkflow />
+        )}
       </DialogSurface>
     </Dialog>
   );
