@@ -45,7 +45,7 @@ const OrgReviewer = () => {
           <Dropdown
             id="OrgReviewerId"
             name="OrgReviewer"
-            value={field.value.EMail}
+            value={field.value?.EMail}
             onOptionSelect={(_e, data) => {
               const role = programRoles.data?.find(
                 ({ user }) => user.EMail === data.selectedOptions[0]

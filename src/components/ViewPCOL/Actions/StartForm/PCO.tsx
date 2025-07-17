@@ -39,12 +39,14 @@ const PCO = () => {
       <Controller
         control={control}
         name={"PCO"}
-        rules={{ required: true }}
+        rules={{ required: "PCO is Required" }}
         render={({ field }) => (
           <Dropdown
             id="PCOId"
             name="PCO"
-            value={field.value.EMail}
+            aria-describedby={"PCOErr"}
+            aria-invalid={errors?.PCO ? "true" : "false"}
+            value={field.value?.EMail}
             onOptionSelect={(_e, data) => {
               const role = programRoles.data?.find(
                 ({ user }) => user.EMail === data.selectedOptions[0]
@@ -59,7 +61,7 @@ const PCO = () => {
       />
       {errors?.PCO && (
         <Text role="alert" id={"PCOErr"} className="fieldErrorText">
-          {errors?.PCO?.message}
+          {errors.PCO.message}
         </Text>
       )}
     </div>

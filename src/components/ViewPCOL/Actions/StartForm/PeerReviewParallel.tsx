@@ -27,7 +27,7 @@ const PeerReviewParallel = () => {
             aria-labelledby={"PRP"}
             aria-invalid={errors?.ParallelReviewers ? "true" : "false"}
             itemLimit={10}
-            selectedItems={field.value?.[0].EMail ? field.value : []}
+            selectedItems={field.value?.[0]?.EMail ? field.value : []}
             updatePeople={(items) => {
               if (items?.[0]?.Title) {
                 field.onChange(items);

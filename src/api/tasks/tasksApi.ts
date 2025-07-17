@@ -86,7 +86,7 @@ export const useAddTasks = (subSite?: string, pcolId?: string) => {
         }
       });
 
-      if (wfDetails.OrgReviewer.EMail) {
+      if (wfDetails.OrgReviewer?.EMail) {
         batch.items.add({
           Title: "",
           pcolId,
@@ -95,19 +95,23 @@ export const useAddTasks = (subSite?: string, pcolId?: string) => {
         });
       }
 
-      batch.items.add({
-        Title: "",
-        pcolId,
-        PersonId: await resolvePerson(wfDetails.PCO),
-        Role: "PCO",
-      });
+      if (wfDetails.PCO?.EMail) {
+        batch.items.add({
+          Title: "",
+          pcolId,
+          PersonId: await resolvePerson(wfDetails.PCO),
+          Role: "PCO",
+        });
+      }
 
-      batch.items.add({
-        Title: "",
-        pcolId,
-        PersonId: await resolvePerson(wfDetails.Distributor),
-        Role: "Distributor",
-      });
+      if (wfDetails.Distributor?.EMail) {
+        batch.items.add({
+          Title: "",
+          pcolId,
+          PersonId: await resolvePerson(wfDetails.Distributor),
+          Role: "Distributor",
+        });
+      }
 
       return execute();
     },

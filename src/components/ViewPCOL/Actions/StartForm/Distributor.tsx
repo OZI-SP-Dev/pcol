@@ -46,12 +46,14 @@ const Distributor = () => {
       <Controller
         control={control}
         name={"Distributor"}
-        rules={{ required: true }}
+        rules={{ required: "Distributor is required." }}
         render={({ field }) => (
           <Dropdown
             id="DistributorId"
             name="Distributor"
-            value={field.value.EMail}
+            aria-describedby={"DistributorErr"}
+            aria-invalid={errors?.Distributor ? "true" : "false"}
+            value={field.value?.EMail}
             onOptionSelect={(_e, data) => {
               const role = programRoles.data?.find(
                 ({ user }) => user.EMail === data.selectedOptions[0]
@@ -66,7 +68,7 @@ const Distributor = () => {
       />
       {errors?.Distributor && (
         <Text role="alert" id={"DistributorErr"} className="fieldErrorText">
-          {errors?.Distributor?.message}
+          {errors.Distributor.message}
         </Text>
       )}
     </div>

@@ -90,12 +90,14 @@ const PeerReviewSerial = () => {
       {fields.length < 10 && (
         <Button
           type="button"
-          onClick={() =>
-            append({
-              Id: "",
-              Title: "",
-              EMail: "",
-            })
+          onClick={
+            () =>
+              append({
+                Id: "",
+                Title: "",
+                EMail: "",
+              })
+            // append([])
           }
         >
           Add Serial Reviewer

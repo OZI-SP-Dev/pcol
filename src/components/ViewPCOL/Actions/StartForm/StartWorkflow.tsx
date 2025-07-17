@@ -1,4 +1,4 @@
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import "./StartForm.css";
 import PeerReviewParallel from "./PeerReviewParallel";
@@ -16,6 +16,7 @@ import {
 } from "@fluentui/react-components";
 import { useAddTasks } from "src/api/tasks/tasksApi";
 import { useParams } from "react-router-dom";
+import { Dispatch, SetStateAction, useEffect } from "react";
 
 const Person = z.object({
   Id: z.string(),
@@ -27,39 +28,60 @@ type Person = z.infer<typeof Person>;
 const WorkflowDetails = z.object({
   ParallelReviewers: z.array(Person).max(10),
   SerialReviewers: z.array(Person).max(10),
-  OrgReviewer: Person,
-  PCO: Person,
-  Distributor: Person,
+  OrgReviewer: z.nullable(Person),
+  PCO: z.nullable(Person),
+  Distributor: z.nullable(Person),
 });
 
 export type WorkflowDetails = z.infer<typeof WorkflowDetails>;
 
-const undefinedPerson = { Id: undefined, Title: undefined, EMail: undefined };
-
-const StartWorkflow = () => {
+const StartWorkflow = ({
+  setOpen,
+}: {
+  setOpen: Dispatch<SetStateAction<boolean>>;
+}) => {
   const wfForm = useForm<WorkflowDetails>({
     defaultValues: {
-      ParallelReviewers: [{ ...undefinedPerson }],
-      SerialReviewers: [{ ...undefinedPerson }],
-      OrgReviewer: { ...undefinedPerson },
-      PCO: { ...undefinedPerson },
-      Distributor: { ...undefinedPerson },
+      ParallelReviewers: [],
+      SerialReviewers: [],
+      OrgReviewer: null,
+      PCO: null,
+      Distributor: null,
     },
-    mode: "onChange",
   });
   const { program, pcolId } = useParams();
   const addTasks = useAddTasks(program, pcolId);
+  const { isValid } = wfForm.formState;
+
+  useEffect(() => {
+    if (addTasks.isSuccess) {
+      addTasks.reset();
+      setOpen(false);
+    }
+  }, [addTasks, setOpen]);
+
+  const onSubmit: SubmitHandler<WorkflowDetails> = async (data, ev) => {
+    if (isValid) {
+      await addTasks.mutateAsync(data);
+      if (addTasks.isSuccess) {
+        setOpen(false);
+      }
+    }
+    ev?.preventDefault();
+  };
 
   return (
     <FormProvider {...wfForm}>
-      <form id="wfForm" style={{ width: "100%" }}>
+      <form
+        id="wfForm"
+        style={{ width: "100%" }}
+        onSubmit={wfForm.handleSubmit(onSubmit)}
+      >
         <DialogBody>
           <DialogTitle>Send request</DialogTitle>
           <DialogContent>
             <div
               style={{
-                display: "flex",
-                flexDirection: "column",
                 width: "100%",
                 alignItems: "center",
               }}
@@ -75,21 +97,15 @@ const StartWorkflow = () => {
             <DialogTrigger disableButtonEnhancement>
               <Button appearance="secondary">Cancel</Button>
             </DialogTrigger>
-            <DialogTrigger disableButtonEnhancement>
-              <Button
-                appearance="primary"
-                onClick={async (ev) => {
-                  await wfForm.trigger();
-                  if (wfForm.formState.isValid) {
-                    addTasks.mutate(wfForm.getValues());
-                  }
-                  ev.preventDefault();
-                }}
-                disabled={addTasks.isPending}
-              >
-                Send
-              </Button>
-            </DialogTrigger>
+            {/* <DialogTrigger disableButtonEnhancement> */}
+            <Button
+              type="submit"
+              appearance="primary"
+              disabled={addTasks.isPending}
+            >
+              Send
+            </Button>
+            {/* </DialogTrigger> */}
           </DialogActions>
         </DialogBody>
       </form>
