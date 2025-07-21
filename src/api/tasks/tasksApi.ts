@@ -2,7 +2,7 @@ import "@pnp/sp/webs";
 import "@pnp/sp/lists";
 import "@pnp/sp/batching";
 import { spWebContext, subWebContext } from "src/api/SPWebContext";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { z } from "zod";
 import { WorkflowDetails } from "src/components/ViewPCOL/Actions/StartForm/StartWorkflow";
 
@@ -53,6 +53,7 @@ export const useTasks = (subSite: string, pcolId: string) => {
 };
 
 export const useAddTasks = (subSite?: string, pcolId?: string) => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (wfDetails: WorkflowDetails) => {
       if (!subSite) {
@@ -121,6 +122,29 @@ export const useAddTasks = (subSite?: string, pcolId?: string) => {
       }
 
       return execute();
+    },
+    onSuccess: (_data, variables) => {
+      let newStage = "Draft";
+      if (
+        variables.SerialReviewers.length > 0 ||
+        variables.ParallelReviewers.length > 0
+      ) {
+        newStage = "Peer Review";
+      } else if (variables.OrgReviewer) {
+        newStage = "Organizational Review";
+      } else {
+        newStage = "Approval";
+      }
+
+      subWebContext(String(subSite))
+        .web.lists.getByTitle("PCOLs")
+        .items.getById(Number(pcolId))
+        .update({ Stage: newStage })
+        .then(() => {
+          queryClient.invalidateQueries({
+            queryKey: ["PCOL", subSite, Number(pcolId)],
+          });
+        });
     },
   });
 };
