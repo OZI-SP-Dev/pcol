@@ -32,7 +32,7 @@ const PeerReviewSerial = () => {
             <Controller
               control={control}
               name={`SerialReviewers.${index}`}
-              render={({ field }) => (
+              render={({ field: { onChange, value } }) => (
                 <PeoplePicker
                   ariaLabel={"Serial Reviewer " + (index + 1)}
                   aria-describedby={"PRS" + thisfield.id + "Err"}
@@ -40,12 +40,12 @@ const PeerReviewSerial = () => {
                   aria-invalid={
                     errors?.SerialReviewers?.[index] ? "true" : "false"
                   }
-                  selectedItems={field.value.EMail ? field.value : []}
+                  selectedItems={value.EMail ? value : []}
                   updatePeople={(items) => {
                     if (items?.[0]?.Title) {
-                      field.onChange(items[0]);
+                      onChange(items[0]);
                     } else {
-                      field.onChange([]);
+                      onChange([]);
                     }
                   }}
                 />

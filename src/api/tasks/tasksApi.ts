@@ -64,51 +64,58 @@ export const useAddTasks = (subSite?: string, pcolId?: string) => {
       const [batched, execute] = subWebContext(subSite).batched();
       const batch = batched.web.lists.getByTitle("tasks");
 
-      wfDetails.ParallelReviewers.forEach(async (reviewer) => {
+      for (const reviewer of wfDetails.ParallelReviewers) {
         if (reviewer.EMail) {
+          const PersonId = await resolvePerson(reviewer);
           batch.items.add({
             Title: "",
             pcolId,
-            PersonId: await resolvePerson(reviewer),
+            PersonId,
             Role: "Parallel",
           });
         }
-      });
+      }
 
-      wfDetails.SerialReviewers.forEach(async (reviewer, index) => {
+      let index = 0;
+      for (const reviewer of wfDetails.SerialReviewers) {
         if (reviewer.EMail) {
+          const PersonId = await resolvePerson(reviewer);
           batch.items.add({
             Title: String(index),
             pcolId,
-            PersonId: await resolvePerson(reviewer),
+            PersonId,
             Role: "Serial",
           });
+          index += 1;
         }
-      });
+      }
 
       if (wfDetails.OrgReviewer?.EMail) {
+        const PersonId = await resolvePerson(wfDetails.OrgReviewer);
         batch.items.add({
           Title: "",
           pcolId,
-          PersonId: await resolvePerson(wfDetails.OrgReviewer),
+          PersonId,
           Role: "Org",
         });
       }
 
       if (wfDetails.PCO?.EMail) {
+        const PersonId = await resolvePerson(wfDetails.PCO);
         batch.items.add({
           Title: "",
           pcolId,
-          PersonId: await resolvePerson(wfDetails.PCO),
+          PersonId,
           Role: "PCO",
         });
       }
 
       if (wfDetails.Distributor?.EMail) {
+        const PersonId = await resolvePerson(wfDetails.Distributor);
         batch.items.add({
           Title: "",
           pcolId,
-          PersonId: await resolvePerson(wfDetails.Distributor),
+          PersonId,
           Role: "Distributor",
         });
       }

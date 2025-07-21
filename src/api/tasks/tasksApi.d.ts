@@ -5,14 +5,14 @@ export declare const useTasks: (subSite: string, pcolId: string) => import("@tan
     Id: number;
     Title: string;
     pcolId: string;
+    Role: string;
     Person: {
         Id: number;
         Title: string;
         EMail: string;
     };
-    Role: string;
-    Modified?: Date | undefined;
     Status?: string | undefined;
+    Modified?: Date | undefined;
     SkippedBy?: {
         Id: number;
         Title: string;

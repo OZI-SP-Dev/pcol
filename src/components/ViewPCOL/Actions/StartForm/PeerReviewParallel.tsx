@@ -20,19 +20,19 @@ const PeerReviewParallel = () => {
       <Controller
         control={control}
         name={`ParallelReviewers`}
-        render={({ field }) => (
+        render={({ field: { onChange, value } }) => (
           <PeoplePicker
             ariaLabel={"Parallel Reviewers"}
             aria-describedby={"PRPErr"}
             aria-labelledby={"PRP"}
             aria-invalid={errors?.ParallelReviewers ? "true" : "false"}
             itemLimit={10}
-            selectedItems={field.value?.[0]?.EMail ? field.value : []}
+            selectedItems={value?.[0]?.EMail ? value : []}
             updatePeople={(items) => {
               if (items?.[0]?.Title) {
-                field.onChange(items);
+                onChange(items);
               } else {
-                field.onChange([]);
+                onChange([]);
               }
             }}
           />
