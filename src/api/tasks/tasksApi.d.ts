@@ -1,6 +1,76 @@
 import "@pnp/sp/webs";
 import "@pnp/sp/lists";
 import "@pnp/sp/batching";
+import { z } from "zod";
+declare const Task: z.ZodObject<{
+    Id: z.ZodNumber;
+    Title: z.ZodString;
+    pcolId: z.ZodString;
+    Person: z.ZodObject<{
+        Id: z.ZodNumber;
+        Title: z.ZodString;
+        EMail: z.ZodString;
+    }, "strip", z.ZodTypeAny, {
+        Id: number;
+        Title: string;
+        EMail: string;
+    }, {
+        Id: number;
+        Title: string;
+        EMail: string;
+    }>;
+    Role: z.ZodString;
+    Status: z.ZodOptional<z.ZodString>;
+    SkippedBy: z.ZodOptional<z.ZodObject<{
+        Id: z.ZodNumber;
+        Title: z.ZodString;
+        EMail: z.ZodString;
+    }, "strip", z.ZodTypeAny, {
+        Id: number;
+        Title: string;
+        EMail: string;
+    }, {
+        Id: number;
+        Title: string;
+        EMail: string;
+    }>>;
+    Modified: z.ZodOptional<z.ZodDate>;
+}, "strip", z.ZodTypeAny, {
+    Id: number;
+    Title: string;
+    pcolId: string;
+    Role: string;
+    Person: {
+        Id: number;
+        Title: string;
+        EMail: string;
+    };
+    Status?: string | undefined;
+    Modified?: Date | undefined;
+    SkippedBy?: {
+        Id: number;
+        Title: string;
+        EMail: string;
+    } | undefined;
+}, {
+    Id: number;
+    Title: string;
+    pcolId: string;
+    Role: string;
+    Person: {
+        Id: number;
+        Title: string;
+        EMail: string;
+    };
+    Status?: string | undefined;
+    Modified?: Date | undefined;
+    SkippedBy?: {
+        Id: number;
+        Title: string;
+        EMail: string;
+    } | undefined;
+}>;
+export type Task = z.infer<typeof Task>;
 export declare const useTasks: (subSite: string, pcolId: string) => import("@tanstack/react-query").UseQueryResult<{
     Id: number;
     Title: string;
@@ -46,3 +116,5 @@ export declare const useAddTasks: (subSite?: string, pcolId?: string) => import(
         EMail: string;
     } | null;
 }, unknown>;
+export declare const useUpdateTask: (subSite: string, pcolId: string, taskId: number) => import("@tanstack/react-query").UseMutationResult<any, Error, string, unknown>;
+export {};

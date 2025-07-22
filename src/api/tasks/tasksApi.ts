@@ -26,7 +26,7 @@ const Task = z.object({
     .optional(),
   Modified: z.coerce.date().optional(),
 });
-type Task = z.infer<typeof Task>;
+export type Task = z.infer<typeof Task>;
 
 export const useTasks = (subSite: string, pcolId: string) => {
   return useQuery({
@@ -143,7 +143,7 @@ export const useAddTasks = (subSite?: string, pcolId?: string) => {
         .update({ Stage: newStage })
         .then(() => {
           queryClient.invalidateQueries({
-            queryKey: ["PCOL", subSite, Number(pcolId)],
+            queryKey: ["tasks", subSite, Number(pcolId)],
           });
         });
     },
@@ -158,4 +158,24 @@ const resolvePerson = async (person: {
   if (person.Id === "-1") {
     return (await spWebContext.web.ensureUser(person.EMail)).Id;
   } else return Number(person.Id);
+};
+
+export const useUpdateTask = (
+  subSite: string,
+  pcolId: string,
+  taskId: number
+) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (newStatus: string) => {
+      return subWebContext(String(subSite))
+        .web.lists.getByTitle("tasks")
+        .items.getById(taskId)
+        .update({ Status: newStatus });
+    },
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: ["tasks", subSite, pcolId],
+      }),
+  });
 };
