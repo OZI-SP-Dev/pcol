@@ -48,7 +48,8 @@ export const useTasks = (subSite: string, pcolId: string) => {
           "SkippedBy/EMail",
           "Modified"
         )
-        .expand("Person", "SkippedBy")<Task[]>(),
+        .expand("Person", "SkippedBy")
+        .filter(`pcolId eq '${pcolId}'`)<Task[]>(),
   });
 };
 
