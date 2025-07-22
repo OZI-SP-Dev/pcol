@@ -4,13 +4,13 @@ import { useParams } from "react-router-dom";
 import { usePCOL } from "src/api/PCOL/usePCOL";
 import { Task, useTasks, useUpdateTask } from "src/api/tasks/tasksApi";
 
-declare const _spPageContextInfo: { userId: number };
+declare const _spPageContextInfo: { userId: number; userDisplayName: string };
 
 const ApproverButtons = ({ task }: { task: Task }) => {
   const { program, pcolId } = useParams();
   const updateTask = useUpdateTask(String(program), String(pcolId), task.Id);
 
-  if (task.Person.Id === _spPageContextInfo.userId) {
+  if (task.Person.Id === _spPageContextInfo.userId && !task.Status) {
     return (
       <div>
         <Tooltip content="Approve" relationship="label">
@@ -18,18 +18,47 @@ const ApproverButtons = ({ task }: { task: Task }) => {
             appearance="primary"
             icon={<AcceptIcon />}
             onClick={() => updateTask.mutate("Approved")}
+            disabled={updateTask.isPending}
           />
         </Tooltip>
         <Tooltip content="Reject" relationship="label">
           <Button
             style={{ color: "crimson" }}
             icon={<AlertSolidIcon />}
-            onClick={() => () => updateTask.mutate("Rejected")}
+            onClick={() => updateTask.mutate("Rejected")}
+            disabled={updateTask.isPending}
           />
         </Tooltip>
       </div>
     );
   }
+};
+
+const Status = ({ task }: { task: Task }) => {
+  if (task.Status) {
+    return (
+      <Tooltip
+        content={
+          <>
+            {task.SkippedBy ? (
+              <>
+                Skipped by: {task.SkippedBy.Title}
+                <br />
+              </>
+            ) : (
+              <></>
+            )}
+            On:{" "}
+            {task.Modified ? new Date(task.Modified).toLocaleDateString() : ""}
+          </>
+        }
+        relationship="description"
+      >
+        <span>{task.Status}</span>
+      </Tooltip>
+    );
+  }
+  return <>Pending</>;
 };
 
 const ViewApproverDetails = () => {
@@ -41,6 +70,7 @@ const ViewApproverDetails = () => {
   const serial = tasks.data
     ?.filter((task) => task.Role === "Serial")
     .sort((a, b) => Number(a.Title) - Number(b.Title));
+  const final = tasks.data?.find((task) => task.Role === "Final");
   const org = tasks.data?.find((task) => task.Role === "Org");
   const pco = tasks.data?.find((task) => task.Role === "PCO");
   const distributor = tasks.data?.find((task) => task.Role === "Distributor");
@@ -67,7 +97,9 @@ const ViewApproverDetails = () => {
             {parallel?.map((task) => (
               <tr key={task.Id}>
                 <td>{task.Person.Title}</td>
-                <td>{task.Status ?? "Pending"}</td>
+                <td>
+                  <Status task={task} />
+                </td>
                 <td>
                   {pcol.data?.Stage === "Peer Review" && (
                     <ApproverButtons task={task} />
@@ -91,7 +123,9 @@ const ViewApproverDetails = () => {
             {serial?.map((task) => (
               <tr key={task.Id}>
                 <td>{task.Person.Title}</td>
-                <td>{task.Status ?? "Pending"}</td>
+                <td>
+                  <Status task={task} />
+                </td>
                 <td>
                   {pcol.data?.Stage === "Peer Review" &&
                     task.Id === currSerialTaskId && (
@@ -107,6 +141,27 @@ const ViewApproverDetails = () => {
             )}
           </tbody>
 
+          {final && (
+            <tbody>
+              <tr>
+                <th scope="rowgroup" colSpan={3}>
+                  Final Reviewer
+                </th>
+              </tr>
+              <tr>
+                <td>{final.Person.Title}</td>
+                <td>
+                  <Status task={final} />
+                </td>
+                <td>
+                  {pcol.data?.Stage === "Final Review" && (
+                    <ApproverButtons task={final} />
+                  )}
+                </td>
+              </tr>
+            </tbody>
+          )}
+
           <tbody>
             <tr>
               <th scope="rowgroup" colSpan={3}>
@@ -117,7 +172,9 @@ const ViewApproverDetails = () => {
               {org && (
                 <>
                   <td>{org.Person.Title}</td>
-                  <td>{org.Status ?? "Pending"}</td>
+                  <td>
+                    <Status task={org} />
+                  </td>
                   <td>
                     {pcol.data?.Stage === "Organizational Review" && (
                       <ApproverButtons task={org} />
@@ -138,7 +195,9 @@ const ViewApproverDetails = () => {
             {pco && (
               <tr>
                 <td>{pco?.Person.Title}</td>
-                <td>{pco?.Status ?? "Pending"}</td>
+                <td>
+                  <Status task={pco} />
+                </td>
                 <td>
                   {pcol.data?.Stage === "Approval" && (
                     <ApproverButtons task={pco} />
@@ -157,7 +216,9 @@ const ViewApproverDetails = () => {
             {distributor && (
               <tr>
                 <td>{distributor?.Person.Title}</td>
-                <td>{distributor?.Status ?? "Pending"}</td>
+                <td>
+                  <Status task={distributor} />
+                </td>
                 <td>
                   {pcol.data?.Stage === "Distribution" && (
                     <ApproverButtons task={distributor} />

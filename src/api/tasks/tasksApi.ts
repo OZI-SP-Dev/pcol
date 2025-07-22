@@ -5,6 +5,7 @@ import { spWebContext, subWebContext } from "src/api/SPWebContext";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { z } from "zod";
 import { WorkflowDetails } from "src/components/ViewPCOL/Actions/StartForm/StartWorkflow";
+import { usePCOL } from "../PCOL/usePCOL";
 
 const Task = z.object({
   Id: z.number().positive(),
@@ -55,6 +56,7 @@ export const useTasks = (subSite: string, pcolId: string) => {
 
 export const useAddTasks = (subSite?: string, pcolId?: string) => {
   const queryClient = useQueryClient();
+  const pcol = usePCOL(String(subSite), Number(pcolId));
   return useMutation({
     mutationFn: async (wfDetails: WorkflowDetails) => {
       if (!subSite) {
@@ -90,6 +92,15 @@ export const useAddTasks = (subSite?: string, pcolId?: string) => {
           });
           index += 1;
         }
+      }
+
+      if (batch.items.length > 0) {
+        batch.items.add({
+          Title: String(index),
+          pcolId,
+          PersonId: pcol.data?.Author.Id,
+          Role: "Final",
+        });
       }
 
       if (wfDetails.OrgReviewer?.EMail) {
@@ -143,7 +154,10 @@ export const useAddTasks = (subSite?: string, pcolId?: string) => {
         .update({ Stage: newStage })
         .then(() => {
           queryClient.invalidateQueries({
-            queryKey: ["tasks", subSite, Number(pcolId)],
+            queryKey: ["PCOL", subSite, Number(pcolId)],
+          });
+          queryClient.invalidateQueries({
+            queryKey: ["tasks", subSite, pcolId],
           });
         });
     },
