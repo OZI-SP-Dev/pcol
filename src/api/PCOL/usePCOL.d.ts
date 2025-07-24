@@ -32,14 +32,13 @@ export declare const spPCOL: z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     Id: number;
     Title: string;
-    Disclaimers: (string | undefined)[];
-    Subject: string | null;
+    Modified: Date;
     Author: {
         Id: number;
         Title: string;
     };
-    Modified: Date;
     Created: Date;
+    Subject: string | null;
     References: string | null;
     DODAAC: string;
     Contract: string;
@@ -49,20 +48,20 @@ export declare const spPCOL: z.ZodObject<{
     ECP: string | null;
     CCP: string | null;
     AssociatedContractorLetterNumbers: string | null;
+    Disclaimers: (string | undefined)[];
     CarbonCopy: string | null;
     AdditionalDistributionInfo: string | null;
     Stage: string;
 }, {
     Id: number;
     Title: string;
-    Disclaimers: string | null;
-    Subject: string | null;
+    Modified: Date;
     Author: {
         Id: number;
         Title: string;
     };
-    Modified: Date;
     Created: Date;
+    Subject: string | null;
     References: string | null;
     DODAAC: string;
     Contract: string;
@@ -72,6 +71,7 @@ export declare const spPCOL: z.ZodObject<{
     ECP: string | null;
     CCP: string | null;
     AssociatedContractorLetterNumbers: string | null;
+    Disclaimers: string | null;
     CarbonCopy: string | null;
     AdditionalDistributionInfo: string | null;
     Stage: string;
@@ -80,14 +80,13 @@ export type spPCOL = z.infer<typeof spPCOL>;
 export declare const usePCOL: (subSite: string, pcolId: number) => import("@tanstack/react-query").UseQueryResult<{
     Id: number;
     Title: string;
-    Disclaimers: (string | undefined)[];
-    Subject: string | null;
+    Modified: Date;
     Author: {
         Id: number;
         Title: string;
     };
-    Modified: Date;
     Created: Date;
+    Subject: string | null;
     References: string | null;
     DODAAC: string;
     Contract: string;
@@ -97,6 +96,7 @@ export declare const usePCOL: (subSite: string, pcolId: number) => import("@tans
     ECP: string | null;
     CCP: string | null;
     AssociatedContractorLetterNumbers: string | null;
+    Disclaimers: (string | undefined)[];
     CarbonCopy: string | null;
     AdditionalDistributionInfo: string | null;
     Stage: string;

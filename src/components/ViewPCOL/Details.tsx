@@ -2,6 +2,7 @@ import { Label, Text, Title2 } from "@fluentui/react-components";
 import { usePCOL } from "src/api/PCOL/usePCOL";
 import { useParams } from "react-router-dom";
 import { useContracts } from "src/api/Contracts/Contracts";
+import ViewApproverDetails from "./ApproverDetails";
 
 const ViewPCOLDetails = () => {
   const { program, pcolId } = useParams();
@@ -16,6 +17,7 @@ const ViewPCOLDetails = () => {
       <br />
       {pcol.data && (
         <>
+          {pcol.data?.Stage !== "Draft" && <ViewApproverDetails />}
           <article className="viewPCOLDetails">
             <Label weight="semibold" htmlFor="Title">
               Control Number
