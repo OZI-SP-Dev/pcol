@@ -90,12 +90,12 @@ export declare const useTasks: (subSite: string, pcolId: number) => import("@tan
     } | undefined;
 }[], Error>;
 export declare const useAddTasks: (subSite: string, pcolId: number) => import("@tanstack/react-query").UseMutationResult<void, Error, {
-    PCO: {
+    Distributor: {
         Id: string;
         Title: string;
         EMail: string;
     } | null;
-    Distributor: {
+    PCO: {
         Id: string;
         Title: string;
         EMail: string;

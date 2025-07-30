@@ -12,8 +12,6 @@ import { useMyRoles } from "src/api/Roles/rolesApi";
 import StartWorkflow from "./StartForm/StartWorkflow";
 import { useState } from "react";
 
-declare const _spPageContextInfo: { userId: number };
-
 const SendRequest = () => {
   const { program, pcolId } = useParams();
   const pcol = usePCOL(String(program), Number(pcolId));

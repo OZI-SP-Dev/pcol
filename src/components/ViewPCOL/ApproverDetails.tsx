@@ -4,8 +4,6 @@ import { useParams } from "react-router-dom";
 import { usePCOL } from "src/api/PCOL/usePCOL";
 import { Task, useTasks, useUpdateTask } from "src/api/tasks/tasksApi";
 
-declare const _spPageContextInfo: { userId: number; userDisplayName: string };
-
 const ApproverButtons = ({ task }: { task: Task }) => {
   const { program, pcolId } = useParams();
   const updateTask = useUpdateTask(String(program), Number(pcolId), task.Id);

@@ -57,12 +57,6 @@ const useStyles = makeStyles({
   navAvatar: { marginLeft: "1em", marginRight: "5px" }, // Force the Avatar icon to be positioned at the right most side
 });
 
-declare const _spPageContextInfo: {
-  userId: number;
-  userDisplayName: string;
-  userEmail: string;
-};
-
 export const AppHeader = () => {
   const classes = useStyles();
   const match = useMatch({ path: "/p/:program", end: false });

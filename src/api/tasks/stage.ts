@@ -4,14 +4,6 @@ import { useTasks } from "./tasksApi";
 import { usePCOL } from "src/api/PCOL/usePCOL";
 import { useSendEmail } from "src/api/Email/emailApi";
 
-declare const _spPageContextInfo: {
-  userId: number;
-  userDisplayName: string;
-  userEmail: string;
-  userLoginName: string;
-  webAbsoluteUrl: string;
-};
-
 export const useStageUpdate = (subSite: string, pcolId: number) => {
   const queryClient = useQueryClient();
   const pcol = usePCOL(subSite, pcolId);

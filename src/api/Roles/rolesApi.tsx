@@ -7,8 +7,6 @@ import { useMemo } from "react";
 import { z } from "zod";
 import { useCurrentUserHasEditPermissions } from "src/api/permissionsApi";
 
-declare const _spPageContextInfo: { userId: number };
-
 const Role = z.object({
   Id: z.number().positive(),
   Title: z.string(),

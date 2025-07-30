@@ -9,14 +9,6 @@ import { usePCOL } from "src/api/PCOL/usePCOL";
 import { useStageUpdate } from "./stage";
 import { useSendEmail } from "src/api/Email/emailApi";
 
-declare const _spPageContextInfo: {
-  userId: number;
-  userDisplayName: string;
-  userEmail: string;
-  userLoginName: string;
-  webAbsoluteUrl: string;
-};
-
 const Task = z.object({
   Id: z.number().positive(),
   Title: z.string(),
