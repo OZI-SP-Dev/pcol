@@ -6,12 +6,15 @@ export declare const spPCOL: z.ZodObject<{
     Author: z.ZodObject<{
         Id: z.ZodNumber;
         Title: z.ZodString;
+        EMail: z.ZodString;
     }, "strip", z.ZodTypeAny, {
         Id: number;
         Title: string;
+        EMail: string;
     }, {
         Id: number;
         Title: string;
+        EMail: string;
     }>;
     Modified: z.ZodDate;
     Created: z.ZodDate;
@@ -32,11 +35,12 @@ export declare const spPCOL: z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     Id: number;
     Title: string;
-    Modified: Date;
     Author: {
         Id: number;
         Title: string;
+        EMail: string;
     };
+    Modified: Date;
     Created: Date;
     Subject: string | null;
     References: string | null;
@@ -55,11 +59,12 @@ export declare const spPCOL: z.ZodObject<{
 }, {
     Id: number;
     Title: string;
-    Modified: Date;
     Author: {
         Id: number;
         Title: string;
+        EMail: string;
     };
+    Modified: Date;
     Created: Date;
     Subject: string | null;
     References: string | null;
@@ -80,11 +85,12 @@ export type spPCOL = z.infer<typeof spPCOL>;
 export declare const usePCOL: (subSite: string, pcolId: number) => import("@tanstack/react-query").UseQueryResult<{
     Id: number;
     Title: string;
-    Modified: Date;
     Author: {
         Id: number;
         Title: string;
+        EMail: string;
     };
+    Modified: Date;
     Created: Date;
     Subject: string | null;
     References: string | null;

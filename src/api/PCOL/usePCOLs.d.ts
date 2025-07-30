@@ -15,12 +15,15 @@ declare const PagedPCOLs: z.ZodArray<z.ZodObject<Pick<{
     Author: z.ZodObject<{
         Id: z.ZodNumber;
         Title: z.ZodString;
+        EMail: z.ZodString;
     }, "strip", z.ZodTypeAny, {
         Id: number;
         Title: string;
+        EMail: string;
     }, {
         Id: number;
         Title: string;
+        EMail: string;
     }>;
     Modified: z.ZodDate;
     Created: z.ZodDate;
@@ -38,18 +41,18 @@ declare const PagedPCOLs: z.ZodArray<z.ZodObject<Pick<{
     CarbonCopy: z.ZodNullable<z.ZodString>;
     AdditionalDistributionInfo: z.ZodNullable<z.ZodString>;
     Stage: z.ZodString;
-}, "Id" | "Title" | "Subject" | "Modified" | "Contract" | "Stage">, "strip", z.ZodTypeAny, {
+}, "Id" | "Title" | "Modified" | "Subject" | "Contract" | "Stage">, "strip", z.ZodTypeAny, {
     Id: number;
     Title: string;
-    Subject: string | null;
     Modified: Date;
+    Subject: string | null;
     Contract: string;
     Stage: string;
 }, {
     Id: number;
     Title: string;
-    Subject: string | null;
     Modified: Date;
+    Subject: string | null;
     Contract: string;
     Stage: string;
 }>, "many">;
@@ -62,8 +65,8 @@ export declare const usePagedPCOLs: (subSite: string, page: number | undefined, 
     items: {
         Id: number;
         Title: string;
-        Subject: string | null;
         Modified: Date;
+        Subject: string | null;
         Contract: string;
         Stage: string;
     }[];

@@ -8,7 +8,7 @@ declare const _spPageContextInfo: { userId: number; userDisplayName: string };
 
 const ApproverButtons = ({ task }: { task: Task }) => {
   const { program, pcolId } = useParams();
-  const updateTask = useUpdateTask(String(program), String(pcolId), task.Id);
+  const updateTask = useUpdateTask(String(program), Number(pcolId), task.Id);
 
   if (task.Person.Id === _spPageContextInfo.userId && !task.Status) {
     return (
@@ -64,7 +64,7 @@ const Status = ({ task }: { task: Task }) => {
 const ViewApproverDetails = () => {
   const { program, pcolId } = useParams();
   const pcol = usePCOL(String(program), Number(pcolId));
-  const tasks = useTasks(String(program), String(pcolId));
+  const tasks = useTasks(String(program), Number(pcolId));
 
   const parallel = tasks.data?.filter((task) => task.Role === "Parallel");
   const serial = tasks.data

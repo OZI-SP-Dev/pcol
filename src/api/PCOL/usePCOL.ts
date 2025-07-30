@@ -9,6 +9,7 @@ export const spPCOL = z.object({
   Author: z.object({
     Id: z.number().int().positive(),
     Title: z.string(),
+    EMail: z.string().email(),
   }),
   Modified: z.coerce.date(),
   Created: z.coerce.date(),

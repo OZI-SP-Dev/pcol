@@ -5,7 +5,7 @@ import { z } from "zod";
 declare const Task: z.ZodObject<{
     Id: z.ZodNumber;
     Title: z.ZodString;
-    pcolId: z.ZodString;
+    pcolId: z.ZodNumber;
     Person: z.ZodObject<{
         Id: z.ZodNumber;
         Title: z.ZodString;
@@ -38,15 +38,15 @@ declare const Task: z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     Id: number;
     Title: string;
-    pcolId: string;
+    pcolId: number;
     Role: string;
     Person: {
         Id: number;
         Title: string;
         EMail: string;
     };
-    Status?: string | undefined;
     Modified?: Date | undefined;
+    Status?: string | undefined;
     SkippedBy?: {
         Id: number;
         Title: string;
@@ -55,15 +55,15 @@ declare const Task: z.ZodObject<{
 }, {
     Id: number;
     Title: string;
-    pcolId: string;
+    pcolId: number;
     Role: string;
     Person: {
         Id: number;
         Title: string;
         EMail: string;
     };
-    Status?: string | undefined;
     Modified?: Date | undefined;
+    Status?: string | undefined;
     SkippedBy?: {
         Id: number;
         Title: string;
@@ -71,25 +71,35 @@ declare const Task: z.ZodObject<{
     } | undefined;
 }>;
 export type Task = z.infer<typeof Task>;
-export declare const useTasks: (subSite: string, pcolId: string) => import("@tanstack/react-query").UseQueryResult<{
+export declare const useTasks: (subSite: string, pcolId: number) => import("@tanstack/react-query").UseQueryResult<{
     Id: number;
     Title: string;
-    pcolId: string;
+    pcolId: number;
     Role: string;
     Person: {
         Id: number;
         Title: string;
         EMail: string;
     };
-    Status?: string | undefined;
     Modified?: Date | undefined;
+    Status?: string | undefined;
     SkippedBy?: {
         Id: number;
         Title: string;
         EMail: string;
     } | undefined;
 }[], Error>;
-export declare const useAddTasks: (subSite?: string, pcolId?: string) => import("@tanstack/react-query").UseMutationResult<void, Error, {
+export declare const useAddTasks: (subSite: string, pcolId: number) => import("@tanstack/react-query").UseMutationResult<void, Error, {
+    PCO: {
+        Id: string;
+        Title: string;
+        EMail: string;
+    } | null;
+    Distributor: {
+        Id: string;
+        Title: string;
+        EMail: string;
+    } | null;
     ParallelReviewers: {
         Id: string;
         Title: string;
@@ -105,16 +115,6 @@ export declare const useAddTasks: (subSite?: string, pcolId?: string) => import(
         Title: string;
         EMail: string;
     } | null;
-    PCO: {
-        Id: string;
-        Title: string;
-        EMail: string;
-    } | null;
-    Distributor: {
-        Id: string;
-        Title: string;
-        EMail: string;
-    } | null;
 }, unknown>;
-export declare const useUpdateTask: (subSite: string, pcolId: string, taskId: number) => import("@tanstack/react-query").UseMutationResult<any, Error, string, unknown>;
+export declare const useUpdateTask: (subSite: string, pcolId: number, taskId: number) => import("@tanstack/react-query").UseMutationResult<any, Error, string, unknown>;
 export {};
