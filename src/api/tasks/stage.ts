@@ -12,8 +12,15 @@ export const useStageUpdate = (subSite: string, pcolId: number) => {
   const stage = pcol.data?.Stage;
 
   return useMutation({
-    mutationFn: async () => {
+    mutationFn: async (rework: boolean = false) => {
       let updateNeeded = "";
+
+      if (rework) {
+        return subWebContext(String(subSite))
+          .web.lists.getByTitle("pcols")
+          .items.getById(pcolId)
+          .update({ Stage: "Rejected" });
+      }
 
       const prTasks = tasks.data?.filter(
         (task) => task.Role === "Parallel" || task.Role === "Serial"

@@ -38,6 +38,11 @@ const StatusBar = () => {
             </li>
           </>
         ))}
+        {pcol.data?.Stage === "Rejected" && (
+          <li key="Rejected" className="active-stage">
+            <div>Rejected</div>
+          </li>
+        )}
       </ul>
     </>
   );

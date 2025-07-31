@@ -1,1 +1,1 @@
-export declare const useStageUpdate: (subSite: string, pcolId: number) => import("@tanstack/react-query").UseMutationResult<any, Error, void, unknown>;
+export declare const useStageUpdate: (subSite: string, pcolId: number) => import("@tanstack/react-query").UseMutationResult<any, Error, boolean | undefined, unknown>;

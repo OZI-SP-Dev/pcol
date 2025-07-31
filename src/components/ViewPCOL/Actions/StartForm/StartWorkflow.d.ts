@@ -68,12 +68,12 @@ declare const WorkflowDetails: z.ZodObject<{
         EMail: string;
     }>>;
 }, "strip", z.ZodTypeAny, {
-    Distributor: {
+    PCO: {
         Id: string;
         Title: string;
         EMail: string;
     } | null;
-    PCO: {
+    Distributor: {
         Id: string;
         Title: string;
         EMail: string;
@@ -94,12 +94,12 @@ declare const WorkflowDetails: z.ZodObject<{
         EMail: string;
     } | null;
 }, {
-    Distributor: {
+    PCO: {
         Id: string;
         Title: string;
         EMail: string;
     } | null;
-    PCO: {
+    Distributor: {
         Id: string;
         Title: string;
         EMail: string;

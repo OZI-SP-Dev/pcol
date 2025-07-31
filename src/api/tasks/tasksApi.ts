@@ -223,8 +223,8 @@ export const useUpdateTask = (
         queryKey: ["tasks", subSite, pcolId],
       });
     },
-    onSuccess: () => {
-      stageUpdate.mutate();
+    onSuccess: (_result, variables) => {
+      stageUpdate.mutate(variables === "Rejected");
     },
   });
 };
