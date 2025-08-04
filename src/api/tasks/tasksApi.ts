@@ -64,9 +64,11 @@ export const useAddTasks = (subSite: string, pcolId: number) => {
     mutationFn: async (wfDetails: WorkflowDetails) => {
       const [batched, execute] = subWebContext(subSite).batched();
       const batch = batched.web.lists.getByTitle("tasks");
+      let count = 0;
 
       for (const reviewer of wfDetails.ParallelReviewers) {
         if (reviewer.EMail) {
+          count += 1;
           const PersonId = await resolvePerson(reviewer);
           batch.items.add({
             Title: "",
@@ -80,6 +82,7 @@ export const useAddTasks = (subSite: string, pcolId: number) => {
       let index = 0;
       for (const reviewer of wfDetails.SerialReviewers) {
         if (reviewer.EMail) {
+          count += 1;
           const PersonId = await resolvePerson(reviewer);
           batch.items.add({
             Title: String(index),
@@ -91,7 +94,7 @@ export const useAddTasks = (subSite: string, pcolId: number) => {
         }
       }
 
-      if (batch.items.length > 0) {
+      if (count > 0) {
         batch.items.add({
           Title: "",
           pcolId: pcolId.toString(),

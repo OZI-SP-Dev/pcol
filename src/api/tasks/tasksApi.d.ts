@@ -45,8 +45,8 @@ declare const Task: z.ZodObject<{
         Title: string;
         EMail: string;
     };
-    Modified?: Date | undefined;
     Status?: string | undefined;
+    Modified?: Date | undefined;
     SkippedBy?: {
         Id: number;
         Title: string;
@@ -62,8 +62,8 @@ declare const Task: z.ZodObject<{
         Title: string;
         EMail: string;
     };
-    Modified?: Date | undefined;
     Status?: string | undefined;
+    Modified?: Date | undefined;
     SkippedBy?: {
         Id: number;
         Title: string;
@@ -81,8 +81,8 @@ export declare const useTasks: (subSite: string, pcolId: number) => import("@tan
         Title: string;
         EMail: string;
     };
-    Modified?: Date | undefined;
     Status?: string | undefined;
+    Modified?: Date | undefined;
     SkippedBy?: {
         Id: number;
         Title: string;
@@ -90,16 +90,6 @@ export declare const useTasks: (subSite: string, pcolId: number) => import("@tan
     } | undefined;
 }[], Error>;
 export declare const useAddTasks: (subSite: string, pcolId: number) => import("@tanstack/react-query").UseMutationResult<void, Error, {
-    PCO: {
-        Id: string;
-        Title: string;
-        EMail: string;
-    } | null;
-    Distributor: {
-        Id: string;
-        Title: string;
-        EMail: string;
-    } | null;
     ParallelReviewers: {
         Id: string;
         Title: string;
@@ -111,6 +101,16 @@ export declare const useAddTasks: (subSite: string, pcolId: number) => import("@
         EMail: string;
     }[];
     OrgReviewer: {
+        Id: string;
+        Title: string;
+        EMail: string;
+    } | null;
+    PCO: {
+        Id: string;
+        Title: string;
+        EMail: string;
+    } | null;
+    Distributor: {
         Id: string;
         Title: string;
         EMail: string;
