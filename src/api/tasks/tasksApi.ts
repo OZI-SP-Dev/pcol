@@ -93,7 +93,7 @@ export const useAddTasks = (subSite: string, pcolId: number) => {
 
       if (batch.items.length > 0) {
         batch.items.add({
-          Title: String(index),
+          Title: "",
           pcolId: pcolId.toString(),
           PersonId: pcol.data?.Author.Id,
           Role: "Final",
