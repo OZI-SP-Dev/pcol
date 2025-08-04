@@ -118,7 +118,7 @@ const NotesForm = ({
                   CC: [] as string[],
                   Subject: subject,
                   Body: body,
-                  pcolId: String(pcolId),
+                  pcolId: Number(pcolId),
                   Program: String(program),
                 };
                 toSelections.forEach((person) => email.To.push(person.EMail));

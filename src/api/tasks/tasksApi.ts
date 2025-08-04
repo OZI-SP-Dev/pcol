@@ -143,8 +143,8 @@ export const useAddTasks = (subSite: string, pcolId: number) => {
         CC: [pcol.data?.Author.EMail ?? ""],
         Subject: `PCOL task assigned for ${pcol.data?.Title}`,
         Body: `You have been assigned as a `,
-        pcolId: String(pcolId),
-        Program: String(subSite),
+        pcolId: pcolId,
+        Program: subSite,
       };
       if (
         variables.SerialReviewers.length > 0 ||

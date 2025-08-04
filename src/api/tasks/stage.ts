@@ -150,8 +150,8 @@ const useStageUpdateEmail = (subSite: string, pcolId: number) => {
                 CC: [pcol.data?.Author.EMail ?? ""],
                 Subject: `PCOL task assigned for ${pcol.data?.Title}`,
                 Body: `You have been assigned as a reviewer. ` + linkText,
-                pcolId: String(pcolId),
-                Program: String(subSite),
+                pcolId: pcolId,
+                Program: subSite,
               };
               return sendEmail.mutate(email);
             }
@@ -164,8 +164,8 @@ const useStageUpdateEmail = (subSite: string, pcolId: number) => {
             To: [pcol.data?.Author.EMail ?? ""],
             Subject: `PCOL task assigned for ${pcol.data?.Title}`,
             Body: `You have been assigned as the final reviewer. ` + linkText,
-            pcolId: String(pcolId),
-            Program: String(subSite),
+            pcolId: pcolId,
+            Program: subSite,
           };
           return sendEmail.mutate(email);
         }
@@ -176,8 +176,8 @@ const useStageUpdateEmail = (subSite: string, pcolId: number) => {
             CC: [pcol.data?.Author.EMail ?? ""],
             Subject: `PCOL task assigned for ${pcol.data?.Title}`,
             Body: `You have been assigned as the reviewer. ` + linkText,
-            pcolId: String(pcolId),
-            Program: String(subSite),
+            pcolId: pcolId,
+            Program: subSite,
           };
           return sendEmail.mutate(email);
         }
@@ -188,8 +188,8 @@ const useStageUpdateEmail = (subSite: string, pcolId: number) => {
             CC: [pcol.data?.Author.EMail ?? ""],
             Subject: `PCOL task assigned for ${pcol.data?.Title}`,
             Body: `You have been assigned as the PCO. ` + linkText,
-            pcolId: String(pcolId),
-            Program: String(subSite),
+            pcolId: pcolId,
+            Program: subSite,
           };
           return sendEmail.mutate(email);
         }
@@ -200,8 +200,8 @@ const useStageUpdateEmail = (subSite: string, pcolId: number) => {
             CC: [pcol.data?.Author.EMail ?? ""],
             Subject: `PCOL task assigned for ${pcol.data?.Title}`,
             Body: `You have been assigned as the distributor. ` + linkText,
-            pcolId: String(pcolId),
-            Program: String(subSite),
+            pcolId: pcolId,
+            Program: subSite,
           };
           return sendEmail.mutate(email);
         }
