@@ -1,25 +1,15 @@
-import { Button, Tooltip } from "@fluentui/react-components";
-import { AcceptIcon } from "@fluentui/react-icons-mdl2";
+import { Tooltip } from "@fluentui/react-components";
 import { useParams } from "react-router-dom";
 import { usePCOL } from "src/api/PCOL/usePCOL";
-import { Task, useTasks, useUpdateTask } from "src/api/tasks/tasksApi";
+import { Task, useTasks } from "src/api/tasks/tasksApi";
+import ApproveButton from "./ApproveButton";
 import RejectButton from "./RejectButton";
 
 const ApproverButtons = ({ task }: { task: Task }) => {
-  const { program, pcolId } = useParams();
-  const updateTask = useUpdateTask(String(program), Number(pcolId), task.Id);
-
   if (task.Person.Id === _spPageContextInfo.userId && !task.Status) {
     return (
       <div>
-        <Tooltip content="Approve" relationship="label">
-          <Button
-            appearance="primary"
-            icon={<AcceptIcon />}
-            onClick={() => updateTask.mutate("Approved")}
-            disabled={updateTask.isPending}
-          />
-        </Tooltip>
+        <ApproveButton task={task} />
         <RejectButton task={task} />
       </div>
     );

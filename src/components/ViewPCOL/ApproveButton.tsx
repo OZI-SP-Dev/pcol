@@ -12,13 +12,13 @@ import {
   TextareaProps,
   Tooltip,
 } from "@fluentui/react-components";
-import { EntryDeclineIcon } from "@fluentui/react-icons-mdl2";
+import { AcceptIcon } from "@fluentui/react-icons-mdl2";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAddNote } from "src/api/Notes/notesApi";
 import { Task, useUpdateTask } from "src/api/tasks/tasksApi";
 
-const RejectButton = ({ task }: { task: Task }) => {
+const ApproveButton = ({ task }: { task: Task }) => {
   const [open, setOpen] = useState(false);
   const [reason, setReason] = useState("");
   const { program, pcolId } = useParams();
@@ -30,8 +30,10 @@ const RejectButton = ({ task }: { task: Task }) => {
   };
 
   const updateHandler = async () => {
-    await addNote.mutateAsync(`REJECTED (${task.Role}): ${reason}`);
-    await updateTask.mutateAsync("Rejected");
+    if (reason) {
+      await addNote.mutateAsync(`Approved (${task.Role}): ${reason}`);
+    }
+    await updateTask.mutateAsync("Approved");
   };
 
   return (
@@ -41,24 +43,15 @@ const RejectButton = ({ task }: { task: Task }) => {
       onOpenChange={(_e, data) => setOpen(data.open)}
     >
       <DialogTrigger disableButtonEnhancement>
-        <Tooltip withArrow content="Reject" relationship="label">
-          <Button
-            style={{
-              border: "none",
-              background: "transparent",
-              borderRadius: "50%",
-              color: "indianred",
-            }}
-            icon={<EntryDeclineIcon />}
-            size="large"
-          />
+        <Tooltip withArrow content="Approve" relationship="label">
+          <Button appearance="primary" icon={<AcceptIcon />} size="large" />
         </Tooltip>
       </DialogTrigger>
       <DialogSurface>
         <DialogBody>
-          <DialogTitle>Rework request</DialogTitle>
+          <DialogTitle>Accept request</DialogTitle>
           <DialogContent>
-            <Field label="Rework reason" required>
+            <Field label="Reason">
               <Textarea value={reason} onChange={updateReason} required />
             </Field>
             {((addNote.isError || updateTask.isError) &&
@@ -70,9 +63,7 @@ const RejectButton = ({ task }: { task: Task }) => {
               <Button appearance="secondary">Cancel</Button>
             </DialogTrigger>
             <Button
-              disabled={
-                reason === "" || updateTask.isPending || addNote.isPending
-              }
+              disabled={updateTask.isPending || addNote.isPending}
               appearance="primary"
               onClick={updateHandler}
             >
@@ -85,4 +76,4 @@ const RejectButton = ({ task }: { task: Task }) => {
   );
 };
 
-export default RejectButton;
+export default ApproveButton;
