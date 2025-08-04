@@ -56,9 +56,9 @@ const RejectButton = ({ task }: { task: Task }) => {
       </DialogTrigger>
       <DialogSurface>
         <DialogBody>
-          <DialogTitle>Rework request</DialogTitle>
+          <DialogTitle>Rejection</DialogTitle>
           <DialogContent>
-            <Field label="Rework reason" required>
+            <Field label="Rejection reason" required>
               <Textarea value={reason} onChange={updateReason} required />
             </Field>
             {((addNote.isError || updateTask.isError) &&
