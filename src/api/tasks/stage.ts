@@ -117,11 +117,9 @@ const useStageUpdateEmail = (subSite: string, pcolId: number) => {
   return useMutation({
     mutationFn: async (stage: string) => {
       const parallelTasks = tasks.data?.filter(
-        (task) => task.Role === "Parallel" || task.Role === "Serial"
+        (task) => task.Role === "Parallel"
       );
-      const serialTasks = tasks.data?.filter(
-        (task) => task.Role === "Parallel" || task.Role === "Serial"
-      );
+      const serialTasks = tasks.data?.filter((task) => task.Role === "Serial");
       const orgTasks = tasks.data?.filter((task) => task.Role === "Org");
       const pcoTasks = tasks.data?.filter((task) => task.Role === "PCO");
       const distributionTasks = tasks.data?.filter(
