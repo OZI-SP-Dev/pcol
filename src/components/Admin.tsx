@@ -9,8 +9,6 @@ import {
   useProgramOwnerGroup,
 } from "src/api/Roles/groupsApi";
 
-declare const _spPageContextInfo: { webAbsoluteUrl: string };
-
 const Admin = () => {
   const { program } = useParams();
   const mainPerms = useCurrentUserHasEditPermissions();

@@ -92,7 +92,7 @@ export const useAddPCOL = (subSite: string) => {
           Title: folderName,
           ContentTypeId: contentTypeId, // update to PCOLDocSet content type
           Disclaimers: JSON.stringify(Disclaimers),
-          Stage: "New",
+          Stage: "Draft",
           ...rest,
         });
 

@@ -30,13 +30,6 @@ import {
   useEditDocument,
 } from "src/api/documentsApi";
 
-declare const _spPageContextInfo: {
-  webAbsoluteUrl: string;
-  aadUserId: string;
-  userEmail: string;
-  siteId: string;
-};
-
 function getFileNameNoExt(str: string) {
   const lastPeriodIndex = str.lastIndexOf(".");
   if (lastPeriodIndex === -1) {

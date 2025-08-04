@@ -12,14 +12,6 @@ import { useParams } from "react-router-dom";
 import { useSendEmail } from "src/api/Email/emailApi";
 import { usePCOL } from "src/api/PCOL/usePCOL";
 
-declare const _spPageContextInfo: {
-  userId: number;
-  userDisplayName: string;
-  userEmail: string;
-  userLoginName: string;
-  webAbsoluteUrl: string;
-};
-
 const NotesForm = ({
   isOpen,
   closeDrawer,
@@ -126,7 +118,7 @@ const NotesForm = ({
                   CC: [] as string[],
                   Subject: subject,
                   Body: body,
-                  pcolId: String(pcolId),
+                  pcolId: Number(pcolId),
                   Program: String(program),
                 };
                 toSelections.forEach((person) => email.To.push(person.EMail));

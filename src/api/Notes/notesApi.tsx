@@ -16,7 +16,7 @@ type spNoteItem = z.infer<typeof spNoteItem>;
 
 const useNoteItem = (program: string, pcolId: number) => {
   return useQuery({
-    queryKey: ["noteItem", pcolId],
+    queryKey: ["noteItem", program, pcolId],
     queryFn: () => getNoteItem(program, pcolId),
     select: selectNoteId,
     staleTime: Infinity, // Prevent refetch
@@ -67,7 +67,7 @@ export const useAddNote = (program: string, pcolId: number) => {
         .comments.add(newNote);
     },
     onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: ["notes", pcolId] });
+      queryClient.invalidateQueries({ queryKey: ["notes", program, pcolId] });
     },
   });
 };

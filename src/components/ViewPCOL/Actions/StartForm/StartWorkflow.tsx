@@ -50,7 +50,7 @@ const StartWorkflow = ({
     },
   });
   const { program, pcolId } = useParams();
-  const addTasks = useAddTasks(program, pcolId);
+  const addTasks = useAddTasks(String(program), Number(pcolId));
   const { isValid } = wfForm.formState;
 
   useEffect(() => {

@@ -3,7 +3,7 @@ import { spWebContext } from "src/api/SPWebContext";
 import { useMutation } from "@tanstack/react-query";
 
 const spEmail = z.object({
-  pcolId: z.string(),
+  pcolId: z.number().int().positive(),
   To: z.array(z.string()),
   CC: z.array(z.string()).optional(),
   BCC: z.array(z.string()).optional(),
