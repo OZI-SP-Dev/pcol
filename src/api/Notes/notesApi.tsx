@@ -67,7 +67,7 @@ export const useAddNote = (program: string, pcolId: number) => {
         .comments.add(newNote);
     },
     onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: ["notes", pcolId] });
+      queryClient.invalidateQueries({ queryKey: ["notes", program, pcolId] });
     },
   });
 };
