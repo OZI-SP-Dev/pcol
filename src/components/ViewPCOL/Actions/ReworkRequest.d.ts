@@ -1,2 +1,2 @@
-declare const ReworkRequest: () => import("react/jsx-runtime").JSX.Element;
-export default ReworkRequest;
+declare const ResetRequest: () => import("react/jsx-runtime").JSX.Element;
+export default ResetRequest;

@@ -32,14 +32,16 @@ const SendRequest = () => {
       onOpenChange={(_e, data) => setOpen(data.open)}
     >
       <DialogTrigger disableButtonEnhancement>
-        <Tooltip withArrow content="Send" relationship="label">
+        <Tooltip withArrow content="Start Workflow" relationship="label">
           <Button
             style={{
               border: "none",
               background: "transparent",
               borderRadius: "50%",
             }}
-            icon={<NavigateForwardIcon className="orange" />}
+            icon={
+              <NavigateForwardIcon className={disableSend ? "" : "orange"} />
+            }
             size="large"
             disabled={disableSend}
           />

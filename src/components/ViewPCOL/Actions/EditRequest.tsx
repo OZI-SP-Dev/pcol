@@ -2,6 +2,7 @@ import { Button, Tooltip } from "@fluentui/react-components";
 import { EditIcon } from "@fluentui/react-icons-mdl2";
 
 const EditRequest = ({ openEditForm }: { openEditForm: () => void }) => {
+  const disabled = true;
   return (
     <Tooltip withArrow content="Edit" relationship="label">
       <Button
@@ -11,7 +12,7 @@ const EditRequest = ({ openEditForm }: { openEditForm: () => void }) => {
           borderRadius: "50%",
         }}
         disabled={true}
-        icon={<EditIcon className="blue" />}
+        icon={<EditIcon className={disabled ? "" : "blue"} />}
         size="large"
         onClick={openEditForm}
       />

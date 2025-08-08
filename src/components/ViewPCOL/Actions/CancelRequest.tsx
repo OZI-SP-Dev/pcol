@@ -10,8 +10,27 @@ import {
   Tooltip,
 } from "@fluentui/react-components";
 import { DeleteIcon } from "@fluentui/react-icons-mdl2";
+import { useParams } from "react-router-dom";
+import { useAddNote } from "src/api/Notes/notesApi";
+import { usePCOL } from "src/api/PCOL/usePCOL";
+import { useStageUpdate } from "src/api/tasks/stage";
+
+const DoneStages = ["Rejected", "Cancelled", "Distributed"];
 
 const CancelRequest = () => {
+  const { program, pcolId } = useParams();
+  const pcol = usePCOL(String(program), Number(pcolId));
+  const addNote = useAddNote(String(program), Number(pcolId));
+  const stageUpdate = useStageUpdate(String(program), Number(pcolId));
+  const cancelHandler = async () => {
+    await addNote.mutateAsync(`PCOL Cancelled`);
+    await stageUpdate.mutateAsync("Cancelled");
+  };
+
+  const isDone = DoneStages.includes(pcol.data?.Stage ?? "");
+  const isAuthor = pcol.data?.Author.Id === _spPageContextInfo.userId;
+  const disabled = isDone || !isAuthor;
+
   return (
     <Dialog modalType="alert">
       <DialogTrigger disableButtonEnhancement>
@@ -22,9 +41,9 @@ const CancelRequest = () => {
               background: "transparent",
               borderRadius: "50%",
             }}
-            icon={<DeleteIcon className="red" />}
+            icon={<DeleteIcon className={disabled ? "" : "red"} />}
             size="large"
-            disabled={true}
+            disabled={disabled}
           />
         </Tooltip>
       </DialogTrigger>
@@ -39,10 +58,7 @@ const CancelRequest = () => {
               <Button appearance="secondary">No</Button>
             </DialogTrigger>
             <DialogTrigger disableButtonEnhancement>
-              <Button
-                appearance="primary"
-                // onClick={cancelHandler}
-              >
+              <Button appearance="primary" onClick={cancelHandler}>
                 Cancel Request
               </Button>
             </DialogTrigger>

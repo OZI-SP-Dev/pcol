@@ -4,16 +4,30 @@ import { usePCOL } from "src/api/PCOL/usePCOL";
 import { Task, useTasks } from "src/api/tasks/tasksApi";
 import ApproveButton from "./ApproveButton";
 import RejectButton from "./RejectButton";
+import SkipButton from "./SkipButton";
 
-const ApproverButtons = ({ task }: { task: Task }) => {
-  if (task.Person.Id === _spPageContextInfo.userId && !task.Status) {
-    return (
-      <div>
+const ApproverButtons = ({
+  task,
+  pco,
+}: {
+  task: Task;
+  pco?: { Id: number; Title: string; EMail: string };
+}) => {
+  return (
+    <div>
+      {!task.Status && task.Person.Id === _spPageContextInfo.userId && (
         <ApproveButton task={task} />
+      )}
+
+      {!task.Status && Number(pco?.Id) === _spPageContextInfo.userId && (
+        <SkipButton task={task} />
+      )}
+
+      {!task.Status && Number(pco?.Id) === _spPageContextInfo.userId && (
         <RejectButton task={task} />
-      </div>
-    );
-  }
+      )}
+    </div>
+  );
 };
 
 const Status = ({ task, stage }: { task: Task; stage?: string }) => {
@@ -84,7 +98,7 @@ const ViewApproverDetails = () => {
                 </td>
                 <td>
                   {pcol.data?.Stage === "Peer Review" && (
-                    <ApproverButtons task={task} />
+                    <ApproverButtons task={task} pco={pco?.Person} />
                   )}
                 </td>
               </tr>

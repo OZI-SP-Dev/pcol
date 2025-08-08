@@ -219,7 +219,12 @@ export const useUpdateTask = (
       return subWebContext(String(subSite))
         .web.lists.getByTitle("tasks")
         .items.getById(taskId)
-        .update({ Status: newStatus });
+        .update({
+          Status: newStatus,
+          ...(newStatus === "Skipped" && {
+            SkippedById: _spPageContextInfo.userId,
+          }),
+        });
     },
     onError: () => {
       queryClient.invalidateQueries({
@@ -227,7 +232,7 @@ export const useUpdateTask = (
       });
     },
     onSuccess: (_result, variables) => {
-      stageUpdate.mutate(variables === "Rejected");
+      stageUpdate.mutate(variables);
     },
   });
 };

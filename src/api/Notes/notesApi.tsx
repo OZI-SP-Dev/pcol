@@ -43,7 +43,7 @@ export const useNotes = (program: string, pcolId: number) => {
       : () => getNotes(program, noteId); // If we successfuly got the noteItem, then return the Notes
 
   return useQuery({
-    queryKey: ["notes", pcolId],
+    queryKey: ["notes", program, pcolId],
     queryFn: returnFunction,
   });
 };

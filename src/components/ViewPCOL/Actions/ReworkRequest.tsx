@@ -7,90 +7,74 @@ import {
   DialogSurface,
   DialogTitle,
   DialogTrigger,
-  Dropdown,
-  DropdownProps,
-  Field,
-  Option,
-  Textarea,
-  TextareaProps,
+  Text,
   Tooltip,
 } from "@fluentui/react-components";
-import { NavigateBackIcon } from "@fluentui/react-icons-mdl2";
+import { ArrowResetFilled } from "@fluentui/react-icons";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useAddNote } from "src/api/Notes/notesApi";
+import { usePCOL } from "src/api/PCOL/usePCOL";
+import { useResetPCOL } from "src/api/PCOL/useResetPCOL";
 
-const standardReasons = [
-  "Salary/Incentive Over Cap",
-  "Missing Information",
-  "Candidate Declined",
-  "Candidate Unqualified",
-  "No Qualified Candidates",
-];
+const ResetStages = ["Rejected", "Cancelled"];
 
-const ReworkRequest = () => {
-  const [reason, setReason] = useState("");
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-  const [value, setValue] = useState("");
+const ResetRequest = () => {
+  const [open, setOpen] = useState(false);
+  const { program, pcolId } = useParams();
+  const pcol = usePCOL(String(program), Number(pcolId));
+  const addNote = useAddNote(String(program), Number(pcolId));
+  const resetPcol = useResetPCOL(String(program), Number(pcolId));
 
-  const disableReworkButton = true;
-
-  const updateReason: TextareaProps["onChange"] = (_e, data) => {
-    setReason(data.value);
+  const updateHandler = async () => {
+    await addNote.mutateAsync(`PCOL Workflow Reset`);
+    await resetPcol.mutateAsync().then(() => setOpen(false));
   };
 
-  const onOptionSelect: DropdownProps["onOptionSelect"] = (_e, data) => {
-    setSelectedOptions(data.selectedOptions);
-    setValue(data.optionText ?? "");
-  };
+  const isDone = ResetStages.includes(pcol.data?.Stage ?? "");
+  const isReseter = pcol.data?.Author.Id === _spPageContextInfo.userId;
+  const disabled = !isDone || !isReseter;
 
   return (
-    <Dialog modalType="alert">
+    <Dialog
+      modalType="alert"
+      open={open}
+      onOpenChange={(_e, data) => setOpen(data.open)}
+    >
       <DialogTrigger disableButtonEnhancement>
-        <Tooltip withArrow content="Rework" relationship="label">
+        <Tooltip withArrow content="Reset" relationship="label">
           <Button
             style={{
               border: "none",
               background: "transparent",
               borderRadius: "50%",
             }}
-            icon={<NavigateBackIcon className="orange" />}
+            icon={<ArrowResetFilled className={disabled ? "" : "orange"} />}
             size="large"
-            disabled={disableReworkButton}
+            disabled={disabled}
           />
         </Tooltip>
       </DialogTrigger>
       <DialogSurface>
         <DialogBody>
-          <DialogTitle>Rework request</DialogTitle>
+          <DialogTitle>Reset PCOL Workflow</DialogTitle>
           <DialogContent>
-            <Field label="Standard reasons">
-              <Dropdown
-                clearable
-                onOptionSelect={onOptionSelect}
-                selectedOptions={selectedOptions}
-                placeholder="Standard Reasons"
-              >
-                {standardReasons.map((reason) => (
-                  <Option key={reason}>{reason}</Option>
-                ))}
-              </Dropdown>
-            </Field>
-            <Field label="Rework reason" required={value === ""}>
-              <Textarea value={reason} onChange={updateReason} required />
-            </Field>
+            Are you sure you wish to reset this PCOL's workflow?
           </DialogContent>
           <DialogActions>
             <DialogTrigger disableButtonEnhancement>
               <Button appearance="secondary">Cancel</Button>
             </DialogTrigger>
-            <DialogTrigger disableButtonEnhancement>
-              <Button
-                disabled={reason === "" && value === ""}
-                appearance="primary"
-                // onClick={updateHandler}
-              >
-                Submit
-              </Button>
-            </DialogTrigger>
+            <Button
+              appearance="primary"
+              onClick={updateHandler}
+              disabled={resetPcol.isPending}
+            >
+              Submit
+            </Button>
+            <Text role="alert" className="fieldErrorText">
+              {resetPcol.error?.message}
+            </Text>
           </DialogActions>
         </DialogBody>
       </DialogSurface>
@@ -98,4 +82,4 @@ const ReworkRequest = () => {
   );
 };
 
-export default ReworkRequest;
+export default ResetRequest;
