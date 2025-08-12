@@ -18,6 +18,9 @@ export const useStageUpdate = (subSite: string, pcolId: number) => {
       let updateNeeded = "";
 
       if (rework === "Rejected" || rework === "Cancelled") {
+        if (rework === "Rejected") {
+          sendTaskEmails.mutate(rework);
+        }
         return subWebContext(String(subSite))
           .web.lists.getByTitle("pcols")
           .items.getById(pcolId)
@@ -202,6 +205,20 @@ const useStageUpdateEmail = (subSite: string, pcolId: number) => {
             CC: [pcol.data?.Author.EMail ?? ""],
             Subject: `PCOL task assigned for ${pcol.data?.Title}`,
             Body: `You have been assigned as the distributor. ` + linkText,
+            pcolId: pcolId,
+            Program: subSite,
+          };
+          return sendEmail.mutate(email);
+        }
+
+        case "Rejected": {
+          const email = {
+            To: [pcol.data?.Author.EMail ?? ""],
+            Subject: `PCOL Rejected: ${pcol.data?.Title}`,
+            Body:
+              `This PCOL was rejected by the PCO.<br />Click to view:<br />` +
+              `<a href="${_spPageContextInfo.webAbsoluteUrl}/app/index.aspx#/p/${subSite}/i/${pcolId}">` +
+              `${_spPageContextInfo.webAbsoluteUrl}/app/index.aspx#/p/${subSite}/i/${pcolId}</a>`,
             pcolId: pcolId,
             Program: subSite,
           };
