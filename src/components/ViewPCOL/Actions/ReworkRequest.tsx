@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 import { useAddNote } from "src/api/Notes/notesApi";
 import { usePCOL } from "src/api/PCOL/usePCOL";
 import { useResetPCOL } from "src/api/PCOL/useResetPCOL";
+import { useTasks } from "src/api/tasks/tasksApi";
 
 const ResetStages = ["Rejected", "Cancelled"];
 
@@ -23,6 +24,7 @@ const ResetRequest = () => {
   const [open, setOpen] = useState(false);
   const { program, pcolId } = useParams();
   const pcol = usePCOL(String(program), Number(pcolId));
+  const tasks = useTasks(String(program), Number(pcolId));
   const addNote = useAddNote(String(program), Number(pcolId));
   const resetPcol = useResetPCOL(String(program), Number(pcolId));
 
@@ -31,8 +33,12 @@ const ResetRequest = () => {
     await resetPcol.mutateAsync().then(() => setOpen(false));
   };
 
+  const pco = tasks.data?.find((task) => task.Role === "PCO");
+
   const isDone = ResetStages.includes(pcol.data?.Stage ?? "");
-  const isReseter = pcol.data?.Author.Id === _spPageContextInfo.userId;
+  const isReseter =
+    pcol.data?.Author.Id === _spPageContextInfo.userId ||
+    pco?.Person.Id === _spPageContextInfo.userId;
   const disabled = !isDone || !isReseter;
 
   return (
