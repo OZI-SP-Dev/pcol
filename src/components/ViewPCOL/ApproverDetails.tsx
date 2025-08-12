@@ -19,9 +19,11 @@ const ApproverButtons = ({
         <ApproveButton task={task} />
       )}
 
-      {!task.Status && Number(pco?.Id) === _spPageContextInfo.userId && (
-        <SkipButton task={task} />
-      )}
+      {!task.Status &&
+        task.Person.Id !== Number(pco?.Id) && // PCO can't skip their own tasks
+        Number(pco?.Id) === _spPageContextInfo.userId && (
+          <SkipButton task={task} />
+        )}
 
       {!task.Status && Number(pco?.Id) === _spPageContextInfo.userId && (
         <RejectButton task={task} />
@@ -125,7 +127,7 @@ const ViewApproverDetails = () => {
                 <td>
                   {pcol.data?.Stage === "Peer Review" &&
                     task.Id === currSerialTaskId && (
-                      <ApproverButtons task={task} />
+                      <ApproverButtons task={task} pco={pco?.Person} />
                     )}
                 </td>
               </tr>
@@ -151,7 +153,7 @@ const ViewApproverDetails = () => {
                 </td>
                 <td>
                   {pcol.data?.Stage === "Final Review" && (
-                    <ApproverButtons task={final} />
+                    <ApproverButtons task={final} pco={pco?.Person} />
                   )}
                 </td>
               </tr>
@@ -173,7 +175,7 @@ const ViewApproverDetails = () => {
                   </td>
                   <td>
                     {pcol.data?.Stage === "Organizational Review" && (
-                      <ApproverButtons task={org} />
+                      <ApproverButtons task={org} pco={pco?.Person} />
                     )}
                   </td>
                 </>
@@ -196,7 +198,7 @@ const ViewApproverDetails = () => {
                 </td>
                 <td>
                   {pcol.data?.Stage === "Approval" && (
-                    <ApproverButtons task={pco} />
+                    <ApproverButtons task={pco} pco={pco?.Person} />
                   )}
                 </td>
               </tr>
