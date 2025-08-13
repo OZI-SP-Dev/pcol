@@ -54,7 +54,7 @@ const Status = ({ task, stage }: { task: Task; stage?: string }) => {
       </Tooltip>
     );
   }
-  return stage !== "Rejected" ? <>Pending</> : <></>;
+  return stage !== "Rejected" && stage !== "Cancelled" ? <>Pending</> : <></>;
 };
 
 const ViewApproverDetails = () => {
