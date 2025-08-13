@@ -21,7 +21,7 @@ export const useStageUpdate = (subSite: string, pcolId: number) => {
         if (rework === "Rejected") {
           sendTaskEmails.mutate(rework);
         }
-        return subWebContext(String(subSite))
+        return subWebContext(subSite)
           .web.lists.getByTitle("pcols")
           .items.getById(pcolId)
           .update({ Stage: rework });
@@ -102,7 +102,7 @@ export const useStageUpdate = (subSite: string, pcolId: number) => {
         return Promise.resolve();
       }
       sendTaskEmails.mutate(updateNeeded);
-      return subWebContext(String(subSite))
+      return subWebContext(subSite)
         .web.lists.getByTitle("pcols")
         .items.getById(pcolId)
         .update({ Stage: updateNeeded });

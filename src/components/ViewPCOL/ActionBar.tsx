@@ -1,5 +1,5 @@
 import SendRequest from "./Actions/SendRequest";
-import ResetRequest from "./Actions/ReworkRequest";
+import ResetRequest from "./Actions/ResetRequest";
 import EditRequest from "./Actions/EditRequest";
 import CancelRequest from "./Actions/CancelRequest";
 
