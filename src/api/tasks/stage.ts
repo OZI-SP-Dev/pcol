@@ -14,17 +14,17 @@ export const useStageUpdate = (subSite: string, pcolId: number) => {
   const stage = pcol.data?.Stage;
 
   return useMutation({
-    mutationFn: async (rework: string) => {
+    mutationFn: async (newStage: string) => {
       let updateNeeded = "";
 
-      if (rework === "Rejected" || rework === "Cancelled") {
-        if (rework === "Rejected") {
-          sendTaskEmails.mutate(rework);
+      if (newStage === "Rejected" || newStage === "Cancelled") {
+        if (newStage === "Rejected") {
+          sendTaskEmails.mutate(newStage);
         }
         return subWebContext(subSite)
           .web.lists.getByTitle("pcols")
           .items.getById(pcolId)
-          .update({ Stage: rework });
+          .update({ Stage: newStage });
       }
 
       const prTasks = tasks.data?.filter(

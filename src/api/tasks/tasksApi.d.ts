@@ -36,9 +36,9 @@ declare const Task: z.ZodObject<{
     }>>;
     Modified: z.ZodOptional<z.ZodDate>;
 }, "strip", z.ZodTypeAny, {
-    pcolId: number;
     Id: number;
     Title: string;
+    pcolId: number;
     Role: string;
     Person: {
         Id: number;
@@ -53,9 +53,9 @@ declare const Task: z.ZodObject<{
         EMail: string;
     } | undefined;
 }, {
-    pcolId: number;
     Id: number;
     Title: string;
+    pcolId: number;
     Role: string;
     Person: {
         Id: number;
@@ -72,9 +72,9 @@ declare const Task: z.ZodObject<{
 }>;
 export type Task = z.infer<typeof Task>;
 export declare const useTasks: (subSite: string, pcolId: number) => import("@tanstack/react-query").UseQueryResult<{
-    pcolId: number;
     Id: number;
     Title: string;
+    pcolId: number;
     Role: string;
     Person: {
         Id: number;
