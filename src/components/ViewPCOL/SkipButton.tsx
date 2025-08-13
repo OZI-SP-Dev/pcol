@@ -31,7 +31,7 @@ const SkipButton = ({ task }: { task: Task }) => {
 
   const updateHandler = async () => {
     await addNote.mutateAsync(
-      `Skipped ${task.Person.Title}'s ${task.Role} approval${reason ? " : " + reason : ""}`
+      `Skipped ${task.Person.Title}'s ${task.Role} approval${reason ? ": " + reason : ""}`
     );
     await updateTask.mutateAsync("Skipped");
   };
