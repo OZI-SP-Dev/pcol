@@ -19,7 +19,7 @@ export const useStageUpdate = (subSite: string, pcolId: number) => {
 
       if (newStage === "Rejected" || newStage === "Cancelled") {
         if (newStage === "Rejected") {
-          sendTaskEmails.mutate(newStage);
+          await sendTaskEmails.mutateAsync(newStage);
         }
         return subWebContext(subSite)
           .web.lists.getByTitle("pcols")
@@ -101,7 +101,7 @@ export const useStageUpdate = (subSite: string, pcolId: number) => {
       if (!updateNeeded) {
         return Promise.resolve();
       }
-      sendTaskEmails.mutate(updateNeeded);
+      await sendTaskEmails.mutateAsync(updateNeeded);
       return subWebContext(subSite)
         .web.lists.getByTitle("pcols")
         .items.getById(pcolId)
