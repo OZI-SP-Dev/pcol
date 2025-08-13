@@ -1,13 +1,13 @@
 import { Label, Text, Title2 } from "@fluentui/react-components";
 import { usePCOL } from "src/api/PCOL/usePCOL";
-import { useParams } from "react-router-dom";
+import usePCOLParams from "../pcolParams";
 import { useContracts } from "src/api/Contracts/Contracts";
 import ViewApproverDetails from "./ApproverDetails";
 
 const ViewPCOLDetails = () => {
-  const { program, pcolId } = useParams();
-  const pcol = usePCOL(String(program), Number(pcolId));
-  const contracts = useContracts(String(program));
+  const { program, pcolId } = usePCOLParams();
+  const pcol = usePCOL(program, pcolId);
+  const contracts = useContracts(program);
 
   return (
     <>

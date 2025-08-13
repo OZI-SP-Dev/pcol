@@ -1,5 +1,5 @@
 import { Tooltip } from "@fluentui/react-components";
-import { useParams } from "react-router-dom";
+import usePCOLParams from "../pcolParams";
 import { usePCOL } from "src/api/PCOL/usePCOL";
 import { Task, useTasks } from "src/api/tasks/tasksApi";
 import ApproveButton from "./ApproveButton";
@@ -20,12 +20,10 @@ const ApproverButtons = ({
       )}
 
       {!task.Status &&
-        task.Person.Id !== Number(pco?.Id) && // PCO can't skip their own tasks
-        Number(pco?.Id) === _spPageContextInfo.userId && (
-          <SkipButton task={task} />
-        )}
+        task.Person.Id !== pco?.Id && // PCO can't skip their own tasks
+        pco?.Id === _spPageContextInfo.userId && <SkipButton task={task} />}
 
-      {!task.Status && Number(pco?.Id) === _spPageContextInfo.userId && (
+      {!task.Status && pco?.Id === _spPageContextInfo.userId && (
         <RejectButton task={task} />
       )}
     </div>
@@ -60,9 +58,9 @@ const Status = ({ task, stage }: { task: Task; stage?: string }) => {
 };
 
 const ViewApproverDetails = () => {
-  const { program, pcolId } = useParams();
-  const pcol = usePCOL(String(program), Number(pcolId));
-  const tasks = useTasks(String(program), Number(pcolId));
+  const { program, pcolId } = usePCOLParams();
+  const pcol = usePCOL(program, pcolId);
+  const tasks = useTasks(program, pcolId);
 
   const parallel = tasks.data?.filter((task) => task.Role === "Parallel");
   const serial = tasks.data

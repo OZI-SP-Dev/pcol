@@ -12,7 +12,7 @@ import {
 } from "@fluentui/react-components";
 import { ArrowResetFilled } from "@fluentui/react-icons";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import usePCOLParams from "src/components/pcolParams";
 import { useAddNote } from "src/api/Notes/notesApi";
 import { usePCOL } from "src/api/PCOL/usePCOL";
 import { useResetPCOL } from "src/api/PCOL/useResetPCOL";
@@ -22,11 +22,11 @@ const ResetStages = ["Rejected", "Cancelled"];
 
 const ResetRequest = () => {
   const [open, setOpen] = useState(false);
-  const { program, pcolId } = useParams();
-  const pcol = usePCOL(String(program), Number(pcolId));
-  const tasks = useTasks(String(program), Number(pcolId));
-  const addNote = useAddNote(String(program), Number(pcolId));
-  const resetPcol = useResetPCOL(String(program), Number(pcolId));
+  const { program, pcolId } = usePCOLParams();
+  const pcol = usePCOL(program, pcolId);
+  const tasks = useTasks(program, pcolId);
+  const addNote = useAddNote(program, pcolId);
+  const resetPcol = useResetPCOL(program, pcolId);
 
   const updateHandler = async () => {
     await addNote.mutateAsync(`PCOL Workflow Reset`);

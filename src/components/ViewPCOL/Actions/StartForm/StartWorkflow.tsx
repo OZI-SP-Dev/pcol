@@ -15,7 +15,7 @@ import {
   DialogTrigger,
 } from "@fluentui/react-components";
 import { useAddTasks } from "src/api/tasks/tasksApi";
-import { useParams } from "react-router-dom";
+import usePCOLParams from "src/components/pcolParams";
 import { Dispatch, SetStateAction, useEffect } from "react";
 
 const Person = z.object({
@@ -49,8 +49,8 @@ const StartWorkflow = ({
       Distributor: null,
     },
   });
-  const { program, pcolId } = useParams();
-  const addTasks = useAddTasks(String(program), Number(pcolId));
+  const { program, pcolId } = usePCOLParams();
+  const addTasks = useAddTasks(program, pcolId);
   const { isValid } = wfForm.formState;
 
   useEffect(() => {

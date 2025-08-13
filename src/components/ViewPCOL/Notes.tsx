@@ -15,7 +15,7 @@ import { CommentAddIcon } from "@fluentui/react-icons-mdl2";
 import { DismissRegular } from "@fluentui/react-icons";
 import { useState } from "react";
 import NotesForm from "./NotesForm";
-import { useParams } from "react-router-dom";
+import usePCOLParams from "../pcolParams";
 import { useNotes } from "src/api/Notes/notesApi";
 
 const parseUTF16 = (text: string) => {
@@ -25,8 +25,8 @@ const parseUTF16 = (text: string) => {
 };
 
 const ViewPCOLNotes = () => {
-  const { program, pcolId } = useParams();
-  const notes = useNotes(String(program), Number(pcolId));
+  const { program, pcolId } = usePCOLParams();
+  const notes = useNotes(program, pcolId);
   const [isOpen, setIsOpen] = useState(false);
 
   return (

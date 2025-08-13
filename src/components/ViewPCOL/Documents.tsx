@@ -1,6 +1,6 @@
 import { InfoLabel, Title2, Title3 } from "@fluentui/react-components";
 import { SPDocument, useDocuments } from "src/api/documentsApi";
-import { useParams } from "react-router-dom";
+import usePCOLParams from "../pcolParams";
 import { DocumentView } from "src/components/ViewPCOL/Documents/DocumentView";
 import { DocumentUploader } from "src/components/ViewPCOL/Documents/DocumentUploader";
 import { usePCOL } from "src/api/PCOL/usePCOL";
@@ -51,9 +51,9 @@ const DispDocuments = (props: {
 };
 
 const ViewRequestDocuments = () => {
-  const { program, pcolId } = useParams();
-  const pcol = usePCOL(String(program), Number(pcolId));
-  const documents = useDocuments(String(program), String(pcol.data?.Title));
+  const { program, pcolId } = usePCOLParams();
+  const pcol = usePCOL(program, pcolId);
+  const documents = useDocuments(program, String(pcol.data?.Title));
 
   const pcols = getDocuments("PCOL", documents.data);
   const attachments = getDocuments("Attachment", documents.data);

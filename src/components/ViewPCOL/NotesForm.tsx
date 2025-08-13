@@ -8,7 +8,7 @@ import { useAddNote } from "src/api/Notes/notesApi";
 import { Person, PeoplePicker } from "src/components/PeoplePicker/PeoplePicker";
 import { ContactIcon, TextFieldIcon } from "@fluentui/react-icons-mdl2";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import usePCOLParams from "../pcolParams";
 import { useSendEmail } from "src/api/Email/emailApi";
 import { usePCOL } from "src/api/PCOL/usePCOL";
 
@@ -19,9 +19,9 @@ const NotesForm = ({
   isOpen: boolean;
   closeDrawer: () => void;
 }) => {
-  const { program, pcolId } = useParams();
-  const pcol = usePCOL(String(program), Number(pcolId));
-  const addNote = useAddNote(String(program), Number(pcolId));
+  const { program, pcolId } = usePCOLParams();
+  const pcol = usePCOL(program, pcolId);
+  const addNote = useAddNote(program, pcolId);
   const sendMail = useSendEmail();
 
   const [toSelections, setToSelections] = useState<Person[]>([]);
@@ -118,8 +118,8 @@ const NotesForm = ({
                   CC: [] as string[],
                   Subject: subject,
                   Body: body,
-                  pcolId: Number(pcolId),
-                  Program: String(program),
+                  pcolId: pcolId,
+                  Program: program,
                 };
                 toSelections.forEach((person) => email.To.push(person.EMail));
                 ccSelections.forEach((person) => email.CC.push(person.EMail));
