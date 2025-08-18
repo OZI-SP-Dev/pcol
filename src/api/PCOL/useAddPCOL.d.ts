@@ -1,4 +1,7 @@
 import "@pnp/sp/content-types";
+import "@pnp/sp/webs";
+import "@pnp/sp/files";
+import "@pnp/sp/folders";
 export declare const useAddPCOL: (subSite: string) => import("@tanstack/react-query").UseMutationResult<any, Error, {
     Subject: string;
     References: string;
