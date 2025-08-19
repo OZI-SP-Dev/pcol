@@ -33,7 +33,13 @@ const Admin = () => {
         <>
           <Title3>PK Office Items</Title3>
           <ul>
-            <li>Letter Template</li>
+            <li>
+              <a
+                href={`ms-word:ofv|u|${_spPageContextInfo.webAbsoluteUrl}/app/PCOLTemplate.docx`}
+              >
+                Letter Template
+              </a>
+            </li>
             <li>
               <Button
                 appearance="transparent"
