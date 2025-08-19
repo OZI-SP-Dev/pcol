@@ -16,8 +16,20 @@ import { useGetSequenceNumber } from "src/api/SequenceNumber/useSequenceNumber";
 import Docxtemplater from "docxtemplater";
 import PizZip from "pizzip";
 import PizZipUtils from "pizzip/utils/index.js";
+import { useContracts } from "../Contracts/Contracts";
+import { useContractors } from "../Contracts/Contractors";
 
 type Data = string | ArrayBuffer | Uint8Array;
+
+function nullGetter(part: Docxtemplater.DXT.Part) {
+  if (part.raw) {
+    return "{" + part.raw + "}";
+  }
+  if (!part.module && part.value) {
+    return "{" + part.value + "}";
+  }
+  return "";
+}
 
 /**
  * Queries the "pcol" list for available content types
@@ -49,6 +61,8 @@ export const useAddPCOL = (subSite: string) => {
   const queryClient = useQueryClient();
   const contentTypes = useContentTypes(subSite);
   const getSequenceNumber = useGetSequenceNumber(subSite);
+  const Contracts = useContracts(subSite);
+  const Contractors = useContractors(subSite);
   const { dispatchToast } = useToastController("toaster");
 
   return useMutation({
@@ -112,10 +126,22 @@ export const useAddPCOL = (subSite: string) => {
           }
           const zip = new PizZip(content);
           const doc = new Docxtemplater(zip, {
+            nullGetter,
             paragraphLoop: true,
             linebreaks: true,
           });
-          doc.render(newPCOL);
+          const contract = Contracts.data?.find(
+            (contract) => contract.ContractNumber === newPCOL.Contract
+          );
+          const addressee = Contractors.data?.find(
+            (contractor) => contractor.Id === contract?.Contractor.Id
+          );
+
+          doc.render({
+            ...newPCOL,
+            ControlNumber: folderName,
+            Addressee: addressee?.Address,
+          });
           const out = doc.getZip().generate({
             type: "blob",
             mimeType:
@@ -125,7 +151,7 @@ export const useAddPCOL = (subSite: string) => {
 
           const templateFile = await subWebContext(subSite)
             .web.getFolderById(newFolder.UniqueId)
-            .files.addUsingPath(newPCOL.Subject + ".docx", out);
+            .files.addUsingPath(folderName + ".docx", out);
 
           await (
             await subWebContext(subSite)
@@ -134,7 +160,9 @@ export const useAddPCOL = (subSite: string) => {
           )
             .update({ DocGroup: "PCOL" })
             .then(() =>
-              queryClient.invalidateQueries({ queryKey: ["documents"] })
+              queryClient.invalidateQueries({
+                queryKey: ["documents", subSite],
+              })
             );
         }
       );
