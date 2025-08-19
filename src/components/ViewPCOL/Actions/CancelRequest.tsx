@@ -15,7 +15,7 @@ import { useAddNote } from "src/api/Notes/notesApi";
 import { usePCOL } from "src/api/PCOL/usePCOL";
 import { useStageUpdate } from "src/api/tasks/stage";
 
-const NoneCancelableStages = [
+const NonCancellableStages = [
   "Rejected",
   "Cancelled",
   "Distribution",
@@ -32,7 +32,7 @@ const CancelRequest = () => {
     await stageUpdate.mutateAsync("Cancelled");
   };
 
-  const cantCancel = NoneCancelableStages.includes(pcol.data?.Stage ?? "");
+  const cantCancel = NonCancellableStages.includes(pcol.data?.Stage ?? "");
   const isAuthor = pcol.data?.Author.Id === _spPageContextInfo.userId;
   const disabled = cantCancel || !isAuthor;
 
