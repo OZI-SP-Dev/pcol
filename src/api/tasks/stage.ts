@@ -4,6 +4,8 @@ import { useTasks } from "./tasksApi";
 import { usePCOL } from "src/api/PCOL/usePCOL";
 import { useSendEmail } from "src/api/Email/emailApi";
 
+const ApprovedOrSkipped = ["Approved", "Skipped"];
+
 export const useStageUpdate = (subSite: string, pcolId: number) => {
   const queryClient = useQueryClient();
   const pcol = usePCOL(subSite, pcolId);
@@ -12,14 +14,17 @@ export const useStageUpdate = (subSite: string, pcolId: number) => {
   const stage = pcol.data?.Stage;
 
   return useMutation({
-    mutationFn: async (rework: boolean = false) => {
+    mutationFn: async (newStage: string) => {
       let updateNeeded = "";
 
-      if (rework) {
-        return subWebContext(String(subSite))
+      if (newStage === "Rejected" || newStage === "Cancelled") {
+        if (newStage === "Rejected") {
+          await sendTaskEmails.mutateAsync(newStage);
+        }
+        return subWebContext(subSite)
           .web.lists.getByTitle("pcols")
           .items.getById(pcolId)
-          .update({ Stage: "Rejected" });
+          .update({ Stage: newStage });
       }
 
       const prTasks = tasks.data?.filter(
@@ -35,8 +40,8 @@ export const useStageUpdate = (subSite: string, pcolId: number) => {
       switch (stage) {
         case "Peer Review":
           if (prTasks) {
-            const approvedTasks = prTasks.filter(
-              (task) => task.Status === "Approved"
+            const approvedTasks = prTasks.filter((task) =>
+              ApprovedOrSkipped.includes(task.Status ?? "")
             );
             if (prTasks.length === approvedTasks.length) {
               updateNeeded = "Final Review";
@@ -46,8 +51,8 @@ export const useStageUpdate = (subSite: string, pcolId: number) => {
 
         case "Final Review":
           if (finalTasks) {
-            const approvedTasks = finalTasks.filter(
-              (task) => task.Status === "Approved"
+            const approvedTasks = finalTasks.filter((task) =>
+              ApprovedOrSkipped.includes(task.Status ?? "")
             );
             if (finalTasks.length === approvedTasks.length) {
               if (orgTasks?.length) {
@@ -61,8 +66,8 @@ export const useStageUpdate = (subSite: string, pcolId: number) => {
 
         case "Organizational Review":
           if (orgTasks) {
-            const approvedTasks = orgTasks.filter(
-              (task) => task.Status === "Approved"
+            const approvedTasks = orgTasks.filter((task) =>
+              ApprovedOrSkipped.includes(task.Status ?? "")
             );
             if (orgTasks.length === approvedTasks.length) {
               updateNeeded = "Approval";
@@ -72,8 +77,8 @@ export const useStageUpdate = (subSite: string, pcolId: number) => {
 
         case "Approval":
           if (pcoTasks) {
-            const approvedTasks = pcoTasks.filter(
-              (task) => task.Status === "Approved"
+            const approvedTasks = pcoTasks.filter((task) =>
+              ApprovedOrSkipped.includes(task.Status ?? "")
             );
             if (pcoTasks.length === approvedTasks.length) {
               updateNeeded = "Distribution";
@@ -83,8 +88,8 @@ export const useStageUpdate = (subSite: string, pcolId: number) => {
 
         case "Distribution":
           if (distributionTasks) {
-            const approvedTasks = distributionTasks.filter(
-              (task) => task.Status === "Approved"
+            const approvedTasks = distributionTasks.filter((task) =>
+              ApprovedOrSkipped.includes(task.Status ?? "")
             );
             if (distributionTasks.length === approvedTasks.length) {
               updateNeeded = "Distributed";
@@ -96,8 +101,8 @@ export const useStageUpdate = (subSite: string, pcolId: number) => {
       if (!updateNeeded) {
         return Promise.resolve();
       }
-      sendTaskEmails.mutate(updateNeeded);
-      return subWebContext(String(subSite))
+      await sendTaskEmails.mutateAsync(updateNeeded);
+      return subWebContext(subSite)
         .web.lists.getByTitle("pcols")
         .items.getById(pcolId)
         .update({ Stage: updateNeeded });
@@ -135,8 +140,8 @@ const useStageUpdateEmail = (subSite: string, pcolId: number) => {
         case "Peer Review": {
           let parallelTasksComplete = false;
           if (parallelTasks) {
-            const approvedTasks = parallelTasks.filter(
-              (task) => task.Status === "Approved"
+            const approvedTasks = parallelTasks.filter((task) =>
+              ApprovedOrSkipped.includes(task.Status ?? "")
             );
             if (parallelTasks.length === approvedTasks.length) {
               parallelTasksComplete = true;
@@ -200,6 +205,20 @@ const useStageUpdateEmail = (subSite: string, pcolId: number) => {
             CC: [pcol.data?.Author.EMail ?? ""],
             Subject: `PCOL task assigned for ${pcol.data?.Title}`,
             Body: `You have been assigned as the distributor. ` + linkText,
+            pcolId: pcolId,
+            Program: subSite,
+          };
+          return sendEmail.mutate(email);
+        }
+
+        case "Rejected": {
+          const email = {
+            To: [pcol.data?.Author.EMail ?? ""],
+            Subject: `PCOL Rejected: ${pcol.data?.Title}`,
+            Body:
+              `This PCOL was rejected by the PCO.<br />Click to view:<br />` +
+              `<a href="${_spPageContextInfo.webAbsoluteUrl}/app/index.aspx#/p/${subSite}/i/${pcolId}">` +
+              `${_spPageContextInfo.webAbsoluteUrl}/app/index.aspx#/p/${subSite}/i/${pcolId}</a>`,
             pcolId: pcolId,
             Program: subSite,
           };

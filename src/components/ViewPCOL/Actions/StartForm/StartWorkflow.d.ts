@@ -68,6 +68,16 @@ declare const WorkflowDetails: z.ZodObject<{
         EMail: string;
     }>>;
 }, "strip", z.ZodTypeAny, {
+    PCO: {
+        Id: string;
+        Title: string;
+        EMail: string;
+    } | null;
+    Distributor: {
+        Id: string;
+        Title: string;
+        EMail: string;
+    } | null;
     ParallelReviewers: {
         Id: string;
         Title: string;
@@ -79,21 +89,21 @@ declare const WorkflowDetails: z.ZodObject<{
         EMail: string;
     }[];
     OrgReviewer: {
-        Id: string;
-        Title: string;
-        EMail: string;
-    } | null;
-    PCO: {
-        Id: string;
-        Title: string;
-        EMail: string;
-    } | null;
-    Distributor: {
         Id: string;
         Title: string;
         EMail: string;
     } | null;
 }, {
+    PCO: {
+        Id: string;
+        Title: string;
+        EMail: string;
+    } | null;
+    Distributor: {
+        Id: string;
+        Title: string;
+        EMail: string;
+    } | null;
     ParallelReviewers: {
         Id: string;
         Title: string;
@@ -105,16 +115,6 @@ declare const WorkflowDetails: z.ZodObject<{
         EMail: string;
     }[];
     OrgReviewer: {
-        Id: string;
-        Title: string;
-        EMail: string;
-    } | null;
-    PCO: {
-        Id: string;
-        Title: string;
-        EMail: string;
-    } | null;
-    Distributor: {
         Id: string;
         Title: string;
         EMail: string;

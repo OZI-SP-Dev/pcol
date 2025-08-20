@@ -1,5 +1,5 @@
 import { usePCOL } from "src/api/PCOL/usePCOL";
-import { useParams } from "react-router-dom";
+import usePCOLParams from "../pcolParams";
 import { Title2, Title3 } from "@fluentui/react-components";
 
 const STAGES = [
@@ -13,8 +13,8 @@ const STAGES = [
 ];
 
 const StatusBar = () => {
-  const { program, pcolId } = useParams();
-  const pcol = usePCOL(String(program), Number(pcolId));
+  const { program, pcolId } = usePCOLParams();
+  const pcol = usePCOL(program, pcolId);
 
   const stageIndex = STAGES.indexOf(pcol.data?.Stage || "");
 
@@ -41,6 +41,11 @@ const StatusBar = () => {
         {pcol.data?.Stage === "Rejected" && (
           <li key="Rejected" className="active-stage">
             <div>Rejected</div>
+          </li>
+        )}
+        {pcol.data?.Stage === "Cancelled" && (
+          <li key="Cancelled" className="active-stage">
+            <div>Cancelled</div>
           </li>
         )}
       </ul>

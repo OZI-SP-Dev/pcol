@@ -1,4 +1,7 @@
 import "@pnp/sp/content-types";
+import "@pnp/sp/webs";
+import "@pnp/sp/files";
+import "@pnp/sp/folders";
 import {
   Link,
   Toast,
@@ -10,6 +13,23 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { subWebContext } from "src/api/SPWebContext";
 import { NewPCOL } from "./types";
 import { useGetSequenceNumber } from "src/api/SequenceNumber/useSequenceNumber";
+import Docxtemplater from "docxtemplater";
+import PizZip from "pizzip";
+import PizZipUtils from "pizzip/utils/index.js";
+import { useContracts } from "../Contracts/Contracts";
+import { useContractors } from "../Contracts/Contractors";
+
+type Data = string | ArrayBuffer | Uint8Array;
+
+function nullGetter(part: Docxtemplater.DXT.Part) {
+  if (part.raw) {
+    return "{" + part.raw + "}";
+  }
+  if (!part.module && part.value) {
+    return "{" + part.value + "}";
+  }
+  return "";
+}
 
 /**
  * Queries the "pcol" list for available content types
@@ -41,6 +61,8 @@ export const useAddPCOL = (subSite: string) => {
   const queryClient = useQueryClient();
   const contentTypes = useContentTypes(subSite);
   const getSequenceNumber = useGetSequenceNumber(subSite);
+  const Contracts = useContracts(subSite);
+  const Contractors = useContractors(subSite);
   const { dispatchToast } = useToastController("toaster");
 
   return useMutation({
@@ -95,6 +117,55 @@ export const useAddPCOL = (subSite: string) => {
           Stage: "Draft",
           ...rest,
         });
+
+      PizZipUtils.getBinaryContent(
+        ".\\PCOLTemplate.docx",
+        async function (error: Error, content: Data) {
+          if (error) {
+            throw error;
+          }
+          const zip = new PizZip(content);
+          const doc = new Docxtemplater(zip, {
+            nullGetter,
+            paragraphLoop: true,
+            linebreaks: true,
+          });
+          const contract = Contracts.data?.find(
+            (contract) => contract.ContractNumber === newPCOL.Contract
+          );
+          const addressee = Contractors.data?.find(
+            (contractor) => contractor.Id === contract?.Contractor.Id
+          );
+
+          doc.render({
+            ...newPCOL,
+            ControlNumber: folderName,
+            Addressee: addressee?.Address,
+          });
+          const out = doc.getZip().generate({
+            type: "blob",
+            mimeType:
+              "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            compression: "DEFLATE",
+          });
+
+          const templateFile = await subWebContext(subSite)
+            .web.getFolderById(newFolder.UniqueId)
+            .files.addUsingPath(folderName + ".docx", out);
+
+          await (
+            await subWebContext(subSite)
+              .web.getFileById(templateFile.UniqueId)
+              .getItem()
+          )
+            .update({ DocGroup: "PCOL" })
+            .then(() =>
+              queryClient.invalidateQueries({
+                queryKey: ["documents", subSite],
+              })
+            );
+        }
+      );
 
       return id;
     },

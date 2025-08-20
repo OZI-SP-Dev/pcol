@@ -13,12 +13,11 @@ import {
 
 export const useDocuments = (subSite: string, pcolName: string) => {
   return useQuery({
-    queryKey: ["documents", pcolName],
+    queryKey: ["documents", subSite, pcolName],
     queryFn: () => getDocuments(subSite, pcolName),
   });
 };
 
-// TODO: Update everything here to handle subwebs
 const getDocuments = async (subSite: string, pcolName: string) => {
   const path = "PCOLs/" + pcolName;
   return subWebContext(subSite)
@@ -50,7 +49,7 @@ export const useDeleteDocument = (subSite: string) => {
         .recycle();
     },
     onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["documents"] });
+      queryClient.invalidateQueries({ queryKey: ["documents", subSite] });
       dispatchToast(
         <Toast>
           <ToastTitle>Deleted {variables.Name}</ToastTitle>
@@ -101,7 +100,9 @@ export const useAddDocument = (
             .getItem()
         ).update({ DocGroup: docGroup });
       }
-      queryClient.invalidateQueries({ queryKey: ["documents"] });
+      queryClient.invalidateQueries({
+        queryKey: ["documents", subSite, pcolName],
+      });
     },
   });
 };
@@ -163,7 +164,7 @@ export const useEditDocument = (subSite: string) => {
       }
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["documents"] });
+      queryClient.invalidateQueries({ queryKey: ["documents", subSite] });
     },
   });
 };

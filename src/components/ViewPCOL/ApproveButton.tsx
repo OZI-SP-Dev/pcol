@@ -14,25 +14,25 @@ import {
 } from "@fluentui/react-components";
 import { AcceptIcon } from "@fluentui/react-icons-mdl2";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import usePCOLParams from "../pcolParams";
 import { useAddNote } from "src/api/Notes/notesApi";
 import { Task, useUpdateTask } from "src/api/tasks/tasksApi";
 
 const ApproveButton = ({ task }: { task: Task }) => {
   const [open, setOpen] = useState(false);
   const [reason, setReason] = useState("");
-  const { program, pcolId } = useParams();
-  const updateTask = useUpdateTask(String(program), Number(pcolId), task.Id);
-  const addNote = useAddNote(String(program), Number(pcolId));
+  const { program, pcolId } = usePCOLParams();
+  const updateTask = useUpdateTask(program, pcolId, task.Id);
+  const addNote = useAddNote(program, pcolId);
 
   const updateReason: TextareaProps["onChange"] = (_e, data) => {
     setReason(data.value);
   };
 
   const updateHandler = async () => {
-    if (reason) {
-      await addNote.mutateAsync(`Approved (${task.Role}): ${reason}`);
-    }
+    await addNote.mutateAsync(
+      `Approved (${task.Role})${reason ? ": " + reason : ""}`
+    );
     await updateTask.mutateAsync("Approved");
   };
 

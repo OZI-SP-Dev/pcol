@@ -1,19 +1,33 @@
 import { Tooltip } from "@fluentui/react-components";
-import { useParams } from "react-router-dom";
+import usePCOLParams from "../pcolParams";
 import { usePCOL } from "src/api/PCOL/usePCOL";
 import { Task, useTasks } from "src/api/tasks/tasksApi";
 import ApproveButton from "./ApproveButton";
 import RejectButton from "./RejectButton";
+import SkipButton from "./SkipButton";
 
-const ApproverButtons = ({ task }: { task: Task }) => {
-  if (task.Person.Id === _spPageContextInfo.userId && !task.Status) {
-    return (
-      <div>
+const ApproverButtons = ({
+  task,
+  pco,
+}: {
+  task: Task;
+  pco?: { Id: number; Title: string; EMail: string };
+}) => {
+  return (
+    <div>
+      {!task.Status && task.Person.Id === _spPageContextInfo.userId && (
         <ApproveButton task={task} />
+      )}
+
+      {!task.Status &&
+        task.Person.Id !== pco?.Id && // PCO can't skip their own tasks
+        pco?.Id === _spPageContextInfo.userId && <SkipButton task={task} />}
+
+      {!task.Status && pco?.Id === _spPageContextInfo.userId && (
         <RejectButton task={task} />
-      </div>
-    );
-  }
+      )}
+    </div>
+  );
 };
 
 const Status = ({ task, stage }: { task: Task; stage?: string }) => {
@@ -40,13 +54,13 @@ const Status = ({ task, stage }: { task: Task; stage?: string }) => {
       </Tooltip>
     );
   }
-  return stage !== "Rejected" ? <>Pending</> : <></>;
+  return stage !== "Rejected" && stage !== "Cancelled" ? <>Pending</> : <></>;
 };
 
 const ViewApproverDetails = () => {
-  const { program, pcolId } = useParams();
-  const pcol = usePCOL(String(program), Number(pcolId));
-  const tasks = useTasks(String(program), Number(pcolId));
+  const { program, pcolId } = usePCOLParams();
+  const pcol = usePCOL(program, pcolId);
+  const tasks = useTasks(program, pcolId);
 
   const parallel = tasks.data?.filter((task) => task.Role === "Parallel");
   const serial = tasks.data
@@ -84,7 +98,7 @@ const ViewApproverDetails = () => {
                 </td>
                 <td>
                   {pcol.data?.Stage === "Peer Review" && (
-                    <ApproverButtons task={task} />
+                    <ApproverButtons task={task} pco={pco?.Person} />
                   )}
                 </td>
               </tr>
@@ -111,7 +125,7 @@ const ViewApproverDetails = () => {
                 <td>
                   {pcol.data?.Stage === "Peer Review" &&
                     task.Id === currSerialTaskId && (
-                      <ApproverButtons task={task} />
+                      <ApproverButtons task={task} pco={pco?.Person} />
                     )}
                 </td>
               </tr>
@@ -137,7 +151,7 @@ const ViewApproverDetails = () => {
                 </td>
                 <td>
                   {pcol.data?.Stage === "Final Review" && (
-                    <ApproverButtons task={final} />
+                    <ApproverButtons task={final} pco={pco?.Person} />
                   )}
                 </td>
               </tr>
@@ -159,7 +173,7 @@ const ViewApproverDetails = () => {
                   </td>
                   <td>
                     {pcol.data?.Stage === "Organizational Review" && (
-                      <ApproverButtons task={org} />
+                      <ApproverButtons task={org} pco={pco?.Person} />
                     )}
                   </td>
                 </>
@@ -182,7 +196,7 @@ const ViewApproverDetails = () => {
                 </td>
                 <td>
                   {pcol.data?.Stage === "Approval" && (
-                    <ApproverButtons task={pco} />
+                    <ApproverButtons task={pco} pco={pco?.Person} />
                   )}
                 </td>
               </tr>

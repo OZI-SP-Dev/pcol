@@ -6,15 +6,15 @@ import {
   Tooltip,
 } from "@fluentui/react-components";
 import { usePCOL } from "src/api/PCOL/usePCOL";
-import { useParams } from "react-router-dom";
+import usePCOLParams from "src/components/pcolParams";
 import { NavigateForwardIcon } from "@fluentui/react-icons-mdl2";
 import { useMyRoles } from "src/api/Roles/rolesApi";
 import StartWorkflow from "./StartForm/StartWorkflow";
 import { useState } from "react";
 
 const SendRequest = () => {
-  const { program, pcolId } = useParams();
-  const pcol = usePCOL(String(program), Number(pcolId));
+  const { program, pcolId } = usePCOLParams();
+  const pcol = usePCOL(program, pcolId);
   const roles = useMyRoles(program);
   const [open, setOpen] = useState(false);
   const isAuthor = pcol.data?.Author.Id === _spPageContextInfo.userId;
@@ -32,14 +32,16 @@ const SendRequest = () => {
       onOpenChange={(_e, data) => setOpen(data.open)}
     >
       <DialogTrigger disableButtonEnhancement>
-        <Tooltip withArrow content="Send" relationship="label">
+        <Tooltip withArrow content="Start Workflow" relationship="label">
           <Button
             style={{
               border: "none",
               background: "transparent",
               borderRadius: "50%",
             }}
-            icon={<NavigateForwardIcon className="orange" />}
+            icon={
+              <NavigateForwardIcon className={disableSend ? "" : "orange"} />
+            }
             size="large"
             disabled={disableSend}
           />
