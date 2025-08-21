@@ -17,10 +17,18 @@ export const Disclaimer = () => {
 
   const Disclaimers: DisclaimerOptions[] = [];
   GlobalDisclaimers.data?.forEach((item) =>
-    Disclaimers.push({ id: item.Title, text: item.Title, info: item.Statement })
+    Disclaimers.push({
+      id: "g" + item.Title,
+      text: item.Title,
+      info: item.Statement,
+    })
   );
   ProgramDisclaimers.data?.forEach((item) =>
-    Disclaimers.push({ id: item.Title, text: item.Title, info: item.Statement })
+    Disclaimers.push({
+      id: "p" + item.Title,
+      text: item.Title,
+      info: item.Statement,
+    })
   );
 
   return (

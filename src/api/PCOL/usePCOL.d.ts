@@ -33,34 +33,9 @@ export declare const spPCOL: z.ZodObject<{
     AdditionalDistributionInfo: z.ZodNullable<z.ZodString>;
     Stage: z.ZodString;
 }, "strip", z.ZodTypeAny, {
-    Id: number;
-    Title: string;
     Disclaimers: (string | undefined)[];
-    Stage: string;
-    Author: {
-        Id: number;
-        Title: string;
-        EMail: string;
-    };
-    Modified: Date;
-    Created: Date;
-    Subject: string | null;
-    References: string | null;
-    DODAAC: string;
-    Contract: string;
-    DeliveryOrderMod: string | null;
-    RFI: string | null;
-    RFP: string | null;
-    ECP: string | null;
-    CCP: string | null;
-    AssociatedContractorLetterNumbers: string | null;
-    CarbonCopy: string | null;
-    AdditionalDistributionInfo: string | null;
-}, {
     Id: number;
     Title: string;
-    Disclaimers: string | null;
-    Stage: string;
     Author: {
         Id: number;
         Title: string;
@@ -80,13 +55,37 @@ export declare const spPCOL: z.ZodObject<{
     AssociatedContractorLetterNumbers: string | null;
     CarbonCopy: string | null;
     AdditionalDistributionInfo: string | null;
+    Stage: string;
+}, {
+    Disclaimers: string | null;
+    Id: number;
+    Title: string;
+    Author: {
+        Id: number;
+        Title: string;
+        EMail: string;
+    };
+    Modified: Date;
+    Created: Date;
+    Subject: string | null;
+    References: string | null;
+    DODAAC: string;
+    Contract: string;
+    DeliveryOrderMod: string | null;
+    RFI: string | null;
+    RFP: string | null;
+    ECP: string | null;
+    CCP: string | null;
+    AssociatedContractorLetterNumbers: string | null;
+    CarbonCopy: string | null;
+    AdditionalDistributionInfo: string | null;
+    Stage: string;
 }>;
 export type spPCOL = z.infer<typeof spPCOL>;
 export declare const usePCOL: (subSite: string, pcolId: number) => import("@tanstack/react-query").UseQueryResult<{
+    Disclaimers: (string | undefined)[];
     Id: number;
     Title: string;
-    Disclaimers: (string | undefined)[];
-    Stage: string;
     Author: {
         Id: number;
         Title: string;
@@ -106,4 +105,5 @@ export declare const usePCOL: (subSite: string, pcolId: number) => import("@tans
     AssociatedContractorLetterNumbers: string | null;
     CarbonCopy: string | null;
     AdditionalDistributionInfo: string | null;
+    Stage: string;
 }, Error>;

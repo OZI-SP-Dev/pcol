@@ -90,11 +90,6 @@ export declare const useTasks: (subSite: string, pcolId: number) => import("@tan
     } | undefined;
 }[], Error>;
 export declare const useAddTasks: (subSite: string, pcolId: number) => import("@tanstack/react-query").UseMutationResult<void, Error, {
-    PCO: {
-        Id: string;
-        Title: string;
-        EMail: string;
-    } | null;
     Distributor: {
         Id: string;
         Title: string;
@@ -111,6 +106,11 @@ export declare const useAddTasks: (subSite: string, pcolId: number) => import("@
         EMail: string;
     }[];
     OrgReviewer: {
+        Id: string;
+        Title: string;
+        EMail: string;
+    } | null;
+    PCO: {
         Id: string;
         Title: string;
         EMail: string;

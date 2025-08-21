@@ -41,20 +41,20 @@ declare const PagedPCOLs: z.ZodArray<z.ZodObject<Pick<{
     CarbonCopy: z.ZodNullable<z.ZodString>;
     AdditionalDistributionInfo: z.ZodNullable<z.ZodString>;
     Stage: z.ZodString;
-}, "Id" | "Title" | "Stage" | "Modified" | "Subject" | "Contract">, "strip", z.ZodTypeAny, {
+}, "Id" | "Title" | "Modified" | "Subject" | "Contract" | "Stage">, "strip", z.ZodTypeAny, {
     Id: number;
     Title: string;
-    Stage: string;
     Modified: Date;
     Subject: string | null;
     Contract: string;
+    Stage: string;
 }, {
     Id: number;
     Title: string;
-    Stage: string;
     Modified: Date;
     Subject: string | null;
     Contract: string;
+    Stage: string;
 }>, "many">;
 type PagedPCOLs = z.infer<typeof PagedPCOLs>;
 export interface PagedResult {
@@ -65,10 +65,10 @@ export declare const usePagedPCOLs: (subSite: string, page: number | undefined, 
     items: {
         Id: number;
         Title: string;
-        Stage: string;
         Modified: Date;
         Subject: string | null;
         Contract: string;
+        Stage: string;
     }[];
     hasNextPage: boolean;
 }, Error>;
