@@ -170,6 +170,8 @@ export const useAddPCOL = (subSite: string) => {
             (dodaac) => dodaac.DODAAC === newPCOL.DODAAC
           );
 
+          newPCOL.References.replaceAll("\n", "\n\t");
+
           await doc.renderAsync({
             ...newPCOL,
             ControlNumber: folderName,
