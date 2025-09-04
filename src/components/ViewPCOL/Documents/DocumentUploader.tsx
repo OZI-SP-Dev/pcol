@@ -76,7 +76,7 @@ export const DocumentUploader = (props: {
       appearance="outline"
       style={{ textAlign: "center" }}
       className={inDropZone ? "inDropZone" : ""}
-      id="documentDropZone"
+      id={props.docGroup + "documentDropZone"}
     >
       <input
         type="file"
@@ -100,6 +100,12 @@ export const DocumentUploader = (props: {
             Upload one or more {props.docGroup || ""} files, or drag them here.
           </strong>
         </Label>
+      )}
+      {props.docGroup === "Attachment" && addDocument.isSuccess && (
+        <p>
+          Attachments added after the Draft stage need to be manually added to
+          the PCOL file's attachments list.
+        </p>
       )}
     </Card>
   );

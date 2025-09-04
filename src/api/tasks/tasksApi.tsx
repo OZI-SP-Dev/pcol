@@ -12,6 +12,14 @@ import Docxtemplater from "docxtemplater";
 import PizZip, { Data } from "pizzip";
 import PizZipUtils from "pizzip/utils/index.js";
 import { useDocuments } from "../documentsApi";
+import {
+  Link,
+  Toast,
+  ToastBody,
+  ToastTitle,
+  ToastTrigger,
+  useToastController,
+} from "@fluentui/react-components";
 
 const Task = z.object({
   Id: z.number().positive(),
@@ -65,6 +73,7 @@ export const useAddTasks = (subSite: string, pcolId: number) => {
   const pcol = usePCOL(subSite, pcolId);
   const documents = useDocuments(subSite, String(pcol.data?.Title));
   const sendEmail = useSendEmail();
+  const { dispatchToast } = useToastController("toaster");
   return useMutation({
     mutationFn: async (wfDetails: WorkflowDetails) => {
       const [batched, execute] = subWebContext(subSite).batched();
@@ -111,7 +120,37 @@ export const useAddTasks = (subSite: string, pcolId: number) => {
 
             await subWebContext(subSite)
               .web.getFileByServerRelativePath(docRelUrl)
-              .setContent(out);
+              .setContent(out)
+              .catch((reason: Error) => {
+                console.log(reason);
+
+                const regex = /"value":"(.*?)"/;
+                const match = reason.message.match(regex);
+
+                dispatchToast(
+                  <Toast>
+                    <ToastTitle
+                      action={
+                        <ToastTrigger>
+                          <Link>Dismiss</Link>
+                        </ToastTrigger>
+                      }
+                    >
+                      Error adding links to PCOL file
+                    </ToastTitle>
+                    <ToastBody>
+                      <p>The file is likely being edited by another person.</p>
+                      <p>
+                        <strong>
+                          You will need to add the list of attachments manually.
+                        </strong>
+                      </p>
+                      <p>Error message: {match?.[1]}</p>
+                    </ToastBody>
+                  </Toast>,
+                  { intent: "error", timeout: -1 }
+                );
+              });
           }
         );
       }
