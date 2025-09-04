@@ -113,7 +113,7 @@ const ViewPCOLDetails = () => {
             <Text id="Disclaimer">
               {pcol.data.Disclaimers?.map((item) => (
                 <>
-                  {item?.slice(1)}
+                  {item?.slice(1) /* strip off g/p (global/program) prefix */}
                   <br />
                 </>
               ))}

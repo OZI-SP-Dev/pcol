@@ -151,6 +151,7 @@ export const useAddTasks = (subSite: string, pcolId: number) => {
                   { intent: "error", timeout: -1 }
                 );
               });
+            queryClient.invalidateQueries({ queryKey: ["documents", subSite] });
           }
         );
       }
