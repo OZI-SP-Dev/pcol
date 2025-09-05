@@ -78,7 +78,5 @@ export const usePCOL = (subSite: string, pcolId: number) => {
     queryKey: ["PCOL", subSite, pcolId],
     queryFn: () => getPCOL(subSite, pcolId),
     select: transformPCOL,
-    staleTime: Infinity,
-    gcTime: Infinity,
   });
 };
