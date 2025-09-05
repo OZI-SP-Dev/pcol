@@ -89,6 +89,24 @@ export declare const useTasks: (subSite: string, pcolId: number) => import("@tan
         EMail: string;
     } | undefined;
 }[], Error>;
+export declare const useMyTasks: (subSite: string) => import("@tanstack/react-query").UseQueryResult<{
+    Id: number;
+    Title: string;
+    pcolId: number;
+    Role: string;
+    Person: {
+        Id: number;
+        Title: string;
+        EMail: string;
+    };
+    Status?: string | undefined;
+    Modified?: Date | undefined;
+    SkippedBy?: {
+        Id: number;
+        Title: string;
+        EMail: string;
+    } | undefined;
+}[], Error>;
 export declare const useAddTasks: (subSite: string, pcolId: number) => import("@tanstack/react-query").UseMutationResult<void, Error, {
     ParallelReviewers: {
         Id: string;
@@ -117,4 +135,5 @@ export declare const useAddTasks: (subSite: string, pcolId: number) => import("@
     } | null;
 }, unknown>;
 export declare const useUpdateTask: (subSite: string, pcolId: number, taskId: number) => import("@tanstack/react-query").UseMutationResult<any, Error, string, unknown>;
+export declare const useInvalidateTasks: (subSite: string, pcolId: number) => import("@tanstack/react-query").UseMutationResult<void, Error, string, unknown>;
 export {};

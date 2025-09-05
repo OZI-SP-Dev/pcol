@@ -150,7 +150,7 @@ const firstPageQuery = (
 
   let queryString = "ContentType eq 'PCOLDocSet'";
   if (!allItems) {
-    queryString += " and Stage ne 'Complete' and Stage ne 'Cancelled'";
+    queryString += " and Stage ne 'Distributed' and Stage ne 'Cancelled'";
   }
 
   filterParams.forEach((filter) => {

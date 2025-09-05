@@ -68,6 +68,30 @@ export const useTasks = (subSite: string, pcolId: number) => {
   });
 };
 
+export const useMyTasks = (subSite: string) => {
+  return useQuery({
+    queryKey: ["tasks", subSite],
+    queryFn: () =>
+      subWebContext(subSite)
+        .web.lists.getByTitle("tasks")
+        .items.select(
+          "Id",
+          "Title",
+          "pcolId",
+          "Person/Id",
+          "Person/Title",
+          "Person/EMail",
+          "Role",
+          "Status",
+          "Modified"
+        )
+        .expand("Person")
+        .filter(
+          `Status eq null and Person/Id eq '${_spPageContextInfo.userId}'`
+        )<Task[]>(),
+  });
+};
+
 export const useAddTasks = (subSite: string, pcolId: number) => {
   const queryClient = useQueryClient();
   const pcol = usePCOL(subSite, pcolId);
@@ -316,13 +340,38 @@ export const useUpdateTask = (
           }),
         });
     },
-    onError: () => {
+    onSuccess: (_result, variables) => {
+      stageUpdate.mutate(variables);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["tasks", subSite],
+      });
+    },
+  });
+};
+
+export const useInvalidateTasks = (subSite: string, pcolId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (newStatus: string) => {
+      const [batchedSp, execute] = subWebContext(String(subSite)).batched();
+      const batchList = batchedSp.web.lists.getByTitle("tasks");
+
+      const items = await subWebContext(String(subSite))
+        .web.lists.getByTitle("tasks")
+        .items.filter(`pcolId eq '${pcolId}' and Status eq null`)();
+
+      for (const item of items) {
+        batchList.items.getById(item.Id).update({ Status: newStatus });
+      }
+
+      return execute();
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: ["tasks", subSite, pcolId],
       });
-    },
-    onSuccess: (_result, variables) => {
-      stageUpdate.mutate(variables);
     },
   });
 };

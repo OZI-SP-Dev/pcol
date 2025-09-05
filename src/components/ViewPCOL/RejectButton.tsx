@@ -16,7 +16,11 @@ import { EntryDeclineIcon } from "@fluentui/react-icons-mdl2";
 import { useState } from "react";
 import usePCOLParams from "../pcolParams";
 import { useAddNote } from "src/api/Notes/notesApi";
-import { Task, useUpdateTask } from "src/api/tasks/tasksApi";
+import {
+  Task,
+  useInvalidateTasks,
+  useUpdateTask,
+} from "src/api/tasks/tasksApi";
 
 const RejectButton = ({ task }: { task: Task }) => {
   const [open, setOpen] = useState(false);
@@ -24,6 +28,7 @@ const RejectButton = ({ task }: { task: Task }) => {
   const { program, pcolId } = usePCOLParams();
   const updateTask = useUpdateTask(program, pcolId, task.Id);
   const addNote = useAddNote(program, pcolId);
+  const invalidateTasks = useInvalidateTasks(program, pcolId);
 
   const updateReason: TextareaProps["onChange"] = (_e, data) => {
     setReason(data.value);
@@ -32,6 +37,7 @@ const RejectButton = ({ task }: { task: Task }) => {
   const updateHandler = async () => {
     await addNote.mutateAsync(`REJECTED (${task.Role}): ${reason}`);
     await updateTask.mutateAsync("Rejected");
+    await invalidateTasks.mutateAsync("Rejected");
   };
 
   return (
