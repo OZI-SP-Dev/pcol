@@ -10,11 +10,13 @@ import {
   DataGridHeaderCell,
   DataGridProps,
   DataGridRow,
+  Field,
   Menu,
   MenuItem,
   MenuList,
   MenuPopover,
   MenuTrigger,
+  ProgressBar,
   Spinner,
   TableCellLayout,
   TableColumnDefinition,
@@ -74,7 +76,57 @@ const Stage = createTableColumn<spPCOL>({
     return <>Stage {filtered && <FilterIcon />}</>;
   },
   renderCell: (item) => {
-    return <TableCellLayout truncate>{item.Stage}</TableCellLayout>;
+    let value = 0;
+    // currently the only colors that matter are brand and success
+    // if in the future we want to calculate how "far" a PCOL made
+    //   it prior to be rejected/cancelled, the others will matter
+    let color = "brand" as "brand" | "success" | "warning" | "error";
+
+    switch (item.Stage) {
+      case "Draft":
+        value = 0.1;
+        break;
+      case "Peer Review":
+        value = 0.2;
+        break;
+      case "Final Review":
+        value = 0.6;
+        break;
+      case "Orginzational Review":
+        value = 0.7;
+        break;
+      case "Approval":
+        value = 0.8;
+        break;
+      case "Distribution":
+        value = 0.9;
+        break;
+      case "Distributed":
+        value = 1.0;
+        color = "success";
+        break;
+      case "Cancelled":
+        value = 0;
+        color = "warning";
+        break;
+      case "Rejected":
+        value = 0;
+        color = "error";
+        break;
+    }
+
+    return (
+      <TableCellLayout truncate>
+        <Field validationMessage={item.Stage} validationState="none">
+          <ProgressBar
+            value={value}
+            style={{ minWidth: 120 }}
+            thickness="large"
+            color={color}
+          />
+        </Field>
+      </TableCellLayout>
+    );
   },
 });
 
