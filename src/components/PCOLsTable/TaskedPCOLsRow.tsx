@@ -7,6 +7,7 @@ import {
 import { Link, useParams } from "react-router-dom";
 import { usePCOL } from "src/api/PCOL/usePCOL";
 import { Task } from "src/api/tasks/tasksApi";
+import { PCOLProgressBar } from "./PCOLProgressBar";
 
 const TaskedPCOLsRows = ({
   task,
@@ -21,7 +22,7 @@ const TaskedPCOLsRows = ({
   if (pcol.isLoading) {
     return (
       <TableRow>
-        <TableCell colSpan={5}>
+        <TableCell colSpan={6}>
           <TableCellLayout media={<Spinner />}>Loading...</TableCellLayout>
         </TableCell>
       </TableRow>
@@ -72,8 +73,11 @@ const TaskedPCOLsRows = ({
       </TableCell>
       <TableCell>
         <TableCellLayout>
-          {pcol.data?.Stage} / {task.Role}
+          <PCOLProgressBar stage={String(pcol.data?.Stage)} />
         </TableCellLayout>
+      </TableCell>
+      <TableCell>
+        <TableCellLayout>{task.Role}</TableCellLayout>
       </TableCell>
       <TableCell>
         <TableCellLayout>

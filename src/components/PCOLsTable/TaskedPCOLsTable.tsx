@@ -13,6 +13,7 @@ const columns = [
   { columnKey: "Title", label: "Control Number" },
   { columnKey: "Subject", label: "Subject Title" },
   { columnKey: "Stage", label: "Stage" },
+  { columnKey: "Task", label: "Task" },
   { columnKey: "Modified", label: "Modified" },
   { columnKey: "Contract", label: "Contract" },
 ];
