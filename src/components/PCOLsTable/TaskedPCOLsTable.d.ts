@@ -1,2 +1,4 @@
-declare const TaskedPCOLsTable: () => import("react/jsx-runtime").JSX.Element;
+declare const TaskedPCOLsTable: ({ allRelatedItems, }: {
+    allRelatedItems: boolean;
+}) => import("react/jsx-runtime").JSX.Element;
 export default TaskedPCOLsTable;

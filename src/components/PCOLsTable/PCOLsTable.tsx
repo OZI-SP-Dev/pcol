@@ -26,6 +26,7 @@ import {
   ToolbarProps,
   ToolbarRadioButton,
   ToolbarRadioGroup,
+  ToolbarToggleButton,
   createTableColumn,
 } from "@fluentui/react-components";
 import {
@@ -216,6 +217,11 @@ const PCOLsTable = () => {
             Filters
           </ToolbarButton>
         )}
+        {checkedValues.filterOptions.includes("myItems") && (
+          <ToolbarToggleButton name="filterOptions" value="allRelatedItems">
+            All Related Items
+          </ToolbarToggleButton>
+        )}
       </Toolbar>
       {!checkedValues.filterOptions.includes("myItems") && (
         <>
@@ -293,7 +299,13 @@ const PCOLsTable = () => {
           </div>
         </>
       )}
-      {checkedValues.filterOptions.includes("myItems") && <TaskedPCOLsTable />}
+      {checkedValues.filterOptions.includes("myItems") && (
+        <TaskedPCOLsTable
+          allRelatedItems={checkedValues.filterOptions.includes(
+            "allRelatedItems"
+          )}
+        />
+      )}
     </>
   );
 };

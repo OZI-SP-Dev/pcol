@@ -8,7 +8,13 @@ import { Link, useParams } from "react-router-dom";
 import { usePCOL } from "src/api/PCOL/usePCOL";
 import { Task } from "src/api/tasks/tasksApi";
 
-const TaskedPCOLsRows = ({ task }: { task: Task }) => {
+const TaskedPCOLsRows = ({
+  task,
+  allRelatedItems,
+}: {
+  task: Task;
+  allRelatedItems: boolean;
+}) => {
   const { program } = useParams();
   const pcol = usePCOL(String(program), task.pcolId);
 
@@ -22,27 +28,34 @@ const TaskedPCOLsRows = ({ task }: { task: Task }) => {
     );
   }
 
-  // Ignore if the current stage does not match our task role
   const stage = pcol.data?.Stage;
-  switch (task.Role) {
-    case "Parallel":
-      if (stage !== "Peer Review") return;
-      break;
-    case "Serial":
-      if (stage !== "Peer Review") return;
-      break;
-    case "Final":
-      if (stage !== "Final Review") return;
-      break;
-    case "Org":
-      if (stage !== "Organizational Review") return;
-      break;
-    case "PCO":
-      if (stage !== "Approval") return;
-      break;
-    case "Distributor":
-      if (stage !== "Distribution") return;
-      break;
+  if (allRelatedItems) {
+    // Ignore if from a PCOL that's "done"
+    if (["Cancelled", "Distributed", "Rejected"].includes(String(stage))) {
+      return;
+    }
+  } else {
+    // Ignore if the current stage does not match our task role
+    switch (task.Role) {
+      case "Parallel":
+        if (stage !== "Peer Review") return;
+        break;
+      case "Serial":
+        if (stage !== "Peer Review") return;
+        break;
+      case "Final":
+        if (stage !== "Final Review") return;
+        break;
+      case "Org":
+        if (stage !== "Organizational Review") return;
+        break;
+      case "PCO":
+        if (stage !== "Approval") return;
+        break;
+      case "Distributor":
+        if (stage !== "Distribution") return;
+        break;
+    }
   }
 
   return (

@@ -17,7 +17,11 @@ const columns = [
   { columnKey: "Contract", label: "Contract" },
 ];
 
-const TaskedPCOLsTable = () => {
+const TaskedPCOLsTable = ({
+  allRelatedItems = false,
+}: {
+  allRelatedItems: boolean;
+}) => {
   const { program } = useParams();
   const myTasks = useMyTasks(String(program));
 
@@ -34,7 +38,11 @@ const TaskedPCOLsTable = () => {
       </TableHeader>
       <TableBody>
         {myTasks.data?.map((task) => (
-          <TaskedPCOLsRows task={task} key={task.Id} />
+          <TaskedPCOLsRows
+            task={task}
+            key={task.Id}
+            allRelatedItems={allRelatedItems}
+          />
         ))}
       </TableBody>
     </Table>
