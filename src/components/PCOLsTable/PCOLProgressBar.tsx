@@ -1,12 +1,16 @@
 import { Field, ProgressBar } from "@fluentui/react-components";
 
+type ProgressBarColors = "brand" | "success" | "warning" | "error";
+type ValidationStates = "success" | "warning" | "error" | "none" | undefined;
+
 export const PCOLProgressBar = ({ stage }: { stage: string }) => {
   let value = 0; // default no progress
 
   // currently the only colors that matter are brand and success
   // if in the future we want to calculate how "far" a PCOL made
   //   it prior to be rejected/cancelled, the others will matter
-  let color = "brand" as "brand" | "success" | "warning" | "error";
+  let color: ProgressBarColors = "brand";
+  let validationState: ValidationStates = "none";
 
   switch (stage) {
     case "Draft":
@@ -29,20 +33,23 @@ export const PCOLProgressBar = ({ stage }: { stage: string }) => {
       break;
     case "Distributed":
       value = 1.0;
+      validationState = "success";
       color = "success";
       break;
     case "Cancelled":
       value = 0;
+      validationState = "warning";
       color = "warning";
       break;
     case "Rejected":
       value = 0;
+      validationState = "error";
       color = "error";
       break;
   }
 
   return (
-    <Field validationMessage={stage} validationState="none">
+    <Field validationMessage={stage} validationState={validationState}>
       <ProgressBar
         value={value}
         style={{ minWidth: 120 }}
