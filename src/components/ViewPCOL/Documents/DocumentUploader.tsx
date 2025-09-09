@@ -101,12 +101,6 @@ export const DocumentUploader = (props: {
           </strong>
         </Label>
       )}
-      {props.docGroup === "Attachment" && addDocument.isSuccess && (
-        <p>
-          Attachments added after the Draft stage need to be manually added to
-          the PCOL file's attachments list.
-        </p>
-      )}
     </Card>
   );
 };
