@@ -29,7 +29,7 @@ const getContractors = async (program: string) =>
       "ContractorPOC/Id",
       "ContractorPOC/Title"
     )
-    .expand("Contractor", "ContractorPOC")<spContractors>();
+    .expand("ContractorPOC")<spContractors>();
 
 const transformData = (data: spContractors) => spContractors.parse(data);
 

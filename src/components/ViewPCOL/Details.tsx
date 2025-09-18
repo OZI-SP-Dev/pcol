@@ -49,7 +49,14 @@ const ViewPCOLDetails = () => {
             <Label weight="semibold" htmlFor="Contract">
               Contract
             </Label>
-            <Text id="Contract">{pcol.data.Contract}</Text>
+            <Text id="Contract">
+              {pcol.data.Contract} -{" "}
+              {
+                contracts.data?.find(
+                  (contract) => contract.ContractNumber === pcol.data.Contract
+                )?.Title
+              }
+            </Text>
 
             <Label weight="semibold" htmlFor="Contractor">
               Contractor
@@ -57,7 +64,7 @@ const ViewPCOLDetails = () => {
             <Text id="Contractor">
               {
                 contracts.data?.find(
-                  (contract) => contract.Title === pcol.data.Contract
+                  (contract) => contract.ContractNumber === pcol.data.Contract
                 )?.Contractor.Title
               }
             </Text>
@@ -106,7 +113,7 @@ const ViewPCOLDetails = () => {
             <Text id="Disclaimer">
               {pcol.data.Disclaimers?.map((item) => (
                 <>
-                  {item}
+                  {item?.slice(1) /* strip off g/p (global/program) prefix */}
                   <br />
                 </>
               ))}

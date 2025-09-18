@@ -14,6 +14,7 @@ import usePCOLParams from "src/components/pcolParams";
 import { useAddNote } from "src/api/Notes/notesApi";
 import { usePCOL } from "src/api/PCOL/usePCOL";
 import { useStageUpdate } from "src/api/tasks/stage";
+import { useInvalidateTasks } from "src/api/tasks/tasksApi";
 
 const NonCancellableStages = [
   "Rejected",
@@ -27,9 +28,11 @@ const CancelRequest = () => {
   const pcol = usePCOL(program, pcolId);
   const addNote = useAddNote(program, pcolId);
   const stageUpdate = useStageUpdate(program, pcolId);
+  const invalidateTasks = useInvalidateTasks(program, pcolId);
   const cancelHandler = async () => {
     await addNote.mutateAsync(`PCOL Cancelled`);
     await stageUpdate.mutateAsync("Cancelled");
+    await invalidateTasks.mutateAsync("Cancelled");
   };
 
   const cantCancel = NonCancellableStages.includes(pcol.data?.Stage ?? "");

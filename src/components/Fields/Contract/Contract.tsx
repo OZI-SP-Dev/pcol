@@ -22,8 +22,8 @@ export const Contract = () => {
   contracts.data?.forEach((item) => {
     if (DODAAC === item.DODAAC) {
       options.push({
-        children: item.Title,
-        value: item.Title,
+        children: `${item.ContractNumber} - ${item.Title}`,
+        value: item.ContractNumber,
       });
     }
   });

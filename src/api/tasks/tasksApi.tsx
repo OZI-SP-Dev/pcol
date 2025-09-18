@@ -8,6 +8,18 @@ import { WorkflowDetails } from "src/components/ViewPCOL/Actions/StartForm/Start
 import { usePCOL } from "src/api/PCOL/usePCOL";
 import { useStageUpdate } from "./stage";
 import { useSendEmail } from "src/api/Email/emailApi";
+import Docxtemplater from "docxtemplater";
+import PizZip, { Data } from "pizzip";
+import PizZipUtils from "pizzip/utils/index.js";
+import { useDocuments } from "../documentsApi";
+import {
+  Link,
+  Toast,
+  ToastBody,
+  ToastTitle,
+  ToastTrigger,
+  useToastController,
+} from "@fluentui/react-components";
 
 const Task = z.object({
   Id: z.number().positive(),
@@ -56,15 +68,117 @@ export const useTasks = (subSite: string, pcolId: number) => {
   });
 };
 
+export const useMyTasks = (subSite: string) => {
+  return useQuery({
+    queryKey: ["tasks", subSite],
+    queryFn: () =>
+      subWebContext(subSite)
+        .web.lists.getByTitle("tasks")
+        .items.select(
+          "Id",
+          "Title",
+          "pcolId",
+          "Person/Id",
+          "Person/Title",
+          "Person/EMail",
+          "Role",
+          "Status",
+          "Modified"
+        )
+        .expand("Person")
+        .filter(
+          `Status eq null and Person/Id eq '${_spPageContextInfo.userId}'`
+        )<Task[]>(),
+  });
+};
+
 export const useAddTasks = (subSite: string, pcolId: number) => {
   const queryClient = useQueryClient();
   const pcol = usePCOL(subSite, pcolId);
+  const documents = useDocuments(subSite, String(pcol.data?.Title));
   const sendEmail = useSendEmail();
+  const { dispatchToast } = useToastController("toaster");
   return useMutation({
     mutationFn: async (wfDetails: WorkflowDetails) => {
       const [batched, execute] = subWebContext(subSite).batched();
       const batch = batched.web.lists.getByTitle("tasks");
       let count = 0;
+
+      const document = documents.data?.find(
+        (doc) => doc.ListItemAllFields.DocGroup === "PCOL"
+      );
+      const docRelUrl = document?.ServerRelativeUrl;
+      const attachments = documents.data?.filter(
+        (doc) => doc.ListItemAllFields.DocGroup === "Attachment"
+      );
+
+      let attachmentNames = "";
+      if (attachments) {
+        for (const att of attachments) {
+          attachmentNames += att.Name + "\n";
+        }
+      }
+
+      if (docRelUrl) {
+        PizZipUtils.getBinaryContent(
+          docRelUrl,
+          async function (error: Error, content: Data) {
+            if (error) {
+              throw error;
+            }
+            const zip = new PizZip(content);
+            const doc = new Docxtemplater(zip, {
+              paragraphLoop: true,
+              linebreaks: true,
+            });
+
+            await doc.renderAsync({
+              Attachments: attachmentNames,
+            });
+            const out = doc.getZip().generate({
+              type: "blob",
+              mimeType:
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+              compression: "DEFLATE",
+            });
+
+            await subWebContext(subSite)
+              .web.getFileByServerRelativePath(docRelUrl)
+              .setContent(out)
+              .catch((reason: Error) => {
+                console.log(reason);
+
+                const regex = /"value":"(.*?)"/;
+                const match = reason.message.match(regex);
+
+                dispatchToast(
+                  <Toast>
+                    <ToastTitle
+                      action={
+                        <ToastTrigger>
+                          <Link>Dismiss</Link>
+                        </ToastTrigger>
+                      }
+                    >
+                      Error adding links to PCOL file
+                    </ToastTitle>
+                    <ToastBody>
+                      <p>The file is likely being edited by another person.</p>
+                      <p>
+                        <strong>
+                          You will need to add the list of attachments manually.
+                        </strong>
+                      </p>
+                      <p>Error message: {match?.[1]}</p>
+                    </ToastBody>
+                  </Toast>,
+                  { intent: "error", timeout: -1 }
+                );
+              });
+            queryClient.invalidateQueries({ queryKey: ["documents", subSite] });
+          }
+        );
+      }
 
       for (const reviewer of wfDetails.ParallelReviewers) {
         if (reviewer.EMail) {
@@ -226,13 +340,38 @@ export const useUpdateTask = (
           }),
         });
     },
-    onError: () => {
+    onSuccess: (_result, variables) => {
+      stageUpdate.mutate(variables);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["tasks", subSite],
+      });
+    },
+  });
+};
+
+export const useInvalidateTasks = (subSite: string, pcolId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (newStatus: string) => {
+      const [batchedSp, execute] = subWebContext(String(subSite)).batched();
+      const batchList = batchedSp.web.lists.getByTitle("tasks");
+
+      const items = await subWebContext(String(subSite))
+        .web.lists.getByTitle("tasks")
+        .items.filter(`pcolId eq '${pcolId}' and Status eq null`)();
+
+      for (const item of items) {
+        batchList.items.getById(item.Id).update({ Status: newStatus });
+      }
+
+      return execute();
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: ["tasks", subSite, pcolId],
       });
-    },
-    onSuccess: (_result, variables) => {
-      stageUpdate.mutate(variables);
     },
   });
 };

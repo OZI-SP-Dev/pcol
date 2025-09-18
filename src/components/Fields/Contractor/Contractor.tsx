@@ -15,7 +15,7 @@ export const Contractor = () => {
   });
 
   const contract = contracts.data?.find(
-    (element) => element.Title === field.value
+    (element) => element.ContractNumber === field.value
   );
 
   return (

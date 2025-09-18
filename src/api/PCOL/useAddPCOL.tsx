@@ -16,8 +16,10 @@ import { useGetSequenceNumber } from "src/api/SequenceNumber/useSequenceNumber";
 import Docxtemplater from "docxtemplater";
 import PizZip from "pizzip";
 import PizZipUtils from "pizzip/utils/index.js";
-import { useContracts } from "../Contracts/Contracts";
-import { useContractors } from "../Contracts/Contractors";
+import { useContracts } from "src/api/Contracts/Contracts";
+import { useContractors } from "src/api/Contracts/Contractors";
+import { useDODAACs } from "src/api/DODAAC/useDODAACs";
+import { useDisclaimers } from "src/api/Disclaimer/useDisclaimers";
 
 type Data = string | ArrayBuffer | Uint8Array;
 
@@ -61,8 +63,11 @@ export const useAddPCOL = (subSite: string) => {
   const queryClient = useQueryClient();
   const contentTypes = useContentTypes(subSite);
   const getSequenceNumber = useGetSequenceNumber(subSite);
+  const DODAACs = useDODAACs();
   const Contracts = useContracts(subSite);
   const Contractors = useContractors(subSite);
+  const GlobalDisclaimers = useDisclaimers();
+  const ProgramDisclaimers = useDisclaimers(subSite);
   const { dispatchToast } = useToastController("toaster");
 
   return useMutation({
@@ -95,6 +100,28 @@ export const useAddPCOL = (subSite: string) => {
         .items.add({ Title: id.toString() });
 
       const { Disclaimers, ...rest } = newPCOL;
+      const fullDisclaimers = [] as string[];
+
+      for (const disclaimer of Disclaimers) {
+        const pref = disclaimer.charAt(0);
+        const title = disclaimer.slice(1);
+        let statement;
+        if (pref === "g") {
+          //global disclaimer
+          statement = GlobalDisclaimers.data?.find(
+            (gd) => gd.Title === title
+          )?.Statement;
+        }
+        if (pref === "p") {
+          //program disclaimer
+          statement = ProgramDisclaimers.data?.find(
+            (pd) => pd.Title === title
+          )?.Statement;
+        }
+        if (statement) {
+          fullDisclaimers.push(statement);
+        }
+      }
 
       // Folder name format: [DODAAC-YYYYDDD-SEQ]
       const seq = await getSequenceNumber.mutateAsync(newPCOL.Subject);
@@ -130,17 +157,27 @@ export const useAddPCOL = (subSite: string) => {
             paragraphLoop: true,
             linebreaks: true,
           });
+
           const contract = Contracts.data?.find(
             (contract) => contract.ContractNumber === newPCOL.Contract
           );
+
           const addressee = Contractors.data?.find(
             (contractor) => contractor.Id === contract?.Contractor.Id
           );
 
-          doc.render({
+          const office = DODAACs.data?.find(
+            (dodaac) => dodaac.DODAAC === newPCOL.DODAAC
+          );
+
+          newPCOL.References.replaceAll("\n", "\n\t");
+
+          await doc.renderAsync({
             ...newPCOL,
             ControlNumber: folderName,
             Addressee: addressee?.Address,
+            OriginatingOffice: `${office?.OfficeName}\n${office?.OfficeAddress}`,
+            Disclaimers: fullDisclaimers,
           });
           const out = doc.getZip().generate({
             type: "blob",

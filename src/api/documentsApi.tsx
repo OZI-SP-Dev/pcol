@@ -52,7 +52,21 @@ export const useDeleteDocument = (subSite: string) => {
       queryClient.invalidateQueries({ queryKey: ["documents", subSite] });
       dispatchToast(
         <Toast>
-          <ToastTitle>Deleted {variables.Name}</ToastTitle>
+          <ToastTitle
+            action={
+              <ToastTrigger>
+                <Link>Dismiss</Link>
+              </ToastTrigger>
+            }
+          >
+            Deleted {variables.Name}
+          </ToastTitle>
+          {variables.ListItemAllFields.DocGroup === "Attachment" && (
+            <ToastBody>
+              Attachments removed after the Draft stage need to be manually
+              removed from the PCOL file's attachments list.
+            </ToastBody>
+          )}
         </Toast>,
         { intent: "success" }
       );
@@ -86,19 +100,40 @@ export const useAddDocument = (
   docGroup?: string
 ) => {
   const queryClient = useQueryClient();
+  const { dispatchToast } = useToastController("toaster");
   return useMutation({
     mutationFn: async (file: File) => {
       return subWebContext(subSite)
         .web.getFolderByServerRelativePath(`PCOLs/${pcolName}`)
         .files.addUsingPath(file.name, file, { Overwrite: true });
     },
-    onSuccess: async (filedata) => {
+    onSuccess: async (filedata, variables) => {
       if (docGroup) {
         await (
           await subWebContext(subSite)
             .web.getFileById(filedata.UniqueId)
             .getItem()
         ).update({ DocGroup: docGroup });
+        dispatchToast(
+          <Toast>
+            <ToastTitle
+              action={
+                <ToastTrigger>
+                  <Link>Dismiss</Link>
+                </ToastTrigger>
+              }
+            >
+              Added {variables.name}
+            </ToastTitle>
+            {docGroup === "Attachment" && (
+              <ToastBody>
+                Attachments added after the Draft stage need to be manually
+                added to the PCOL file's attachments list.
+              </ToastBody>
+            )}
+          </Toast>,
+          { intent: "success" }
+        );
       }
       queryClient.invalidateQueries({
         queryKey: ["documents", subSite, pcolName],
@@ -160,6 +195,31 @@ export const useEditDocument = (subSite: string) => {
             <ToastBody>{error.message}</ToastBody>
           </Toast>,
           { intent: "error", timeout: -1 }
+        );
+      }
+    },
+    onSuccess: (_data, variables) => {
+      if (
+        variables.document.ListItemAllFields.DocGroup !==
+        variables.metadata.DocGroup
+      ) {
+        dispatchToast(
+          <Toast>
+            <ToastTitle
+              action={
+                <ToastTrigger>
+                  <Link>Dismiss</Link>
+                </ToastTrigger>
+              }
+            >
+              Updated {variables.document.Name}
+            </ToastTitle>
+            <ToastBody>
+              Attachments added/removed after the Draft stage need to be
+              manually added/removed from the PCOL file's attachments list.
+            </ToastBody>
+          </Toast>,
+          { intent: "success" }
         );
       }
     },

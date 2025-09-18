@@ -76,7 +76,7 @@ export const DocumentUploader = (props: {
       appearance="outline"
       style={{ textAlign: "center" }}
       className={inDropZone ? "inDropZone" : ""}
-      id="documentDropZone"
+      id={props.docGroup + "documentDropZone"}
     >
       <input
         type="file"
