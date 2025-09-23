@@ -1,9 +1,10 @@
 import { z } from "zod";
-declare const NewPCOL: z.ZodObject<{
+declare const NewPCOL: z.ZodEffects<z.ZodObject<{
     Subject: z.ZodString;
     References: z.ZodString;
     DODAAC: z.ZodString;
     Contract: z.ZodString;
+    Contractor: z.ZodOptional<z.ZodString>;
     DeliveryOrderMod: z.ZodString;
     RFI: z.ZodString;
     RFP: z.ZodString;
@@ -27,6 +28,7 @@ declare const NewPCOL: z.ZodObject<{
     Disclaimers: string[];
     CarbonCopy: string;
     AdditionalDistributionInfo: string;
+    Contractor?: string | undefined;
 }, {
     Subject: string;
     References: string;
@@ -41,6 +43,37 @@ declare const NewPCOL: z.ZodObject<{
     Disclaimers: string[];
     CarbonCopy: string;
     AdditionalDistributionInfo: string;
+    Contractor?: string | undefined;
+}>, {
+    Subject: string;
+    References: string;
+    DODAAC: string;
+    Contract: string;
+    DeliveryOrderMod: string;
+    RFI: string;
+    RFP: string;
+    ECP: string;
+    CCP: string;
+    AssociatedContractorLetterNumbers: string;
+    Disclaimers: string[];
+    CarbonCopy: string;
+    AdditionalDistributionInfo: string;
+    Contractor?: string | undefined;
+}, {
+    Subject: string;
+    References: string;
+    DODAAC: string;
+    Contract: string;
+    DeliveryOrderMod: string;
+    RFI: string;
+    RFP: string;
+    ECP: string;
+    CCP: string;
+    AssociatedContractorLetterNumbers: string;
+    Disclaimers: string[];
+    CarbonCopy: string;
+    AdditionalDistributionInfo: string;
+    Contractor?: string | undefined;
 }>;
 export type NewPCOL = z.infer<typeof NewPCOL>;
 export {};

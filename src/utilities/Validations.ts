@@ -11,6 +11,7 @@ import { AssociatedContractorLetterNumbersRuleFinal } from "src/components/Field
 import { DisclaimersRuleFinal } from "src/components/Fields/Disclaimer/Disclaimer.Validation";
 import { CarbonCopyRuleFinal } from "src/components/Fields/CarbonCopy/CarbonCopy.Validation";
 import { AdditionalDistributionInfoRuleFinal } from "src/components/Fields/AdditionalDistributionInfo/AdditionalDistributionInfo.Validation";
+import { ContractorRuleFinal } from "src/components/Fields/Contractor/Contractor.Validation";
 
 export const useNewPageValidation = () => {
   return SubjectRuleFinal.and(ReferencesRuleFinal)
@@ -24,5 +25,12 @@ export const useNewPageValidation = () => {
     .and(AssociatedContractorLetterNumbersRuleFinal)
     .and(DisclaimersRuleFinal)
     .and(CarbonCopyRuleFinal)
-    .and(AdditionalDistributionInfoRuleFinal);
+    .and(AdditionalDistributionInfoRuleFinal)
+    .and(ContractorRuleFinal)
+    .refine(
+      (pcol) =>
+        pcol.Contract !== "No Established Contract" ||
+        (pcol.Contractor !== undefined && pcol.Contractor.length >= 3),
+      { message: "Contractor is required", path: ["Contractor"] }
+    );
 };

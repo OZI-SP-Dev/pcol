@@ -16,4 +16,5 @@ export declare const useAddPCOL: (subSite: string) => import("@tanstack/react-qu
     Disclaimers: string[];
     CarbonCopy: string;
     AdditionalDistributionInfo: string;
+    Contractor?: string | undefined;
 }, unknown>;
