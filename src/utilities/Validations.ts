@@ -1,4 +1,5 @@
 import { ContractRuleFinal } from "src/components/Fields/Contract/Contract.Validation";
+import { ContractorPOCRuleFinal } from "src/components/Fields/ContractorPOC/ContractorPOC.Validation";
 import { DODAACRuleFinal } from "src/components/Fields/DODAAC/DODAAC.Validation";
 import { ReferencesRuleFinal } from "src/components/Fields/References/References.Validation";
 import { SubjectRuleFinal } from "src/components/Fields/Subject/Subject.Validation";
@@ -17,6 +18,7 @@ export const useNewPageValidation = () => {
   return SubjectRuleFinal.and(ReferencesRuleFinal)
     .and(DODAACRuleFinal)
     .and(ContractRuleFinal)
+    .and(ContractorPOCRuleFinal)
     .and(DeliveryOrderModRuleFinal)
     .and(RFIRuleFinal)
     .and(RFPRuleFinal)

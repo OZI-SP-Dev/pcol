@@ -69,6 +69,11 @@ const ViewPCOLDetails = () => {
               }
             </Text>
 
+            <Label weight="semibold" htmlFor="ContractorPOC">
+              Contractor POC
+            </Label>
+            <Text id="ContractorPOC">{pcol.data.ContractorPOC}</Text>
+
             <Label weight="semibold" htmlFor="DeliveryOrderMod">
               DeliveryOrderMod
             </Label>

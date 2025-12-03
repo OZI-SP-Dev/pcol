@@ -17,6 +17,8 @@ export const spPCOL = z.object({
   References: z.string().nullable(),
   DODAAC: z.string(),
   Contract: z.string(),
+  Contractor: z.string().optional().nullable(),
+  ContractorPOC: z.string(),
   DeliveryOrderMod: z.string().nullable(),
   RFI: z.string().nullable(),
   RFP: z.string().nullable(),

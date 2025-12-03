@@ -1,4 +1,4 @@
-export declare const useNewPageValidation: () => import("zod").ZodEffects<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodObject<{
+export declare const useNewPageValidation: () => import("zod").ZodEffects<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodObject<{
     Subject: import("zod").ZodString;
 }, "strip", import("zod").ZodTypeAny, {
     Subject: string;
@@ -22,6 +22,12 @@ export declare const useNewPageValidation: () => import("zod").ZodEffects<import
     Contract: string;
 }, {
     Contract: string;
+}>>, import("zod").ZodObject<{
+    ContractorPOC: import("zod").ZodString;
+}, "strip", import("zod").ZodTypeAny, {
+    ContractorPOC: string;
+}, {
+    ContractorPOC: string;
 }>>, import("zod").ZodObject<{
     DeliveryOrderMod: import("zod").ZodString;
 }, "strip", import("zod").ZodTypeAny, {
@@ -91,6 +97,8 @@ export declare const useNewPageValidation: () => import("zod").ZodEffects<import
 } & {
     Contract: string;
 } & {
+    ContractorPOC: string;
+} & {
     DeliveryOrderMod: string;
 } & {
     RFI: string;
@@ -118,6 +126,8 @@ export declare const useNewPageValidation: () => import("zod").ZodEffects<import
     DODAAC: string;
 } & {
     Contract: string;
+} & {
+    ContractorPOC: string;
 } & {
     DeliveryOrderMod: string;
 } & {

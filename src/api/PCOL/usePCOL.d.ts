@@ -22,6 +22,8 @@ export declare const spPCOL: z.ZodObject<{
     References: z.ZodNullable<z.ZodString>;
     DODAAC: z.ZodString;
     Contract: z.ZodString;
+    Contractor: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+    ContractorPOC: z.ZodString;
     DeliveryOrderMod: z.ZodNullable<z.ZodString>;
     RFI: z.ZodNullable<z.ZodString>;
     RFP: z.ZodNullable<z.ZodString>;
@@ -33,31 +35,32 @@ export declare const spPCOL: z.ZodObject<{
     AdditionalDistributionInfo: z.ZodNullable<z.ZodString>;
     Stage: z.ZodString;
 }, "strip", z.ZodTypeAny, {
+    Id: number;
+    Title: string;
+    Author: {
+        Id: number;
+        Title: string;
+        EMail: string;
+    };
+    Modified: Date;
+    Created: Date;
+    Subject: string | null;
+    References: string | null;
+    DODAAC: string;
+    Contract: string;
+    ContractorPOC: string;
+    DeliveryOrderMod: string | null;
+    RFI: string | null;
+    RFP: string | null;
+    ECP: string | null;
+    CCP: string | null;
+    AssociatedContractorLetterNumbers: string | null;
     Disclaimers: (string | undefined)[];
-    Id: number;
-    Title: string;
-    Author: {
-        Id: number;
-        Title: string;
-        EMail: string;
-    };
-    Modified: Date;
-    Created: Date;
-    Subject: string | null;
-    References: string | null;
-    DODAAC: string;
-    Contract: string;
-    DeliveryOrderMod: string | null;
-    RFI: string | null;
-    RFP: string | null;
-    ECP: string | null;
-    CCP: string | null;
-    AssociatedContractorLetterNumbers: string | null;
     CarbonCopy: string | null;
     AdditionalDistributionInfo: string | null;
     Stage: string;
+    Contractor?: string | null | undefined;
 }, {
-    Disclaimers: string | null;
     Id: number;
     Title: string;
     Author: {
@@ -71,19 +74,21 @@ export declare const spPCOL: z.ZodObject<{
     References: string | null;
     DODAAC: string;
     Contract: string;
+    ContractorPOC: string;
     DeliveryOrderMod: string | null;
     RFI: string | null;
     RFP: string | null;
     ECP: string | null;
     CCP: string | null;
     AssociatedContractorLetterNumbers: string | null;
+    Disclaimers: string | null;
     CarbonCopy: string | null;
     AdditionalDistributionInfo: string | null;
     Stage: string;
+    Contractor?: string | null | undefined;
 }>;
 export type spPCOL = z.infer<typeof spPCOL>;
 export declare const usePCOL: (subSite: string, pcolId: number) => import("@tanstack/react-query").UseQueryResult<{
-    Disclaimers: (string | undefined)[];
     Id: number;
     Title: string;
     Author: {
@@ -97,13 +102,16 @@ export declare const usePCOL: (subSite: string, pcolId: number) => import("@tans
     References: string | null;
     DODAAC: string;
     Contract: string;
+    ContractorPOC: string;
     DeliveryOrderMod: string | null;
     RFI: string | null;
     RFP: string | null;
     ECP: string | null;
     CCP: string | null;
     AssociatedContractorLetterNumbers: string | null;
+    Disclaimers: (string | undefined)[];
     CarbonCopy: string | null;
     AdditionalDistributionInfo: string | null;
     Stage: string;
+    Contractor?: string | null | undefined;
 }, Error>;

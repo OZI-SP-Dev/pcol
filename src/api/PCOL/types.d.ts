@@ -5,6 +5,7 @@ declare const NewPCOL: z.ZodEffects<z.ZodObject<{
     DODAAC: z.ZodString;
     Contract: z.ZodString;
     Contractor: z.ZodOptional<z.ZodString>;
+    ContractorPOC: z.ZodString;
     DeliveryOrderMod: z.ZodString;
     RFI: z.ZodString;
     RFP: z.ZodString;
@@ -15,6 +16,7 @@ declare const NewPCOL: z.ZodEffects<z.ZodObject<{
     CarbonCopy: z.ZodString;
     AdditionalDistributionInfo: z.ZodString;
 }, "strip", z.ZodTypeAny, {
+    Disclaimers: string[];
     Subject: string;
     References: string;
     DODAAC: string;
@@ -25,11 +27,12 @@ declare const NewPCOL: z.ZodEffects<z.ZodObject<{
     ECP: string;
     CCP: string;
     AssociatedContractorLetterNumbers: string;
-    Disclaimers: string[];
     CarbonCopy: string;
     AdditionalDistributionInfo: string;
+    ContractorPOC: string;
     Contractor?: string | undefined;
 }, {
+    Disclaimers: string[];
     Subject: string;
     References: string;
     DODAAC: string;
@@ -40,11 +43,12 @@ declare const NewPCOL: z.ZodEffects<z.ZodObject<{
     ECP: string;
     CCP: string;
     AssociatedContractorLetterNumbers: string;
-    Disclaimers: string[];
     CarbonCopy: string;
     AdditionalDistributionInfo: string;
+    ContractorPOC: string;
     Contractor?: string | undefined;
 }>, {
+    Disclaimers: string[];
     Subject: string;
     References: string;
     DODAAC: string;
@@ -55,11 +59,12 @@ declare const NewPCOL: z.ZodEffects<z.ZodObject<{
     ECP: string;
     CCP: string;
     AssociatedContractorLetterNumbers: string;
-    Disclaimers: string[];
     CarbonCopy: string;
     AdditionalDistributionInfo: string;
+    ContractorPOC: string;
     Contractor?: string | undefined;
 }, {
+    Disclaimers: string[];
     Subject: string;
     References: string;
     DODAAC: string;
@@ -70,9 +75,9 @@ declare const NewPCOL: z.ZodEffects<z.ZodObject<{
     ECP: string;
     CCP: string;
     AssociatedContractorLetterNumbers: string;
-    Disclaimers: string[];
     CarbonCopy: string;
     AdditionalDistributionInfo: string;
+    ContractorPOC: string;
     Contractor?: string | undefined;
 }>;
 export type NewPCOL = z.infer<typeof NewPCOL>;
