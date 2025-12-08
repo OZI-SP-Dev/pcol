@@ -1,6 +1,5 @@
 import { NewPCOL } from "src/api/PCOL/types";
 import { useController, useFormContext } from "react-hook-form";
-import { InfoLabel, Text } from "@fluentui/react-components";
 import { TextFieldIcon } from "@fluentui/react-icons-mdl2";
 import { useParams } from "react-router";
 import { useContracts } from "src/api/Contracts/Contracts";
@@ -21,52 +20,39 @@ export const Contractor = () => {
     control: control,
   });
 
-  // Anytime Contract changes, reset Contractor
-  useEffect(() => {
-    resetField("Contractor");
-  }, [Contract, resetField]);
-
   const contract = contracts.data?.find(
     (element) => element.ContractNumber === field.value
   );
 
+  // Anytime Contract changes, reset Contractor
+  useEffect(() => {
+    resetField("Contractor", {
+      defaultValue: contract?.Contractor.Title ?? "",
+    });
+  }, [Contract, contract?.Contractor.Title, resetField]);
+
   const options: ContractorOptions = [];
   contractors.data?.forEach((item) => {
-    options.push({
-      children: `${item.Title}`,
-      value: `${item.Title}`,
-    });
+    if (
+      field.value === "No Established Contract" ||
+      contract?.Contractor.Title === item.Title
+    ) {
+      options.push({
+        children: `${item.Title}`,
+        value: `${item.Title}`,
+      });
+    }
   });
 
   return (
     <>
-      {field.value !== "No Established Contract" && (
-        <>
-          <InfoLabel
-            htmlFor="Contractor"
-            weight="semibold"
-            className="fieldLabel"
-          >
-            <TextFieldIcon className="fieldIcon" />
-            Contractor
-          </InfoLabel>
-
-          <Text id="Contractor">
-            {contract
-              ? contract.Contractor.Title
-              : "Select a Contract to see the associated Contractor"}
-          </Text>
-        </>
-      )}
-      {field.value === "No Established Contract" && (
-        <BACCombobox<NewPCOL>
-          name="Contractor"
-          labelText="Contractor"
-          labelIcon={<TextFieldIcon className="fieldIcon" />}
-          rules={{ required: true }}
-          options={options}
-        />
-      )}
+      <BACCombobox<NewPCOL>
+        name="Contractor"
+        labelText="Contractor"
+        labelIcon={<TextFieldIcon className="fieldIcon" />}
+        rules={{ required: true }}
+        options={options}
+      />
     </>
   );
 };
