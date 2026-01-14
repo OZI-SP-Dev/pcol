@@ -15,7 +15,7 @@ const Distributor = () => {
   const programRoles = useProgramRoles(program);
 
   const distributors = programRoles.data?.filter(
-    (role) => role.Title === "Distributor"
+    (role) => role.Title === "DISTRIBUTOR"
   );
 
   const distributorOptions = () =>

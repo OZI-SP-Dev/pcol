@@ -28,11 +28,5 @@ export const useNewPageValidation = () => {
     .and(DisclaimersRuleFinal)
     .and(CarbonCopyRuleFinal)
     .and(AdditionalDistributionInfoRuleFinal)
-    .and(ContractorRuleFinal)
-    .refine(
-      (pcol) =>
-        pcol.Contract !== "No Established Contract" ||
-        (pcol.Contractor !== undefined && pcol.Contractor.length >= 3),
-      { message: "Contractor is required", path: ["Contractor"] }
-    );
+    .and(ContractorRuleFinal);
 };
