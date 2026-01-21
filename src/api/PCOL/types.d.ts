@@ -1,10 +1,10 @@
 import { z } from "zod";
-declare const NewPCOL: z.ZodEffects<z.ZodObject<{
+declare const NewPCOL: z.ZodObject<{
     Subject: z.ZodString;
     References: z.ZodString;
     DODAAC: z.ZodString;
     Contract: z.ZodString;
-    Contractor: z.ZodOptional<z.ZodString>;
+    Contractor: z.ZodString;
     ContractorPOC: z.ZodString;
     DeliveryOrderMod: z.ZodString;
     RFI: z.ZodString;
@@ -17,10 +17,12 @@ declare const NewPCOL: z.ZodEffects<z.ZodObject<{
     AdditionalDistributionInfo: z.ZodString;
 }, "strip", z.ZodTypeAny, {
     Disclaimers: string[];
+    Contractor: string;
     Subject: string;
     References: string;
     DODAAC: string;
     Contract: string;
+    ContractorPOC: string;
     DeliveryOrderMod: string;
     RFI: string;
     RFP: string;
@@ -29,14 +31,14 @@ declare const NewPCOL: z.ZodEffects<z.ZodObject<{
     AssociatedContractorLetterNumbers: string;
     CarbonCopy: string;
     AdditionalDistributionInfo: string;
-    ContractorPOC: string;
-    Contractor?: string | undefined;
 }, {
     Disclaimers: string[];
+    Contractor: string;
     Subject: string;
     References: string;
     DODAAC: string;
     Contract: string;
+    ContractorPOC: string;
     DeliveryOrderMod: string;
     RFI: string;
     RFP: string;
@@ -45,40 +47,6 @@ declare const NewPCOL: z.ZodEffects<z.ZodObject<{
     AssociatedContractorLetterNumbers: string;
     CarbonCopy: string;
     AdditionalDistributionInfo: string;
-    ContractorPOC: string;
-    Contractor?: string | undefined;
-}>, {
-    Disclaimers: string[];
-    Subject: string;
-    References: string;
-    DODAAC: string;
-    Contract: string;
-    DeliveryOrderMod: string;
-    RFI: string;
-    RFP: string;
-    ECP: string;
-    CCP: string;
-    AssociatedContractorLetterNumbers: string;
-    CarbonCopy: string;
-    AdditionalDistributionInfo: string;
-    ContractorPOC: string;
-    Contractor?: string | undefined;
-}, {
-    Disclaimers: string[];
-    Subject: string;
-    References: string;
-    DODAAC: string;
-    Contract: string;
-    DeliveryOrderMod: string;
-    RFI: string;
-    RFP: string;
-    ECP: string;
-    CCP: string;
-    AssociatedContractorLetterNumbers: string;
-    CarbonCopy: string;
-    AdditionalDistributionInfo: string;
-    ContractorPOC: string;
-    Contractor?: string | undefined;
 }>;
 export type NewPCOL = z.infer<typeof NewPCOL>;
 export {};

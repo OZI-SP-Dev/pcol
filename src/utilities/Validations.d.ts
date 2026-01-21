@@ -1,4 +1,4 @@
-export declare const useNewPageValidation: () => import("zod").ZodEffects<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodObject<{
+export declare const useNewPageValidation: () => import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodIntersection<import("zod").ZodObject<{
     Subject: import("zod").ZodString;
 }, "strip", import("zod").ZodTypeAny, {
     Subject: string;
@@ -83,69 +83,9 @@ export declare const useNewPageValidation: () => import("zod").ZodEffects<import
 }, {
     AdditionalDistributionInfo: string;
 }>>, import("zod").ZodObject<{
-    Contractor: import("zod").ZodOptional<import("zod").ZodString>;
+    Contractor: import("zod").ZodString;
 }, "strip", import("zod").ZodTypeAny, {
-    Contractor?: string | undefined;
+    Contractor: string;
 }, {
-    Contractor?: string | undefined;
-}>>, {
-    Subject: string;
-} & {
-    References: string;
-} & {
-    DODAAC: string;
-} & {
-    Contract: string;
-} & {
-    ContractorPOC: string;
-} & {
-    DeliveryOrderMod: string;
-} & {
-    RFI: string;
-} & {
-    RFP: string;
-} & {
-    ECP: string;
-} & {
-    CCP: string;
-} & {
-    AssociatedContractorLetterNumbers: string;
-} & {
-    Disclaimers: string[];
-} & {
-    CarbonCopy: string;
-} & {
-    AdditionalDistributionInfo: string;
-} & {
-    Contractor?: string | undefined;
-}, {
-    Subject: string;
-} & {
-    References: string;
-} & {
-    DODAAC: string;
-} & {
-    Contract: string;
-} & {
-    ContractorPOC: string;
-} & {
-    DeliveryOrderMod: string;
-} & {
-    RFI: string;
-} & {
-    RFP: string;
-} & {
-    ECP: string;
-} & {
-    CCP: string;
-} & {
-    AssociatedContractorLetterNumbers: string;
-} & {
-    Disclaimers: string[];
-} & {
-    CarbonCopy: string;
-} & {
-    AdditionalDistributionInfo: string;
-} & {
-    Contractor?: string | undefined;
-}>;
+    Contractor: string;
+}>>;
