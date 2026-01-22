@@ -3,18 +3,18 @@ import { subWebContext } from "src/api/SPWebContext";
 import { z } from "zod";
 import "@pnp/sp/items";
 
-const spContractorPOCs = z.array(
-  z.object({
+const spContractorPOC = z.object({
+  Id: z.number().int().positive(),
+  Title: z.string().max(255, "Title must be 255 characters or less"),
+  Phone: z.string(),
+  Email: z.string().email(),
+  Contractor: z.object({
     Id: z.number().int().positive(),
-    Title: z.string().max(255, "Title must be 255 characters or less"),
-    Phone: z.string(),
-    Email: z.string().email(),
-    Contractor: z.object({
-      Id: z.number().int().positive(),
-      Title: z.string(),
-    }),
-  })
-);
+    Title: z.string(),
+  }),
+});
+
+const spContractorPOCs = z.array(spContractorPOC);
 
 type spContractorPOCs = z.infer<typeof spContractorPOCs>;
 
@@ -31,7 +31,11 @@ const getContractorPOCs = async (program: string) =>
     )
     .expand("Contractor")<spContractorPOCs>();
 
-const transformData = (data: spContractorPOCs) => spContractorPOCs.parse(data);
+const transformData = (data: spContractorPOCs) =>
+  data
+    .map((item) => spContractorPOC.safeParse(item))
+    .filter((result) => result.success) //only keep objects that match our type
+    .map((result) => result.data);
 
 export const useContractorPOCs = (program: string) => {
   return useQuery({
