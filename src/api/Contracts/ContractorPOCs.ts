@@ -6,8 +6,8 @@ import "@pnp/sp/items";
 const spContractorPOC = z.object({
   Id: z.number().int().positive(),
   Title: z.string().max(255, "Title must be 255 characters or less"),
-  Phone: z.string(),
-  Email: z.string().email(),
+  Phone: z.string().nullable(),
+  Email: z.string().nullable(),
   Contractor: z.object({
     Id: z.number().int().positive(),
     Title: z.string(),
@@ -27,7 +27,7 @@ const getContractorPOCs = async (program: string) =>
       "Phone",
       "Email",
       "Contractor/Id",
-      "Contractor/Title"
+      "Contractor/Title",
     )
     .expand("Contractor")<spContractorPOCs>();
 
