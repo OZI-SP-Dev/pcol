@@ -8,7 +8,7 @@ const spContractors = z.array(
     Id: z.number().int().positive(),
     Title: z.string().max(255, "Title must be 255 characters or less"),
     Address: z.string(),
-  })
+  }),
 );
 
 type spContractors = z.infer<typeof spContractors>;
@@ -16,7 +16,8 @@ type spContractors = z.infer<typeof spContractors>;
 const getContractors = async (program: string) =>
   subWebContext(program)
     .web.lists.getByTitle("Contractors")
-    .items.select("Id", "Title", "Address")<spContractors>();
+    .items.select("Id", "Title", "Address")
+    .orderBy("Title")<spContractors>();
 
 const transformData = (data: spContractors) => spContractors.parse(data);
 

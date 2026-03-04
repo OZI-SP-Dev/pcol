@@ -29,6 +29,7 @@ const getContractorPOCs = async (program: string) =>
       "Contractor/Id",
       "Contractor/Title",
     )
+    .orderBy("Title")
     .expand("Contractor")<spContractorPOCs>();
 
 const transformData = (data: spContractorPOCs) =>

@@ -4,10 +4,10 @@ import "@pnp/sp/files";
 import "@pnp/sp/folders";
 export declare const useAddPCOL: (subSite: string) => import("@tanstack/react-query").UseMutationResult<any, Error, {
     Disclaimers: string[];
+    DODAAC: string;
     Contractor: string;
     Subject: string;
     References: string;
-    DODAAC: string;
     Contract: string;
     ContractorPOC: string;
     DeliveryOrderMod: string;

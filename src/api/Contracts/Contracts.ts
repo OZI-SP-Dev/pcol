@@ -13,7 +13,7 @@ const spContracts = z.array(
       Title: z.string(),
     }),
     DODAAC: z.string().length(6, "DODAAC must be 6 characters long"),
-  })
+  }),
 );
 
 type spContracts = z.infer<typeof spContracts>;
@@ -27,9 +27,10 @@ const getContracts = async (program: string) =>
       "ContractNumber",
       "Contractor/Id",
       "Contractor/Title",
-      "DODAAC"
+      "DODAAC",
     )
-    .expand("Contractor")<spContracts>();
+    .expand("Contractor")
+    .orderBy("Title")<spContracts>();
 
 const transformData = (data: spContracts) => spContracts.parse(data);
 
