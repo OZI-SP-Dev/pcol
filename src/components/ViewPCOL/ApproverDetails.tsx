@@ -5,27 +5,32 @@ import { Task, useTasks } from "src/api/tasks/tasksApi";
 import ApproveButton from "./ApproveButton";
 import RejectButton from "./RejectButton";
 import SkipButton from "./SkipButton";
+import { useMyRoles } from "src/api/Roles/rolesApi";
 
 const ApproverButtons = ({
   task,
   pco,
+  isAdmin,
 }: {
   task: Task;
   pco?: { Id: number; Title: string; EMail: string };
+  isAdmin?: boolean;
 }) => {
+  const isPCO = pco?.Id === _spPageContextInfo.userId;
+  const canSkip =
+    !task.Status &&
+    task.Person.Id !== pco?.Id && // PCO can't skip their own task
+    (isPCO || isAdmin);
+
   return (
     <div>
       {!task.Status && task.Person.Id === _spPageContextInfo.userId && (
         <ApproveButton task={task} />
       )}
 
-      {!task.Status &&
-        task.Person.Id !== pco?.Id && // PCO can't skip their own tasks
-        pco?.Id === _spPageContextInfo.userId && <SkipButton task={task} />}
+      {canSkip && <SkipButton task={task} />}
 
-      {!task.Status && pco?.Id === _spPageContextInfo.userId && (
-        <RejectButton task={task} />
-      )}
+      {!task.Status && isPCO && <RejectButton task={task} />}
     </div>
   );
 };
@@ -59,6 +64,7 @@ const Status = ({ task, stage }: { task: Task; stage?: string }) => {
 
 const ViewApproverDetails = () => {
   const { program, pcolId } = usePCOLParams();
+  const roles = useMyRoles(program);
   const pcol = usePCOL(program, pcolId);
   const tasks = useTasks(program, pcolId);
 
@@ -98,7 +104,11 @@ const ViewApproverDetails = () => {
                 </td>
                 <td>
                   {pcol.data?.Stage === "Peer Review" && (
-                    <ApproverButtons task={task} pco={pco?.Person} />
+                    <ApproverButtons
+                      task={task}
+                      pco={pco?.Person}
+                      isAdmin={roles.isAdmin}
+                    />
                   )}
                 </td>
               </tr>
@@ -125,7 +135,11 @@ const ViewApproverDetails = () => {
                 <td>
                   {pcol.data?.Stage === "Peer Review" &&
                     task.Id === currSerialTaskId && (
-                      <ApproverButtons task={task} pco={pco?.Person} />
+                      <ApproverButtons
+                        task={task}
+                        pco={pco?.Person}
+                        isAdmin={roles.isAdmin}
+                      />
                     )}
                 </td>
               </tr>
@@ -151,7 +165,11 @@ const ViewApproverDetails = () => {
                 </td>
                 <td>
                   {pcol.data?.Stage === "Final Review" && (
-                    <ApproverButtons task={final} pco={pco?.Person} />
+                    <ApproverButtons
+                      task={final}
+                      pco={pco?.Person}
+                      isAdmin={roles.isAdmin}
+                    />
                   )}
                 </td>
               </tr>
@@ -173,7 +191,11 @@ const ViewApproverDetails = () => {
                   </td>
                   <td>
                     {pcol.data?.Stage === "Organizational Review" && (
-                      <ApproverButtons task={org} pco={pco?.Person} />
+                      <ApproverButtons
+                        task={org}
+                        pco={pco?.Person}
+                        isAdmin={roles.isAdmin}
+                      />
                     )}
                   </td>
                 </>
@@ -196,7 +218,11 @@ const ViewApproverDetails = () => {
                 </td>
                 <td>
                   {pcol.data?.Stage === "Approval" && (
-                    <ApproverButtons task={pco} pco={pco?.Person} />
+                    <ApproverButtons
+                      task={pco}
+                      pco={pco?.Person}
+                      isAdmin={roles.isAdmin}
+                    />
                   )}
                 </td>
               </tr>
