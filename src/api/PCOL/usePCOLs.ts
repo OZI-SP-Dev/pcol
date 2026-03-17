@@ -33,11 +33,11 @@ const PagedPCOLs = z.array(
     Subject: true,
     Contract: true,
     Stage: true,
-  })
+  }),
 );
 
 type PagedPCOLs = z.infer<typeof PagedPCOLs>;
-const PAGESIZE = 10;
+const PAGESIZE = 50;
 
 export interface PagedResult {
   items: PagedPCOLs;
@@ -49,7 +49,7 @@ export const usePagedPCOLs = (
   page = 0,
   sortParams = defaultSortParams,
   filterParams: PCOLFilter[],
-  allItems = false
+  allItems = false,
 ) => {
   const queryClient = useQueryClient();
 
@@ -73,7 +73,7 @@ export const usePagedPCOLs = (
           subSite,
           sortParams,
           filterParams,
-          allItems
+          allItems,
         );
 
         // Create a new iterator
@@ -144,7 +144,7 @@ const firstPageQuery = (
   subSite: string,
   sortParams: SortParams,
   filterParams: PCOLFilter[],
-  allItems: boolean
+  allItems: boolean,
 ) => {
   const requestedFields = "Id,Modified,Title,Subject,Contract,Stage";
 
@@ -163,7 +163,7 @@ const firstPageQuery = (
     .filter(queryString)
     .orderBy(
       sortParams.sortColumn?.toString() || "Created",
-      sortParams.sortDirection !== "descending"
+      sortParams.sortDirection !== "descending",
     )
     .orderBy("Id", true) // Include this or non-unique sort values can cause issues
     .top(PAGESIZE);
