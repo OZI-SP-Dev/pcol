@@ -15,16 +15,13 @@ import { useAddNote } from "src/api/Notes/notesApi";
 import { usePCOL } from "src/api/PCOL/usePCOL";
 import { useStageUpdate } from "src/api/tasks/stage";
 import { useInvalidateTasks } from "src/api/tasks/tasksApi";
+import { useMyRoles } from "src/api/Roles/rolesApi";
 
-const NonCancellableStages = [
-  "Rejected",
-  "Cancelled",
-  "Distribution",
-  "Distributed",
-];
+const NonCancellableStages = ["Rejected", "Cancelled", "Distributed"];
 
 const CancelRequest = () => {
   const { program, pcolId } = usePCOLParams();
+  const roles = useMyRoles(program);
   const pcol = usePCOL(program, pcolId);
   const addNote = useAddNote(program, pcolId);
   const stageUpdate = useStageUpdate(program, pcolId);
@@ -37,7 +34,7 @@ const CancelRequest = () => {
 
   const cantCancel = NonCancellableStages.includes(pcol.data?.Stage ?? "");
   const isAuthor = pcol.data?.Author.Id === _spPageContextInfo.userId;
-  const disabled = cantCancel || !isAuthor;
+  const disabled = cantCancel || !(isAuthor || roles.isAdmin);
 
   return (
     <Dialog modalType="alert">

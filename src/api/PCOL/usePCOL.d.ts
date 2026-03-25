@@ -22,6 +22,8 @@ export declare const spPCOL: z.ZodObject<{
     References: z.ZodNullable<z.ZodString>;
     DODAAC: z.ZodString;
     Contract: z.ZodString;
+    Contractor: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+    ContractorPOC: z.ZodString;
     DeliveryOrderMod: z.ZodNullable<z.ZodString>;
     RFI: z.ZodNullable<z.ZodString>;
     RFP: z.ZodNullable<z.ZodString>;
@@ -46,6 +48,7 @@ export declare const spPCOL: z.ZodObject<{
     References: string | null;
     DODAAC: string;
     Contract: string;
+    ContractorPOC: string;
     DeliveryOrderMod: string | null;
     RFI: string | null;
     RFP: string | null;
@@ -56,6 +59,7 @@ export declare const spPCOL: z.ZodObject<{
     CarbonCopy: string | null;
     AdditionalDistributionInfo: string | null;
     Stage: string;
+    Contractor?: string | null | undefined;
 }, {
     Id: number;
     Title: string;
@@ -70,6 +74,7 @@ export declare const spPCOL: z.ZodObject<{
     References: string | null;
     DODAAC: string;
     Contract: string;
+    ContractorPOC: string;
     DeliveryOrderMod: string | null;
     RFI: string | null;
     RFP: string | null;
@@ -80,6 +85,7 @@ export declare const spPCOL: z.ZodObject<{
     CarbonCopy: string | null;
     AdditionalDistributionInfo: string | null;
     Stage: string;
+    Contractor?: string | null | undefined;
 }>;
 export type spPCOL = z.infer<typeof spPCOL>;
 export declare const usePCOL: (subSite: string, pcolId: number) => import("@tanstack/react-query").UseQueryResult<{
@@ -96,6 +102,7 @@ export declare const usePCOL: (subSite: string, pcolId: number) => import("@tans
     References: string | null;
     DODAAC: string;
     Contract: string;
+    ContractorPOC: string;
     DeliveryOrderMod: string | null;
     RFI: string | null;
     RFP: string | null;
@@ -106,4 +113,5 @@ export declare const usePCOL: (subSite: string, pcolId: number) => import("@tans
     CarbonCopy: string | null;
     AdditionalDistributionInfo: string | null;
     Stage: string;
+    Contractor?: string | null | undefined;
 }, Error>;

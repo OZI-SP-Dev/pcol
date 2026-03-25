@@ -100,7 +100,7 @@ export const useAddPCOL = (subSite: string) => {
         .items.add({ Title: id.toString() });
 
       const { Disclaimers, ...rest } = newPCOL;
-      const fullDisclaimers = [] as string[];
+      let fullDisclaimers = "";
 
       for (const disclaimer of Disclaimers) {
         const pref = disclaimer.charAt(0);
@@ -119,7 +119,7 @@ export const useAddPCOL = (subSite: string) => {
           )?.Statement;
         }
         if (statement) {
-          fullDisclaimers.push(statement);
+          fullDisclaimers += statement + "\n\n";
         }
       }
 
@@ -162,9 +162,14 @@ export const useAddPCOL = (subSite: string) => {
             (contract) => contract.ContractNumber === newPCOL.Contract
           );
 
-          const addressee = Contractors.data?.find(
-            (contractor) => contractor.Id === contract?.Contractor.Id
-          );
+          const addressee =
+            newPCOL.ContractorPOC +
+            "\n" +
+            newPCOL.Contractor +
+            "\n" +
+            Contractors.data?.find(
+              (contractor) => contractor.Id === contract?.Contractor.Id
+            )?.Address;
 
           const office = DODAACs.data?.find(
             (dodaac) => dodaac.DODAAC === newPCOL.DODAAC
@@ -175,7 +180,7 @@ export const useAddPCOL = (subSite: string) => {
           await doc.renderAsync({
             ...newPCOL,
             ControlNumber: folderName,
-            Addressee: addressee?.Address,
+            Addressee: addressee,
             OriginatingOffice: `${office?.OfficeName}\n${office?.OfficeAddress}`,
             Disclaimers: fullDisclaimers,
           });

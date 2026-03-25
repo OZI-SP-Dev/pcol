@@ -3,8 +3,4 @@ export declare const useContractors: (program: string) => import("@tanstack/reac
     Id: number;
     Title: string;
     Address: string;
-    ContractorPOC?: {
-        Id: number;
-        Title: string;
-    } | undefined;
 }[], Error>;

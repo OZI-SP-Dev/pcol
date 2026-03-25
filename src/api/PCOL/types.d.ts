@@ -4,6 +4,8 @@ declare const NewPCOL: z.ZodObject<{
     References: z.ZodString;
     DODAAC: z.ZodString;
     Contract: z.ZodString;
+    Contractor: z.ZodString;
+    ContractorPOC: z.ZodString;
     DeliveryOrderMod: z.ZodString;
     RFI: z.ZodString;
     RFP: z.ZodString;
@@ -14,31 +16,35 @@ declare const NewPCOL: z.ZodObject<{
     CarbonCopy: z.ZodString;
     AdditionalDistributionInfo: z.ZodString;
 }, "strip", z.ZodTypeAny, {
+    Disclaimers: string[];
+    Contractor: string;
     Subject: string;
     References: string;
     DODAAC: string;
     Contract: string;
+    ContractorPOC: string;
     DeliveryOrderMod: string;
     RFI: string;
     RFP: string;
     ECP: string;
     CCP: string;
     AssociatedContractorLetterNumbers: string;
-    Disclaimers: string[];
     CarbonCopy: string;
     AdditionalDistributionInfo: string;
 }, {
+    Disclaimers: string[];
+    Contractor: string;
     Subject: string;
     References: string;
     DODAAC: string;
     Contract: string;
+    ContractorPOC: string;
     DeliveryOrderMod: string;
     RFI: string;
     RFP: string;
     ECP: string;
     CCP: string;
     AssociatedContractorLetterNumbers: string;
-    Disclaimers: string[];
     CarbonCopy: string;
     AdditionalDistributionInfo: string;
 }>;

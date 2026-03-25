@@ -21,7 +21,7 @@ import {
   Tooltip,
 } from "@fluentui/react-components";
 import { getFileTypeIconProps } from "@fluentui/react-file-type-icons";
-import { DeleteIcon, EditIcon } from "@fluentui/react-icons-mdl2";
+import { DeleteIcon, DownloadIcon, EditIcon } from "@fluentui/react-icons-mdl2";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import {
@@ -120,6 +120,16 @@ export const DocumentView = (props: {
         }
         action={
           <>
+            <Tooltip withArrow content="Download" relationship="label">
+              <Button
+                as="a"
+                download
+                href={props.document.ServerRelativeUrl}
+                appearance="transparent"
+                icon={<DownloadIcon />}
+                aria-label="Download"
+              />
+            </Tooltip>
             {props.document.ListItemAllFields.DocGroup !== "PCOL" && (
               <>
                 <Dialog modalType="alert">
@@ -134,7 +144,7 @@ export const DocumentView = (props: {
                         icon={
                           editDocument.isPending ? <Spinner /> : <EditIcon />
                         }
-                        aria-label="Delete"
+                        aria-label="Edit metadata"
                         disabled={editDocument.isPending}
                       />
                     </Tooltip>

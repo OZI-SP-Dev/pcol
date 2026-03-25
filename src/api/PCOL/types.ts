@@ -5,6 +5,8 @@ const NewPCOL = z.object({
   References: z.string(),
   DODAAC: z.string(), //lookup
   Contract: z.string(), //lookup
+  Contractor: z.string(), //lookup
+  ContractorPOC: z.string(), //lookup
   DeliveryOrderMod: z.string(),
   RFI: z.string(),
   RFP: z.string(),

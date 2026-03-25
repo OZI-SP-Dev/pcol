@@ -19,6 +19,10 @@ export const Contract = () => {
   }, [DODAAC, resetField]);
 
   const options: ContractOptions = [];
+  options.push({
+    children: "No Established Contract",
+    value: "No Established Contract",
+  });
   contracts.data?.forEach((item) => {
     if (DODAAC === item.DODAAC) {
       options.push({
