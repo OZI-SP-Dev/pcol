@@ -109,13 +109,13 @@ export const useAddPCOL = (subSite: string) => {
         if (pref === "g") {
           //global disclaimer
           statement = GlobalDisclaimers.data?.find(
-            (gd) => gd.Title === title
+            (gd) => gd.Title === title,
           )?.Statement;
         }
         if (pref === "p") {
           //program disclaimer
           statement = ProgramDisclaimers.data?.find(
-            (pd) => pd.Title === title
+            (pd) => pd.Title === title,
           )?.Statement;
         }
         if (statement) {
@@ -159,20 +159,21 @@ export const useAddPCOL = (subSite: string) => {
           });
 
           const contract = Contracts.data?.find(
-            (contract) => contract.ContractNumber === newPCOL.Contract
+            (contract) => contract.ContractNumber === newPCOL.Contract,
           );
 
           const addressee =
-            newPCOL.ContractorPOC +
-            "\n" +
             newPCOL.Contractor +
             "\n" +
+            "ATTENTION: " +
+            newPCOL.ContractorPOC +
+            "\n" +
             Contractors.data?.find(
-              (contractor) => contractor.Id === contract?.Contractor.Id
+              (contractor) => contractor.Id === contract?.Contractor.Id,
             )?.Address;
 
           const office = DODAACs.data?.find(
-            (dodaac) => dodaac.DODAAC === newPCOL.DODAAC
+            (dodaac) => dodaac.DODAAC === newPCOL.DODAAC,
           );
 
           newPCOL.References.replaceAll("\n", "\n\t");
@@ -204,9 +205,9 @@ export const useAddPCOL = (subSite: string) => {
             .then(() =>
               queryClient.invalidateQueries({
                 queryKey: ["documents", subSite],
-              })
+              }),
             );
-        }
+        },
       );
 
       return id;
@@ -218,7 +219,7 @@ export const useAddPCOL = (subSite: string) => {
         <Toast>
           <ToastTitle>PCOL saved!</ToastTitle>
         </Toast>,
-        { intent: "success" }
+        { intent: "success" },
       );
     },
     onError: (error) => {
@@ -235,7 +236,7 @@ export const useAddPCOL = (subSite: string) => {
             Error saving request
           </ToastTitle>
         </Toast>,
-        { intent: "error", timeout: -1 }
+        { intent: "error", timeout: -1 },
       );
     },
   });
