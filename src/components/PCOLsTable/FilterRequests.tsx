@@ -5,8 +5,10 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerHeaderTitle,
+  Dropdown,
   Field,
   Input,
+  Option,
 } from "@fluentui/react-components";
 import { DatePicker } from "@fluentui/react-datepicker-compat";
 import { DismissRegular } from "@fluentui/react-icons";
@@ -192,7 +194,25 @@ const FilterPCOLsDrawer = ({
             <Controller
               name="Stage"
               control={control}
-              render={({ field }) => <Input type="search" {...field} />}
+              render={({ field }) => (
+                <Dropdown
+                  clearable
+                  id="FilterStage"
+                  placeholder="Select a stage"
+                  onOptionSelect={(_e, data) => {
+                    field.onChange(data.selectedOptions[0] ?? "");
+                  }}
+                  {...field}
+                >
+                  <Option>Approval</Option>
+                  <Option>Cancelled</Option>
+                  <Option>Distributed</Option>
+                  <Option>Distribution</Option>
+                  <Option>Draft</Option>
+                  <Option>Peer Review</Option>
+                  <Option>Rejected</Option>
+                </Dropdown>
+              )}
             />
           </Field>
           <hr />
