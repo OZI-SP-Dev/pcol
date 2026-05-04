@@ -146,7 +146,7 @@ const firstPageQuery = (
   filterParams: PCOLFilter[],
   allItems: boolean,
 ) => {
-  const requestedFields = "Id,Modified,Title,Subject,Contract,Stage,Author/Id";
+  const requestedFields = "Id,Modified,Title,Subject,Contract,Stage";
 
   let queryString = "ContentType eq 'PCOLDocSet'";
   if (!allItems) {
@@ -161,7 +161,6 @@ const firstPageQuery = (
     .web.lists.getByTitle("PCOLs")
     .items.select(requestedFields)
     .filter(queryString)
-    .expand("Author")
     .orderBy(
       sortParams.sortColumn?.toString() || "Created",
       sortParams.sortDirection !== "descending",
