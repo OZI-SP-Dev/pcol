@@ -3,12 +3,12 @@ import ResetRequest from "./Actions/ResetRequest";
 import EditRequest from "./Actions/EditRequest";
 import CancelRequest from "./Actions/CancelRequest";
 
-const ActionBar = ({ openEditForm }: { openEditForm: () => void }) => {
+const ActionBar = () => {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <SendRequest />
       <ResetRequest />
-      <EditRequest openEditForm={openEditForm} />
+      <EditRequest />
       <CancelRequest />
     </div>
   );

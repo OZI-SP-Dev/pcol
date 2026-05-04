@@ -61,7 +61,7 @@ export const useTasks = (subSite: string, pcolId: number) => {
           "SkippedBy/Id",
           "SkippedBy/Title",
           "SkippedBy/EMail",
-          "Modified"
+          "Modified",
         )
         .expand("Person", "SkippedBy")
         .filter(`pcolId eq '${pcolId}'`)<Task[]>(),
@@ -83,11 +83,11 @@ export const useMyTasks = (subSite: string) => {
           "Person/EMail",
           "Role",
           "Status",
-          "Modified"
+          "Modified",
         )
         .expand("Person")
         .filter(
-          `Status eq null and Person/Id eq '${_spPageContextInfo.userId}'`
+          `Status eq null and Person/Id eq '${_spPageContextInfo.userId}'`,
         )<Task[]>(),
   });
 };
@@ -105,11 +105,11 @@ export const useAddTasks = (subSite: string, pcolId: number) => {
       let count = 0;
 
       const document = documents.data?.find(
-        (doc) => doc.ListItemAllFields.DocGroup === "PCOL"
+        (doc) => doc.ListItemAllFields.DocGroup === "PCOL",
       );
       const docRelUrl = document?.ServerRelativeUrl;
       const attachments = documents.data?.filter(
-        (doc) => doc.ListItemAllFields.DocGroup === "Attachment"
+        (doc) => doc.ListItemAllFields.DocGroup === "Attachment",
       );
 
       let attachmentNames = "";
@@ -172,11 +172,11 @@ export const useAddTasks = (subSite: string, pcolId: number) => {
                       <p>Error message: {match?.[1]}</p>
                     </ToastBody>
                   </Toast>,
-                  { intent: "error", timeout: -1 }
+                  { intent: "error", timeout: -1 },
                 );
               });
             queryClient.invalidateQueries({ queryKey: ["documents", subSite] });
-          }
+          },
         );
       }
 
@@ -318,7 +318,7 @@ const resolvePerson = async (person: {
 export const useUpdateTask = (
   subSite: string,
   pcolId: number,
-  taskId: number
+  taskId: number,
 ) => {
   const queryClient = useQueryClient();
   const stageUpdate = useStageUpdate(subSite, pcolId);
@@ -327,7 +327,7 @@ export const useUpdateTask = (
       //Optimistic update
       queryClient.setQueryData(["tasks", subSite, pcolId], (prev: Task[]) => {
         return prev.map((task) =>
-          task.Id === taskId ? { ...task, Status: newStatus } : task
+          task.Id === taskId ? { ...task, Status: newStatus } : task,
         );
       });
       return subWebContext(String(subSite))
@@ -342,6 +342,25 @@ export const useUpdateTask = (
     },
     onSuccess: (_result, variables) => {
       stageUpdate.mutate(variables);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["tasks", subSite],
+      });
+    },
+  });
+};
+
+export const useReassignTask = (subSite: string, taskId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (newPersonId: number) => {
+      return subWebContext(String(subSite))
+        .web.lists.getByTitle("tasks")
+        .items.getById(taskId)
+        .update({
+          PersonId: newPersonId,
+        });
     },
     onSettled: () => {
       queryClient.invalidateQueries({
