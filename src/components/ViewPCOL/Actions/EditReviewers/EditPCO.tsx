@@ -48,6 +48,7 @@ const EditPCO = ({ task }: { task: Task }) => {
       </Dropdown>
       <Button
         appearance="primary"
+        disabled={task.Person.Id === person.Id}
         onClick={() => reassignTask.mutate(person.Id)}
       >
         Update
