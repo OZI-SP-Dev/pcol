@@ -204,13 +204,13 @@ const FilterPCOLsDrawer = ({
             />
           </Field>
           <hr />
-          <Field label="Author">
+          <Field label="Initiator">
             <Controller
               name="Author"
               control={control}
               render={({ field: { onChange, value } }) => (
                 <PeoplePicker
-                  ariaLabel={"Author"}
+                  ariaLabel={"Initiator"}
                   itemLimit={1}
                   selectedItems={value?.[0]?.Title ? value : []}
                   updatePeople={async (items) => {
