@@ -109,7 +109,7 @@ const FilterPCOLsDrawer = ({
       });
     }
 
-    if (data.Author) {
+    if (data.Author.length > 0) {
       newFilter.push({
         column: "AuthorId",
         filter: data.Author[0].Id,

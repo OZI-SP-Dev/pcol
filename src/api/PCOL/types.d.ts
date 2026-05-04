@@ -17,11 +17,11 @@ declare const NewPCOL: z.ZodObject<{
     AdditionalDistributionInfo: z.ZodString;
 }, "strip", z.ZodTypeAny, {
     Disclaimers: string[];
-    Contractor: string;
     Subject: string;
     References: string;
     DODAAC: string;
     Contract: string;
+    Contractor: string;
     ContractorPOC: string;
     DeliveryOrderMod: string;
     RFI: string;
@@ -33,11 +33,11 @@ declare const NewPCOL: z.ZodObject<{
     AdditionalDistributionInfo: string;
 }, {
     Disclaimers: string[];
-    Contractor: string;
     Subject: string;
     References: string;
     DODAAC: string;
     Contract: string;
+    Contractor: string;
     ContractorPOC: string;
     DeliveryOrderMod: string;
     RFI: string;
