@@ -16,6 +16,8 @@ import { PCOLFilter } from "src/api/PCOL/usePCOLs";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { PeoplePicker, Person } from "../PeoplePicker/PeoplePicker";
 import { spWebContext } from "src/api/SPWebContext";
+import { useParams } from "react-router";
+import { useContracts } from "src/api/Contracts/Contracts";
 
 interface IFilterFields {
   Title: string;
@@ -38,6 +40,12 @@ const FilterPCOLsDrawer = ({
   filterState: PCOLFilter[];
   setFilterState: (filters: PCOLFilter[]) => void;
 }) => {
+  const { program } = useParams();
+  const contracts = useContracts(program ?? "");
+  const options: string[] = [];
+  options.push("No Established Contract");
+  contracts.data?.forEach((item) => options.push(item.Title));
+
   const afterDate = filterState.filter((obj) => {
     return obj.modifier === "afterDate";
   })[0]?.filter;
@@ -152,6 +160,11 @@ const FilterPCOLsDrawer = ({
       open={isOpen}
       onOpenChange={(_e, { open }) => setIsOpen(open)}
     >
+      <datalist id="contractsDL">
+        {options.map((contract) => (
+          <option value={contract} />
+        ))}
+      </datalist>
       <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
         <DrawerHeader>
           <DrawerHeaderTitle
@@ -223,7 +236,9 @@ const FilterPCOLsDrawer = ({
             <Controller
               name="Contract"
               control={control}
-              render={({ field }) => <Input type="search" {...field} />}
+              render={({ field }) => (
+                <Input type="search" list="contractsDL" {...field} />
+              )}
             />
           </Field>
           <hr />
