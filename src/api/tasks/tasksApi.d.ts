@@ -135,5 +135,6 @@ export declare const useAddTasks: (subSite: string, pcolId: number) => import("@
     } | null;
 }, unknown>;
 export declare const useUpdateTask: (subSite: string, pcolId: number, taskId: number) => import("@tanstack/react-query").UseMutationResult<any, Error, string, unknown>;
+export declare const useReassignTask: (subSite: string, taskId: number) => import("@tanstack/react-query").UseMutationResult<any, Error, number, unknown>;
 export declare const useInvalidateTasks: (subSite: string, pcolId: number) => import("@tanstack/react-query").UseMutationResult<void, Error, string, unknown>;
 export {};

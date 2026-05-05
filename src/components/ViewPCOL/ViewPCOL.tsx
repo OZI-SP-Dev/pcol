@@ -9,7 +9,7 @@ const ViewPCOL = () => {
   return (
     <section id="viewPCOLContainer">
       <aside id="viewPCOLActionBar" className="gray-gradiant">
-        <ActionBar openEditForm={() => {}} />
+        <ActionBar />
       </aside>
       <section id="viewPCOLHeader" className="gray-gradiant">
         <StatusBar />

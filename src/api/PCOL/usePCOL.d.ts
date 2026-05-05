@@ -35,6 +35,7 @@ export declare const spPCOL: z.ZodObject<{
     AdditionalDistributionInfo: z.ZodNullable<z.ZodString>;
     Stage: z.ZodString;
 }, "strip", z.ZodTypeAny, {
+    Disclaimers: (string | undefined)[];
     Id: number;
     Title: string;
     Author: {
@@ -55,12 +56,12 @@ export declare const spPCOL: z.ZodObject<{
     ECP: string | null;
     CCP: string | null;
     AssociatedContractorLetterNumbers: string | null;
-    Disclaimers: (string | undefined)[];
     CarbonCopy: string | null;
     AdditionalDistributionInfo: string | null;
     Stage: string;
     Contractor?: string | null | undefined;
 }, {
+    Disclaimers: string | null;
     Id: number;
     Title: string;
     Author: {
@@ -81,7 +82,6 @@ export declare const spPCOL: z.ZodObject<{
     ECP: string | null;
     CCP: string | null;
     AssociatedContractorLetterNumbers: string | null;
-    Disclaimers: string | null;
     CarbonCopy: string | null;
     AdditionalDistributionInfo: string | null;
     Stage: string;
@@ -89,6 +89,7 @@ export declare const spPCOL: z.ZodObject<{
 }>;
 export type spPCOL = z.infer<typeof spPCOL>;
 export declare const usePCOL: (subSite: string, pcolId: number) => import("@tanstack/react-query").UseQueryResult<{
+    Disclaimers: (string | undefined)[];
     Id: number;
     Title: string;
     Author: {
@@ -109,7 +110,6 @@ export declare const usePCOL: (subSite: string, pcolId: number) => import("@tans
     ECP: string | null;
     CCP: string | null;
     AssociatedContractorLetterNumbers: string | null;
-    Disclaimers: (string | undefined)[];
     CarbonCopy: string | null;
     AdditionalDistributionInfo: string | null;
     Stage: string;
