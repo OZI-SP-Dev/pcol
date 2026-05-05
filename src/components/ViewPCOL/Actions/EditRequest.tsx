@@ -23,13 +23,12 @@ const NoEditStages = ["Rejected", "Cancelled", "Distributed"];
 
 const canUpdateReviewer = (currentStage: string, reviewerStage: string) => {
   switch (currentStage) {
-    // case "Peer Review":
-    // case "Final Review":
+    case "Peer Review":
+      return true;
+    case "Final Review":
+      return true;
     case "Organizational Review":
-      if (["Org", "PCO", "Distributor"].includes(reviewerStage)) {
-        return true;
-      }
-      break;
+      return true;
     case "Approval":
       if (["PCO", "Distributor"].includes(reviewerStage)) {
         return true;

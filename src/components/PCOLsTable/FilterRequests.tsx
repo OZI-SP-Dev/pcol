@@ -209,6 +209,8 @@ const FilterPCOLsDrawer = ({
                   <Option>Distributed</Option>
                   <Option>Distribution</Option>
                   <Option>Draft</Option>
+                  <Option>Final Review</Option>
+                  <Option>Organizational Review</Option>
                   <Option>Peer Review</Option>
                   <Option>Rejected</Option>
                 </Dropdown>
