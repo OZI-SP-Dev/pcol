@@ -202,7 +202,7 @@ const FilterPCOLsDrawer = ({
                   onOptionSelect={(_e, data) => {
                     field.onChange(data.selectedOptions[0] ?? "");
                   }}
-                  selectedOptions={field.value ? [field.value] : undefined}
+                  selectedOptions={field.value ? [field.value] : []}
                   {...field}
                 >
                   <Option>Approval</Option>
