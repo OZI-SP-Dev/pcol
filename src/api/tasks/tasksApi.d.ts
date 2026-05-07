@@ -45,8 +45,8 @@ declare const Task: z.ZodObject<{
         Title: string;
         EMail: string;
     };
-    Status?: string | undefined;
     Modified?: Date | undefined;
+    Status?: string | undefined;
     SkippedBy?: {
         Id: number;
         Title: string;
@@ -62,8 +62,8 @@ declare const Task: z.ZodObject<{
         Title: string;
         EMail: string;
     };
-    Status?: string | undefined;
     Modified?: Date | undefined;
+    Status?: string | undefined;
     SkippedBy?: {
         Id: number;
         Title: string;
@@ -81,8 +81,8 @@ export declare const useTasks: (subSite: string, pcolId: number) => import("@tan
         Title: string;
         EMail: string;
     };
-    Status?: string | undefined;
     Modified?: Date | undefined;
+    Status?: string | undefined;
     SkippedBy?: {
         Id: number;
         Title: string;
@@ -99,8 +99,8 @@ export declare const useMyTasks: (subSite: string) => import("@tanstack/react-qu
         Title: string;
         EMail: string;
     };
-    Status?: string | undefined;
     Modified?: Date | undefined;
+    Status?: string | undefined;
     SkippedBy?: {
         Id: number;
         Title: string;
@@ -108,6 +108,16 @@ export declare const useMyTasks: (subSite: string) => import("@tanstack/react-qu
     } | undefined;
 }[], Error>;
 export declare const useAddTasks: (subSite: string, pcolId: number) => import("@tanstack/react-query").UseMutationResult<void, Error, {
+    PCO: {
+        Id: string;
+        Title: string;
+        EMail: string;
+    } | null;
+    Distributor: {
+        Id: string;
+        Title: string;
+        EMail: string;
+    } | null;
     ParallelReviewers: {
         Id: string;
         Title: string;
@@ -119,16 +129,6 @@ export declare const useAddTasks: (subSite: string, pcolId: number) => import("@
         EMail: string;
     }[];
     OrgReviewer: {
-        Id: string;
-        Title: string;
-        EMail: string;
-    } | null;
-    PCO: {
-        Id: string;
-        Title: string;
-        EMail: string;
-    } | null;
-    Distributor: {
         Id: string;
         Title: string;
         EMail: string;
