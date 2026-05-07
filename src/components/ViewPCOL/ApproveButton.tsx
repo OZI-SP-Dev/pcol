@@ -31,7 +31,7 @@ const ApproveButton = ({ task }: { task: Task }) => {
 
   const updateHandler = async () => {
     await addNote.mutateAsync(
-      `Approved (${task.Role})${reason ? ": " + reason : ""}`
+      `Approved (${task.Role})${reason ? ": " + reason : ""}`,
     );
     await updateTask.mutateAsync("Approved");
   };

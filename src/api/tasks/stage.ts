@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { subWebContext } from "src/api/SPWebContext";
-import { useTasks } from "./tasksApi";
+import { Task, useTasks } from "./tasksApi";
 import { usePCOL } from "src/api/PCOL/usePCOL";
 import { useSendEmail } from "src/api/Email/emailApi";
 
@@ -27,9 +27,6 @@ export const useStageUpdate = (subSite: string, pcolId: number) => {
           .update({ Stage: newStage });
       }
 
-      const prTasks = tasks.data?.filter(
-        (task) => task.Role === "Parallel" || task.Role === "Serial",
-      );
       const finalTasks = tasks.data?.filter((task) => task.Role === "Final");
       const orgTasks = tasks.data?.filter((task) => task.Role === "Org");
       const pcoTasks = tasks.data?.filter((task) => task.Role === "PCO");
@@ -38,7 +35,24 @@ export const useStageUpdate = (subSite: string, pcolId: number) => {
       );
 
       switch (stage) {
-        case "Peer Review":
+        case "Peer Review": {
+          // To avoid the race condition check to see if any of the other parallel users finished while we were on the page
+          // Don't need to refetch for all the other tasks as they are serial, and so don't have a race condition issue
+          await queryClient.invalidateQueries({
+            queryKey: ["tasks", subSite, pcolId],
+            refetchType: "all",
+          });
+
+          const updatedTasks: Task[] | undefined = queryClient.getQueryData([
+            "tasks",
+            subSite,
+            pcolId,
+          ]);
+
+          const prTasks = updatedTasks?.filter(
+            (task) => task.Role === "Parallel" || task.Role === "Serial",
+          );
+
           if (prTasks) {
             const approvedTasks = prTasks.filter((task) =>
               ApprovedOrSkipped.includes(task.Status ?? ""),
@@ -52,6 +66,7 @@ export const useStageUpdate = (subSite: string, pcolId: number) => {
             }
           }
           break;
+        }
 
         case "Final Review":
           if (finalTasks) {

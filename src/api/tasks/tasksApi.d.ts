@@ -45,8 +45,8 @@ declare const Task: z.ZodObject<{
         Title: string;
         EMail: string;
     };
-    Modified?: Date | undefined;
     Status?: string | undefined;
+    Modified?: Date | undefined;
     SkippedBy?: {
         Id: number;
         Title: string;
@@ -62,8 +62,8 @@ declare const Task: z.ZodObject<{
         Title: string;
         EMail: string;
     };
-    Modified?: Date | undefined;
     Status?: string | undefined;
+    Modified?: Date | undefined;
     SkippedBy?: {
         Id: number;
         Title: string;
@@ -81,8 +81,8 @@ export declare const useTasks: (subSite: string, pcolId: number) => import("@tan
         Title: string;
         EMail: string;
     };
-    Modified?: Date | undefined;
     Status?: string | undefined;
+    Modified?: Date | undefined;
     SkippedBy?: {
         Id: number;
         Title: string;
@@ -99,8 +99,8 @@ export declare const useMyTasks: (subSite: string) => import("@tanstack/react-qu
         Title: string;
         EMail: string;
     };
-    Modified?: Date | undefined;
     Status?: string | undefined;
+    Modified?: Date | undefined;
     SkippedBy?: {
         Id: number;
         Title: string;
