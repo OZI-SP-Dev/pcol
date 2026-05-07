@@ -53,18 +53,18 @@ export const DocumentView = (props: {
   const editDocument = useEditDocument(program);
   const fileExt = getFileNameExt(props.document.Name);
   const [filename, setFilename] = useState<string>(
-    getFileNameNoExt(props.document.Name)
+    getFileNameNoExt(props.document.Name),
   );
   const [docGroup, setDocGroup] = useState<string[]>([
     props.document.ListItemAllFields.DocGroup,
   ]);
 
   const extension = props.document.ServerRelativeUrl.substring(
-    props.document.ServerRelativeUrl.lastIndexOf(".") + 1
+    props.document.ServerRelativeUrl.lastIndexOf(".") + 1,
   );
 
   const lastModified = new Date(
-    props.document.TimeLastModified
+    props.document.TimeLastModified,
   ).toLocaleString();
 
   const isOfficeOrPdfFile: boolean = wordExtensions
@@ -113,7 +113,7 @@ export const DocumentView = (props: {
         }
         description={
           <Caption1>
-            Last Updated By: {props.document.ModifiedBy.Title}
+            Last Updated By: {props.document.ModifiedBy?.Title}
             <br />
             Last Updated On: {lastModified}
           </Caption1>
