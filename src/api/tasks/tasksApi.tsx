@@ -345,7 +345,7 @@ export const useUpdateTask = (
     },
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: ["tasks", subSite],
+        queryKey: ["tasks", subSite, pcolId],
       });
     },
   });

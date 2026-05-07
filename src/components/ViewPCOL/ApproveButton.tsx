@@ -17,7 +17,6 @@ import { useState } from "react";
 import usePCOLParams from "../pcolParams";
 import { useAddNote } from "src/api/Notes/notesApi";
 import { Task, useUpdateTask } from "src/api/tasks/tasksApi";
-import { useQueryClient } from "@tanstack/react-query";
 
 const ApproveButton = ({ task }: { task: Task }) => {
   const [open, setOpen] = useState(false);
@@ -25,7 +24,6 @@ const ApproveButton = ({ task }: { task: Task }) => {
   const { program, pcolId } = usePCOLParams();
   const updateTask = useUpdateTask(program, pcolId, task.Id);
   const addNote = useAddNote(program, pcolId);
-  const queryClient = useQueryClient();
 
   const updateReason: TextareaProps["onChange"] = (_e, data) => {
     setReason(data.value);
@@ -42,12 +40,7 @@ const ApproveButton = ({ task }: { task: Task }) => {
     <Dialog
       modalType="alert"
       open={open}
-      onOpenChange={(_e, data) => {
-        queryClient.invalidateQueries({
-          queryKey: ["tasks", program, pcolId],
-        });
-        setOpen(data.open);
-      }}
+      onOpenChange={(_e, data) => setOpen(data.open)}
     >
       <DialogTrigger disableButtonEnhancement>
         <Tooltip withArrow content="Approve" relationship="label">
