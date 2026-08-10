@@ -124,7 +124,11 @@ export const DocumentView = (props: {
               <Button
                 as="a"
                 download
-                href={props.document.ServerRelativeUrl}
+                href={
+                  _spPageContextInfo.webAbsoluteUrl +
+                  "/_layouts/download.aspx?SourceUrl=" +
+                  props.document.ServerRelativeUrl
+                }
                 appearance="transparent"
                 icon={<DownloadIcon />}
                 aria-label="Download"
