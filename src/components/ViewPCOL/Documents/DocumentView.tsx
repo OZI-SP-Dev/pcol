@@ -90,7 +90,8 @@ export const DocumentView = (props: {
     downloadUrl += "&listId=" + props.document.ListId;
     downloadUrl += "&userEmail=" + _spPageContextInfo.userEmail;
     downloadUrl += "&userId=" + _spPageContextInfo.aadUserId;
-    downloadUrl += "&webUrl=" + _spPageContextInfo.webAbsoluteUrl;
+    downloadUrl +=
+      "&webUrl=" + _spPageContextInfo.webAbsoluteUrl + "/" + program;
     downloadUrl += "&fileName=" + props.document.Name;
   }
 
