@@ -100,7 +100,7 @@ export const useAddPCOL = (subSite: string) => {
         .items.add({ Title: id.toString() });
 
       const { Disclaimers, ...rest } = newPCOL;
-      const fullDisclaimers = [] as string[];
+      let fullDisclaimers = "";
 
       for (const disclaimer of Disclaimers) {
         const pref = disclaimer.charAt(0);
@@ -109,17 +109,17 @@ export const useAddPCOL = (subSite: string) => {
         if (pref === "g") {
           //global disclaimer
           statement = GlobalDisclaimers.data?.find(
-            (gd) => gd.Title === title
+            (gd) => gd.Title === title,
           )?.Statement;
         }
         if (pref === "p") {
           //program disclaimer
           statement = ProgramDisclaimers.data?.find(
-            (pd) => pd.Title === title
+            (pd) => pd.Title === title,
           )?.Statement;
         }
         if (statement) {
-          fullDisclaimers.push(statement);
+          fullDisclaimers += statement + "\n\n";
         }
       }
 
@@ -159,15 +159,21 @@ export const useAddPCOL = (subSite: string) => {
           });
 
           const contract = Contracts.data?.find(
-            (contract) => contract.ContractNumber === newPCOL.Contract
+            (contract) => contract.ContractNumber === newPCOL.Contract,
           );
 
-          const addressee = Contractors.data?.find(
-            (contractor) => contractor.Id === contract?.Contractor.Id
-          );
+          const addressee =
+            newPCOL.Contractor +
+            "\n" +
+            "ATTENTION: " +
+            newPCOL.ContractorPOC +
+            "\n" +
+            Contractors.data?.find(
+              (contractor) => contractor.Id === contract?.Contractor.Id,
+            )?.Address;
 
           const office = DODAACs.data?.find(
-            (dodaac) => dodaac.DODAAC === newPCOL.DODAAC
+            (dodaac) => dodaac.DODAAC === newPCOL.DODAAC,
           );
 
           newPCOL.References.replaceAll("\n", "\n\t");
@@ -175,7 +181,7 @@ export const useAddPCOL = (subSite: string) => {
           await doc.renderAsync({
             ...newPCOL,
             ControlNumber: folderName,
-            Addressee: addressee?.Address,
+            Addressee: addressee,
             OriginatingOffice: `${office?.OfficeName}\n${office?.OfficeAddress}`,
             Disclaimers: fullDisclaimers,
           });
@@ -199,9 +205,9 @@ export const useAddPCOL = (subSite: string) => {
             .then(() =>
               queryClient.invalidateQueries({
                 queryKey: ["documents", subSite],
-              })
+              }),
             );
-        }
+        },
       );
 
       return id;
@@ -213,7 +219,7 @@ export const useAddPCOL = (subSite: string) => {
         <Toast>
           <ToastTitle>PCOL saved!</ToastTitle>
         </Toast>,
-        { intent: "success" }
+        { intent: "success" },
       );
     },
     onError: (error) => {
@@ -230,7 +236,7 @@ export const useAddPCOL = (subSite: string) => {
             Error saving request
           </ToastTitle>
         </Toast>,
-        { intent: "error", timeout: -1 }
+        { intent: "error", timeout: -1 },
       );
     },
   });

@@ -5,19 +5,26 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerHeaderTitle,
+  Dropdown,
   Field,
   Input,
+  Option,
 } from "@fluentui/react-components";
 import { DatePicker } from "@fluentui/react-datepicker-compat";
 import { DismissRegular } from "@fluentui/react-icons";
 import { PCOLFilter } from "src/api/PCOL/usePCOLs";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { PeoplePicker, Person } from "../PeoplePicker/PeoplePicker";
+import { spWebContext } from "src/api/SPWebContext";
+import { useParams } from "react-router";
+import { useContracts } from "src/api/Contracts/Contracts";
 
 interface IFilterFields {
   Title: string;
   Subject: string;
   Stage: string;
   Contract: string;
+  Author: Person[];
   afterDate: Date | null;
   beforeDate: Date | null;
 }
@@ -33,6 +40,12 @@ const FilterPCOLsDrawer = ({
   filterState: PCOLFilter[];
   setFilterState: (filters: PCOLFilter[]) => void;
 }) => {
+  const { program } = useParams();
+  const contracts = useContracts(program ?? "");
+  const options: string[] = [];
+  options.push("No Established Contract");
+  contracts.data?.forEach((item) => options.push(item.Title));
+
   const afterDate = filterState.filter((obj) => {
     return obj.modifier === "afterDate";
   })[0]?.filter;
@@ -66,6 +79,7 @@ const FilterPCOLsDrawer = ({
             return obj.column === "Contract";
           })[0]
           ?.filter.toString() ?? "",
+      Author: [],
       afterDate: afterDate instanceof Date ? new Date(afterDate) : null,
       beforeDate: beforeDate instanceof Date ? new Date(beforeDate) : null,
     },
@@ -105,13 +119,21 @@ const FilterPCOLsDrawer = ({
       });
     }
 
+    if (data.Author.length > 0) {
+      newFilter.push({
+        column: "AuthorId",
+        filter: data.Author[0].Id,
+        queryString: `(Author/Id eq ${data.Author[0].Id})`,
+      });
+    }
+
     if (data.beforeDate) {
       newFilter.push({
         column: "Created",
         modifier: "beforeDate",
         filter: data.beforeDate,
         queryString: `(Created le '${new Date(
-          data.beforeDate
+          data.beforeDate,
         ).toISOString()}')`,
       });
     }
@@ -138,6 +160,11 @@ const FilterPCOLsDrawer = ({
       open={isOpen}
       onOpenChange={(_e, { open }) => setIsOpen(open)}
     >
+      <datalist id="contractsDL">
+        {options.map((contract) => (
+          <option value={contract} />
+        ))}
+      </datalist>
       <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
         <DrawerHeader>
           <DrawerHeaderTitle
@@ -180,7 +207,28 @@ const FilterPCOLsDrawer = ({
             <Controller
               name="Stage"
               control={control}
-              render={({ field }) => <Input type="search" {...field} />}
+              render={({ field }) => (
+                <Dropdown
+                  clearable
+                  id="FilterStage"
+                  placeholder="Select a stage"
+                  onOptionSelect={(_e, data) => {
+                    field.onChange(data.selectedOptions[0] ?? "");
+                  }}
+                  selectedOptions={field.value ? [field.value] : []}
+                  {...field}
+                >
+                  <Option>Approval</Option>
+                  <Option>Cancelled</Option>
+                  <Option>Distributed</Option>
+                  <Option>Distribution</Option>
+                  <Option>Draft</Option>
+                  <Option>Final Review</Option>
+                  <Option>Organizational Review</Option>
+                  <Option>Peer Review</Option>
+                  <Option>Rejected</Option>
+                </Dropdown>
+              )}
             />
           </Field>
           <hr />
@@ -188,7 +236,35 @@ const FilterPCOLsDrawer = ({
             <Controller
               name="Contract"
               control={control}
-              render={({ field }) => <Input type="search" {...field} />}
+              render={({ field }) => (
+                <Input type="search" list="contractsDL" {...field} />
+              )}
+            />
+          </Field>
+          <hr />
+          <Field label="Initiator">
+            <Controller
+              name="Author"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <PeoplePicker
+                  ariaLabel={"Initiator"}
+                  itemLimit={1}
+                  selectedItems={value?.[0]?.Title ? value : []}
+                  updatePeople={async (items) => {
+                    if (items?.[0]?.Title) {
+                      if (items[0].Id === "-1") {
+                        items[0].Id = (
+                          await spWebContext.web.ensureUser(items[0].EMail)
+                        ).Id.toString();
+                      }
+                      onChange(items);
+                    } else {
+                      onChange([]);
+                    }
+                  }}
+                />
+              )}
             />
           </Field>
           <hr />

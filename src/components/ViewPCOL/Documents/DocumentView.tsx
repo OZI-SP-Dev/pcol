@@ -21,7 +21,7 @@ import {
   Tooltip,
 } from "@fluentui/react-components";
 import { getFileTypeIconProps } from "@fluentui/react-file-type-icons";
-import { DeleteIcon, EditIcon } from "@fluentui/react-icons-mdl2";
+import { DeleteIcon, DownloadIcon, EditIcon } from "@fluentui/react-icons-mdl2";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import {
@@ -53,18 +53,18 @@ export const DocumentView = (props: {
   const editDocument = useEditDocument(program);
   const fileExt = getFileNameExt(props.document.Name);
   const [filename, setFilename] = useState<string>(
-    getFileNameNoExt(props.document.Name)
+    getFileNameNoExt(props.document.Name),
   );
   const [docGroup, setDocGroup] = useState<string[]>([
     props.document.ListItemAllFields.DocGroup,
   ]);
 
   const extension = props.document.ServerRelativeUrl.substring(
-    props.document.ServerRelativeUrl.lastIndexOf(".") + 1
+    props.document.ServerRelativeUrl.lastIndexOf(".") + 1,
   );
 
   const lastModified = new Date(
-    props.document.TimeLastModified
+    props.document.TimeLastModified,
   ).toLocaleString();
 
   const isOfficeOrPdfFile: boolean = wordExtensions
@@ -90,7 +90,8 @@ export const DocumentView = (props: {
     downloadUrl += "&listId=" + props.document.ListId;
     downloadUrl += "&userEmail=" + _spPageContextInfo.userEmail;
     downloadUrl += "&userId=" + _spPageContextInfo.aadUserId;
-    downloadUrl += "&webUrl=" + _spPageContextInfo.webAbsoluteUrl;
+    downloadUrl +=
+      "&webUrl=" + _spPageContextInfo.webAbsoluteUrl + "/" + program;
     downloadUrl += "&fileName=" + props.document.Name;
   }
 
@@ -113,13 +114,27 @@ export const DocumentView = (props: {
         }
         description={
           <Caption1>
-            Last Updated By: {props.document.ModifiedBy.Title}
+            Last Updated By: {props.document.ModifiedBy?.Title}
             <br />
             Last Updated On: {lastModified}
           </Caption1>
         }
         action={
           <>
+            <Tooltip withArrow content="Download" relationship="label">
+              <Button
+                as="a"
+                download
+                href={
+                  _spPageContextInfo.webAbsoluteUrl +
+                  "/_layouts/download.aspx?SourceUrl=" +
+                  props.document.ServerRelativeUrl
+                }
+                appearance="transparent"
+                icon={<DownloadIcon />}
+                aria-label="Download"
+              />
+            </Tooltip>
             {props.document.ListItemAllFields.DocGroup !== "PCOL" && (
               <>
                 <Dialog modalType="alert">
@@ -134,7 +149,7 @@ export const DocumentView = (props: {
                         icon={
                           editDocument.isPending ? <Spinner /> : <EditIcon />
                         }
-                        aria-label="Delete"
+                        aria-label="Edit metadata"
                         disabled={editDocument.isPending}
                       />
                     </Tooltip>

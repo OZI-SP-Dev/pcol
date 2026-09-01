@@ -9,6 +9,12 @@ const ViewPCOLDetails = () => {
   const pcol = usePCOL(program, pcolId);
   const contracts = useContracts(program);
 
+  const contractor =
+    pcol.data?.Contractor ??
+    contracts.data?.find(
+      (contract) => contract.ContractNumber === pcol.data?.Contract
+    )?.Contractor.Title;
+
   return (
     <>
       <Title2>PCOL Details</Title2>
@@ -61,13 +67,12 @@ const ViewPCOLDetails = () => {
             <Label weight="semibold" htmlFor="Contractor">
               Contractor
             </Label>
-            <Text id="Contractor">
-              {
-                contracts.data?.find(
-                  (contract) => contract.ContractNumber === pcol.data.Contract
-                )?.Contractor.Title
-              }
-            </Text>
+            <Text id="Contractor">{contractor}</Text>
+
+            <Label weight="semibold" htmlFor="ContractorPOC">
+              Contractor POC
+            </Label>
+            <Text id="ContractorPOC">{pcol.data.ContractorPOC}</Text>
 
             <Label weight="semibold" htmlFor="DeliveryOrderMod">
               DeliveryOrderMod

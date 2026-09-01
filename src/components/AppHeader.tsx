@@ -93,12 +93,9 @@ export const AppHeader = () => {
             Admin Pages
           </NavLink>
         )}
-        <NavLink
-          to={(program ? "/p/" + program : "") + "/Help"}
-          className={classes.navHelp}
-        >
+        <a href="./PCOL%20App%20Guide.docx" className={classes.navHelp}>
           Help
-        </NavLink>
+        </a>
         <Popover trapFocus={true} closeOnScroll={true} withArrow={true}>
           <PopoverTrigger>
             <Tooltip

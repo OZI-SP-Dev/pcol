@@ -31,6 +31,8 @@ declare const PagedPCOLs: z.ZodArray<z.ZodObject<Pick<{
     References: z.ZodNullable<z.ZodString>;
     DODAAC: z.ZodString;
     Contract: z.ZodString;
+    Contractor: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+    ContractorPOC: z.ZodString;
     DeliveryOrderMod: z.ZodNullable<z.ZodString>;
     RFI: z.ZodNullable<z.ZodString>;
     RFP: z.ZodNullable<z.ZodString>;

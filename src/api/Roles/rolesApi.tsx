@@ -12,7 +12,7 @@ const Role = z.object({
   Title: z.string(),
   user: z.object({
     Id: z.number().int().positive(),
-    Title: z.string(),
+    Title: z.string().toUpperCase(),
     EMail: z.string(),
   }),
 });
@@ -50,8 +50,8 @@ export const useMyRoles = (subSite?: string) => {
     isPKAdmin: PKAdmin.data || false,
     isAdmin: programAdmin.data || false,
     isCO: myData?.includes("CO"),
-    isDistributor: myData?.includes("Distributor"),
-    isReviewer: myData?.includes("Reviewer"),
+    isDistributor: myData?.includes("DISTRIBUTOR"),
+    isReviewer: myData?.includes("REVIEWER"),
   };
 
   return myRoles;

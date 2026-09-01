@@ -6,6 +6,6 @@ export declare const useContractorPOCs: (program: string) => import("@tanstack/r
         Id: number;
         Title: string;
     };
-    Phone: string;
-    Email: string;
+    Phone: string | null;
+    Email: string | null;
 }[], Error>;

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { subWebContext } from "src/api/SPWebContext";
-import { useTasks } from "./tasksApi";
+import { Task, useTasks } from "./tasksApi";
 import { usePCOL } from "src/api/PCOL/usePCOL";
 import { useSendEmail } from "src/api/Email/emailApi";
 
@@ -27,32 +27,51 @@ export const useStageUpdate = (subSite: string, pcolId: number) => {
           .update({ Stage: newStage });
       }
 
-      const prTasks = tasks.data?.filter(
-        (task) => task.Role === "Parallel" || task.Role === "Serial"
-      );
       const finalTasks = tasks.data?.filter((task) => task.Role === "Final");
       const orgTasks = tasks.data?.filter((task) => task.Role === "Org");
       const pcoTasks = tasks.data?.filter((task) => task.Role === "PCO");
       const distributionTasks = tasks.data?.filter(
-        (task) => task.Role === "Distributor"
+        (task) => task.Role === "Distributor",
       );
 
       switch (stage) {
-        case "Peer Review":
+        case "Peer Review": {
+          // To avoid the race condition check to see if any of the other parallel users finished while we were on the page
+          // Don't need to refetch for all the other tasks as they are serial, and so don't have a race condition issue
+          await queryClient.invalidateQueries({
+            queryKey: ["tasks", subSite, pcolId],
+            refetchType: "all",
+          });
+
+          const updatedTasks: Task[] | undefined = queryClient.getQueryData([
+            "tasks",
+            subSite,
+            pcolId,
+          ]);
+
+          const prTasks = updatedTasks?.filter(
+            (task) => task.Role === "Parallel" || task.Role === "Serial",
+          );
+
           if (prTasks) {
             const approvedTasks = prTasks.filter((task) =>
-              ApprovedOrSkipped.includes(task.Status ?? "")
+              ApprovedOrSkipped.includes(task.Status ?? ""),
             );
             if (prTasks.length === approvedTasks.length) {
               updateNeeded = "Final Review";
+            } else {
+              // We aren't moving stages out of Peer Review, but we need to check
+              // to see if we are in Serial Reviewer mode, and send those emails.
+              await sendTaskEmails.mutateAsync("Peer Review");
             }
           }
           break;
+        }
 
         case "Final Review":
           if (finalTasks) {
             const approvedTasks = finalTasks.filter((task) =>
-              ApprovedOrSkipped.includes(task.Status ?? "")
+              ApprovedOrSkipped.includes(task.Status ?? ""),
             );
             if (finalTasks.length === approvedTasks.length) {
               if (orgTasks?.length) {
@@ -67,7 +86,7 @@ export const useStageUpdate = (subSite: string, pcolId: number) => {
         case "Organizational Review":
           if (orgTasks) {
             const approvedTasks = orgTasks.filter((task) =>
-              ApprovedOrSkipped.includes(task.Status ?? "")
+              ApprovedOrSkipped.includes(task.Status ?? ""),
             );
             if (orgTasks.length === approvedTasks.length) {
               updateNeeded = "Approval";
@@ -78,7 +97,7 @@ export const useStageUpdate = (subSite: string, pcolId: number) => {
         case "Approval":
           if (pcoTasks) {
             const approvedTasks = pcoTasks.filter((task) =>
-              ApprovedOrSkipped.includes(task.Status ?? "")
+              ApprovedOrSkipped.includes(task.Status ?? ""),
             );
             if (pcoTasks.length === approvedTasks.length) {
               updateNeeded = "Distribution";
@@ -89,7 +108,7 @@ export const useStageUpdate = (subSite: string, pcolId: number) => {
         case "Distribution":
           if (distributionTasks) {
             const approvedTasks = distributionTasks.filter((task) =>
-              ApprovedOrSkipped.includes(task.Status ?? "")
+              ApprovedOrSkipped.includes(task.Status ?? ""),
             );
             if (distributionTasks.length === approvedTasks.length) {
               updateNeeded = "Distributed";
@@ -122,13 +141,13 @@ const useStageUpdateEmail = (subSite: string, pcolId: number) => {
   return useMutation({
     mutationFn: async (stage: string) => {
       const parallelTasks = tasks.data?.filter(
-        (task) => task.Role === "Parallel"
+        (task) => task.Role === "Parallel",
       );
       const serialTasks = tasks.data?.filter((task) => task.Role === "Serial");
       const orgTasks = tasks.data?.filter((task) => task.Role === "Org");
       const pcoTasks = tasks.data?.filter((task) => task.Role === "PCO");
       const distributionTasks = tasks.data?.filter(
-        (task) => task.Role === "Distributor"
+        (task) => task.Role === "Distributor",
       );
 
       const linkText =
@@ -141,7 +160,7 @@ const useStageUpdateEmail = (subSite: string, pcolId: number) => {
           let parallelTasksComplete = false;
           if (parallelTasks) {
             const approvedTasks = parallelTasks.filter((task) =>
-              ApprovedOrSkipped.includes(task.Status ?? "")
+              ApprovedOrSkipped.includes(task.Status ?? ""),
             );
             if (parallelTasks.length === approvedTasks.length) {
               parallelTasksComplete = true;

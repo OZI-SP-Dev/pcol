@@ -12,14 +12,8 @@ const spContracts = z.array(
       Id: z.number().int().positive(),
       Title: z.string(),
     }),
-    ContractorPOC: z
-      .object({
-        Id: z.number().int().positive(),
-        Title: z.string(),
-      })
-      .optional(),
     DODAAC: z.string().length(6, "DODAAC must be 6 characters long"),
-  })
+  }),
 );
 
 type spContracts = z.infer<typeof spContracts>;
@@ -33,11 +27,10 @@ const getContracts = async (program: string) =>
       "ContractNumber",
       "Contractor/Id",
       "Contractor/Title",
-      "ContractorPOC/Id",
-      "ContractorPOC/Title",
-      "DODAAC"
+      "DODAAC",
     )
-    .expand("Contractor", "ContractorPOC")<spContracts>();
+    .expand("Contractor")
+    .orderBy("Title")<spContracts>();
 
 const transformData = (data: spContracts) => spContracts.parse(data);
 

@@ -15,7 +15,7 @@ const OrgReviewer = () => {
   const programRoles = useProgramRoles(program);
 
   const reviewers = programRoles.data?.filter(
-    (role) => role.Title === "Reviewer"
+    (role) => role.Title.toUpperCase() === "REVIEWER",
   );
 
   const reviewerOptions = () =>
@@ -48,7 +48,7 @@ const OrgReviewer = () => {
             value={field.value?.EMail}
             onOptionSelect={(_e, data) => {
               const role = programRoles.data?.find(
-                ({ user }) => user.EMail === data.selectedOptions[0]
+                ({ user }) => user.EMail === data.selectedOptions[0],
               );
               field.onChange(role?.user);
             }}

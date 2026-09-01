@@ -17,6 +17,7 @@ import { useAddNote } from "src/api/Notes/notesApi";
 import { usePCOL } from "src/api/PCOL/usePCOL";
 import { useResetPCOL } from "src/api/PCOL/useResetPCOL";
 import { useTasks } from "src/api/tasks/tasksApi";
+import { useMyRoles } from "src/api/Roles/rolesApi";
 
 const ResetStages = ["Rejected", "Cancelled"];
 
@@ -27,6 +28,7 @@ const ResetRequest = () => {
   const tasks = useTasks(program, pcolId);
   const addNote = useAddNote(program, pcolId);
   const resetPcol = useResetPCOL(program, pcolId);
+  const roles = useMyRoles(program);
 
   const updateHandler = async () => {
     await addNote.mutateAsync(`PCOL Workflow Reset`);
@@ -38,6 +40,7 @@ const ResetRequest = () => {
   const isDone = ResetStages.includes(pcol.data?.Stage ?? "");
   const isReseter =
     pcol.data?.Author.Id === _spPageContextInfo.userId ||
+    roles.isAdmin ||
     pco?.Person.Id === _spPageContextInfo.userId;
   const disabled = !isDone || !isReseter;
 

@@ -1,4 +1,5 @@
 import { ContractRuleFinal } from "src/components/Fields/Contract/Contract.Validation";
+import { ContractorPOCRuleFinal } from "src/components/Fields/ContractorPOC/ContractorPOC.Validation";
 import { DODAACRuleFinal } from "src/components/Fields/DODAAC/DODAAC.Validation";
 import { ReferencesRuleFinal } from "src/components/Fields/References/References.Validation";
 import { SubjectRuleFinal } from "src/components/Fields/Subject/Subject.Validation";
@@ -11,11 +12,13 @@ import { AssociatedContractorLetterNumbersRuleFinal } from "src/components/Field
 import { DisclaimersRuleFinal } from "src/components/Fields/Disclaimer/Disclaimer.Validation";
 import { CarbonCopyRuleFinal } from "src/components/Fields/CarbonCopy/CarbonCopy.Validation";
 import { AdditionalDistributionInfoRuleFinal } from "src/components/Fields/AdditionalDistributionInfo/AdditionalDistributionInfo.Validation";
+import { ContractorRuleFinal } from "src/components/Fields/Contractor/Contractor.Validation";
 
 export const useNewPageValidation = () => {
   return SubjectRuleFinal.and(ReferencesRuleFinal)
     .and(DODAACRuleFinal)
     .and(ContractRuleFinal)
+    .and(ContractorPOCRuleFinal)
     .and(DeliveryOrderModRuleFinal)
     .and(RFIRuleFinal)
     .and(RFPRuleFinal)
@@ -24,5 +27,6 @@ export const useNewPageValidation = () => {
     .and(AssociatedContractorLetterNumbersRuleFinal)
     .and(DisclaimersRuleFinal)
     .and(CarbonCopyRuleFinal)
-    .and(AdditionalDistributionInfoRuleFinal);
+    .and(AdditionalDistributionInfoRuleFinal)
+    .and(ContractorRuleFinal);
 };

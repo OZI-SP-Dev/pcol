@@ -22,7 +22,7 @@ const Landing = () => {
       {webs.isError && (
         <div>
           There was an error! Reload to try again, or view the{" "}
-          <Link to="/help">Help</Link> page.
+          <a href="./PCOL%20App%20Guide.docx">Help</a> page.
         </div>
       )}
       {webs.data && webs.data.length > 0 && (
@@ -39,7 +39,8 @@ const Landing = () => {
           </section>
           <br />
           <section>
-            Program not listed? See the <Link to="/help">Help</Link> page.
+            Program not listed? See the{" "}
+            <a href="./PCOL%20App%20Guide.docx">Help</a> page.
           </section>
         </>
       )}
@@ -47,7 +48,7 @@ const Landing = () => {
         <section>
           <div>
             You do not have access to any PCOL Orgs. See the{" "}
-            <Link to="/help">Help</Link> page.
+            <a href="./PCOL%20App%20Guide.docx">Help</a> page.
           </div>
         </section>
       )}

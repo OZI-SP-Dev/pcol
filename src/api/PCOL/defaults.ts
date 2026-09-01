@@ -5,6 +5,8 @@ export const defaultPCOL: NewPCOL = {
   References: "",
   DODAAC: "",
   Contract: "",
+  Contractor: "",
+  ContractorPOC: "",
   DeliveryOrderMod: "",
   RFI: "",
   RFP: "",

@@ -15,7 +15,7 @@ const Distributor = () => {
   const programRoles = useProgramRoles(program);
 
   const distributors = programRoles.data?.filter(
-    (role) => role.Title === "Distributor"
+    (role) => role.Title.toUpperCase() === "DISTRIBUTOR",
   );
 
   const distributorOptions = () =>
@@ -56,7 +56,7 @@ const Distributor = () => {
             value={field.value?.EMail}
             onOptionSelect={(_e, data) => {
               const role = programRoles.data?.find(
-                ({ user }) => user.EMail === data.selectedOptions[0]
+                ({ user }) => user.EMail === data.selectedOptions[0],
               );
               field.onChange(role?.user);
             }}
