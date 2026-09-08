@@ -168,9 +168,13 @@ export const useAddPCOL = (subSite: string) => {
             "ATTENTION: " +
             newPCOL.ContractorPOC +
             "\n" +
-            Contractors.data?.find(
-              (contractor) => contractor.Id === contract?.Contractor.Id,
-            )?.Address;
+            Contractors.data?.find((contractor) => {
+              if (contract) {
+                return contractor.Id === contract?.Contractor.Id;
+              } else {
+                return contractor.Title === newPCOL.Contractor;
+              }
+            })?.Address;
 
           const office = DODAACs.data?.find(
             (dodaac) => dodaac.DODAAC === newPCOL.DODAAC,
