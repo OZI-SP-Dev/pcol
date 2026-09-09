@@ -19,6 +19,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Fixed for any bug fixes.
 - Security in case of vulnerabilities.
 
+## [1.0.3] - 2026-09-08
+
+- Fixed undefined address in docx when selecting No Contract
+
 ## [1.0.2] - 2026-08-28
 
 - Fixed odopen to use the program level site url for the webUrl for opening PDF in OneDrive
